@@ -66,6 +66,11 @@ h3{
 	<input type="submit" class="btn" name="delete" value="削除" />
 	</form>
 	<table class="table table-bordered table-striped" summary="一覧">
+	<form action="tweets.php" method="POST">
+	<input type="hidden" name="account_id" value="<?php echo $_POST["account_id"]; ?>" />
+	<tr><td colspan="7">
+	<input type="submit" class="btn" name="update" value="投稿を更新" />
+	</td></tr>
 	<tr>
 		<th class="blue header"></th>
 		<th class="blue header">テキスト</th>
@@ -75,11 +80,6 @@ h3{
 		<th class="blue header">投稿日時</th>
 		<th class="blue header">削除</th>
 	</tr>
-	<form action="tweets.php" method="POST">
-	<input type="hidden" name="account_id" value="<?php echo $_POST["account_id"]; ?>" />
-	<tr><td colspan="7">
-	<input type="submit" class="btn" name="update" value="投稿を更新" />
-	</td></tr>
 	<?php foreach($tweets as $tweet): ?>
 	<tr>
 		<td><input type="checkbox" name="tweet_ids[]" value="<?php echo $tweet["tweet_id"]; ?>" /></td>
