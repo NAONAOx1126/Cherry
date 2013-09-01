@@ -55,12 +55,12 @@ function deleteTweet(){
 				$tweets = $result->fetchAll();
 				if(is_array($tweets) && count($tweets) > 0){
 					foreach($tweets as $tweet){
-						if($tweets[0]["post_status"] == "2"){
+						if($tweet["post_status"] == "2"){
 							// ツイート済みの場合はTwitter上から削除
-							$twitter = getTwitter($tweets[0]["account_id"]);
-							$twitter->statuses_destroy_ID(array("id" => $tweets[0]["post_id"]));
+							$twitter = getTwitter($tweet["account_id"]);
+							$twitter->statuses_destroy_ID(array("id" => $tweet["post_id"]));
 						}
-						$connection->query("UPDATE tweets SET post_status = 1, delete_flg = 1 WHERE tweet_id = '".$connection->escape($tweets[0]["tweet_id"])."'");
+						$connection->query("UPDATE tweets SET post_status = 1, delete_flg = 1 WHERE tweet_id = '".$connection->escape($tweet["tweet_id"])."'");
 					}
 				}
 			}
