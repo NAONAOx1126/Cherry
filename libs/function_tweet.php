@@ -38,7 +38,7 @@ function deleteTweet(){
 				$_POST["tweet_ids"] = array($_POST["tweet_id"]);
 			}
 			if($_POST["retweets"] > 0){
-				$result = $connection->query("SELECT * FROM tweets WHERE account_id = '".$connection->escape($_POST["account_id"])."' AND retweet_count = '".$connection->escape($_POST["retweets"])."' AND post_status = 2 AND post_time < '".date("Y-m-d H:i:s", strtotime("-".$_POST["past_days"]."day"))."'");
+				$result = $connection->query("SELECT * FROM tweets WHERE account_id = '".$connection->escape($_POST["account_id"])."' AND retweet_count < '".$connection->escape($_POST["retweets"])."' AND post_status = 2 AND delete_flg = 0 AND post_time < '".date("Y-m-d H:i:s", strtotime("-".$_POST["past_days"]."day"))."'");
 				$tweets = $result->fetchAll();
 				$_POST["tweet_ids"] = array();
 				if(is_array($tweets) && count($tweets) > 0){

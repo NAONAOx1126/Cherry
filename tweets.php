@@ -59,7 +59,7 @@ h3{
 	<form action="tweets.php" method="POST">
 	<input type="hidden" name="account_id" value="<?php echo $_POST["account_id"]; ?>" />
 	<input type="text" class="input-small" name="past_days" value="7" />日以上経過している、リツイート数が
-	<input type="text" class="input-small" name="retweets" value="20" />以下のツイートを
+	<input type="text" class="input-small" name="retweets" value="20" />未満のツイートを
 	<input type="submit" class="btn" name="delete" value="削除" />
 	</form>
 	<table class="table table-bordered table-striped" summary="一覧">
