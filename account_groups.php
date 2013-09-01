@@ -85,7 +85,7 @@ h3{
 			<input type="radio" name="import_flg" value="2"<?php if($accountGroup["import_flg"] == "2") echo " checked"; ?> />しない&nbsp;
 		</td>
 		<td>
-			<input type="radio" name="post_interval" value="0"<?php if($accountGroup["post_interval"] == "") echo " checked"; ?> />更新停止&nbsp;
+			<input type="radio" name="post_interval" value="0"<?php if($accountGroup["post_interval"] == 0) echo " checked"; ?> />更新停止&nbsp;
 			<input type="radio" name="post_interval" value="30"<?php if($accountGroup["post_interval"] == 30) echo " checked"; ?> />30分毎&nbsp;
 			<input type="radio" name="post_interval" value="60"<?php if($accountGroup["post_interval"] == 60) echo " checked"; ?> />1時間毎&nbsp;
 			<input type="radio" name="post_interval" value="120"<?php if($accountGroup["post_interval"] == 120) echo " checked"; ?> />2時間毎<br />
