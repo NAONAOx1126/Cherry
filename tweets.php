@@ -88,7 +88,7 @@ h3{
 		<?php if($tweet["post_status"] == "2"): ?>
 		<?php echo $tweet["tweet_text"]; ?>
 		<?php else: ?>
-		<textarea name="tweet_text[<?php echo $tweet["tweet_id"]; ?>]" class="span8"><?php echo $tweet["tweet_text"]; ?></textarea>
+		<textarea name="tweet_text[<?php echo $tweet["tweet_id"]; ?>]" class="span8" rows="5"><?php echo $tweet["tweet_text"]; ?></textarea>
 		<?php endif; ?>
 		</td>
 		<td><?php echo $_SERVER["TWEET_STATUS"][$tweet["post_status"]]; ?></td>
