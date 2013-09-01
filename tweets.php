@@ -56,8 +56,15 @@ h3{
 <div class="row-fluid">
 <!--/span-->
 <div class="span12">
+	<form action="tweets.php" method="POST">
+	<input type="hidden" name="account_id" value="<?php echo $_POST["account_id"]; ?>" />
+	<input type="text" class="input-small" name="past_days" value="7" />日以上経過している、リツイート数が
+	<input type="text" class="input-small" name="retweets" value="20" />以下のツイートを
+	<input type="submit" class="btn" name="delete" value="削除" />
+	</form>
 	<table class="table table-bordered table-striped" summary="一覧">
 	<tr>
+		<th class="blue header"></th>
 		<th class="blue header">ID</th>
 		<th class="blue header">テキスト</th>
 		<th class="blue header">投稿状態</th>
@@ -65,8 +72,11 @@ h3{
 		<th class="blue header">投稿日時</th>
 		<th class="blue header">削除</th>
 	</tr>
+	<form action="tweets.php" method="POST">
+	<input type="hidden" name="account_id" value="<?php echo $_POST["account_id"]; ?>" />
 	<?php foreach($tweets as $tweet): ?>
 	<tr>
+		<td><input type="checkbox" name="account_ids[]" value="<?php echo $tweet["tweet_id"]; ?>" /></td>
 		<td><?php echo $tweet["tweet_id"]; ?></td>
 		<td><?php echo $tweet["tweet_text"]; ?></td>
 		<td><?php echo $_SERVER["TWEET_STATUS"][$tweet["post_status"]]; ?></td>
@@ -75,6 +85,11 @@ h3{
 		<td><a class="btn" href="tweets.php?delete=1&account_id=<?php echo $tweet["account_id"]; ?>&tweet_id=<?php echo $tweet["tweet_id"]; ?>" onclick="return confirm('削除します。よろしいですか？')">削除</a></td>
 	</tr>
 	<?php endforeach; ?>
+	<tr><td colspan="7">
+	チェックした投稿を
+	<input type="submit" class="btn" name="delete" value="削除" />
+	</td></tr>
+	</form>
 	</table>
 </div>
 </div>

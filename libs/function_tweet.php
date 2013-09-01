@@ -29,57 +29,45 @@ function getTweets($account_id){
 
 // ツイートを削除
 function deleteTweet(){
-	if(!empty($_GET["delete"])){
+	if(!empty($_POST["delete"])){
 		$connection = new Connection();
-		if(!empty($_GET["tweet_id"])){
-			$result = $connection->query("SELECT * FROM tweets WHERE tweet_id = '".$connection->escape($_POST["tweet_id"])."'");
-			$tweets = $result->fetchAll();
-			if(is_array($tweets) && count($tweets) > 0){
-				if($tweets[0]["post_status"] == "2"){
-					// ツイート済みの場合はTwitter上から削除
-					$twitter = getTwitter($tweets[0]["account_id"]);
-					$twitter->statuses_destroy_ID(array("id" => $tweets[0]["post_id"]));
+		$result = $connection->query("SELECT * FROM accounts WHERE account_id = '".$connection->escape($_POST["account_id"])."' AND administrator_id = '".$connection->escape($_SESSION["ADMINISTRATOR"]["administrator_id"])."'");
+		$accounts = $result->fetchAll();
+		if(is_array($accounts) && count($accounts) > 0){
+			if($_POST["tweet_id"] > 0){
+				$_POST["tweet_ids"] = array($_POST["tweet_id"]);
+			}
+			if($_POST["retweets"] > 0){
+				$result = $connection->query("SELECT * FROM tweets WHERE account_id = '".$connection->escape($_POST["account_id"])."' AND retweet_count = '".$connection->escape($_POST["retweets"])."' AND post_status = 2 AND post_time < '".date("Y-m-d H:i:s", strtotime("-".$_POST["past_days"]."day"))."'");
+				$tweets = $result->fetchAll();
+				$_POST["tweet_ids"] = array();
+				if(is_array($tweets) && count($tweets) > 0){
+					foreach($tweets as $tweet){
+						$_POST["tweet_ids"][] = $tweet["tweet_id"];
+					}
 				}
-				$connection->query("UPDATE tweets SET post_status = 1, delete_flg = 1 WHERE tweet_id = '".$connection->escape($tweets[0]["tweet_id"])."'");
-			}				
+			}
+			if(is_array($_POST["tweet_ids"]) && count($_POST["tweet_ids"]) > 0){
+				foreach($_POST["tweet_ids"] as $index => $tweet_id){
+					$_POST["tweet_ids"][$index] = $connection->escape($tweet_id);
+				}
+				$result = $connection->query("SELECT * FROM tweets WHERE tweet_id IN ('".implode("', '", $_POST["tweet_ids"])."')");
+				$tweets = $result->fetchAll();
+				if(is_array($tweets) && count($tweets) > 0){
+					foreach($tweets as $tweet){
+						if($tweets[0]["post_status"] == "2"){
+							// ツイート済みの場合はTwitter上から削除
+							$twitter = getTwitter($tweets[0]["account_id"]);
+							$twitter->statuses_destroy_ID(array("id" => $tweets[0]["post_id"]));
+						}
+						$connection->query("UPDATE tweets SET post_status = 1, delete_flg = 1 WHERE tweet_id = '".$connection->escape($tweets[0]["tweet_id"])."'");
+					}
+				}
+			}
+			
+			// GETパラメータを削除するため、自分のURLにリダイレクト
+			header('Location: tweets.php?account_id='.$_POST["account_id"]);
+			exit;
 		}
-		
-		// GETパラメータを削除するため、自分のURLにリダイレクト
-		header('Location: tweets.php?account_id='.$_POST["account_id"]);
-		exit;
 	}
 }
-
-/*
-// アカウントグループを登録
-function registerAccountGroup(){
-	if(!empty($_POST["register"])){
-		$connection = new Connection();
-		$sqlval = array();
-		$sqlval["administrator_id"] = $_SESSION["ADMINISTRATOR"]["administrator_id"];
-		$sqlval["account_group_name"] = $_POST["account_group_name"];
-		$sqlval["keyword"] = $_POST["keyword"];
-		$sqlval["pickup_limit"] = $_POST["pickup_limit"];
-		$sqlval["post_interval"] = $_POST["post_interval"];
-		if(!empty($_POST["account_group_id"])){
-			foreach($sqlval as $key => $value){
-				$sqlval[$key] = $key." = '".$connection->escape($value)."'";
-			}
-			$sql = "UPDATE account_groups SET ".implode(", ", $sqlval);
-			$sql .= " WHERE account_group_id = '".$connection->escape($_POST["account_group_id"])."'";
-			$result = $connection->query($sql);
-		}else{
-			foreach($sqlval as $key => $value){
-				$sqlval[$key] = $connection->escape($value);
-			}
-			$sql = "INSERT INTO account_groups";
-			$sql .= "(".implode(", ", array_keys($sqlval)).") VALUES ('".implode("', '", $sqlval)."')";
-			$result = $connection->query($sql);
-		}
-		// GETパラメータを削除するため、自分のURLにリダイレクト
-		header('Location: account_groups.php');
-		exit;
-	}
-}
-
-*/
