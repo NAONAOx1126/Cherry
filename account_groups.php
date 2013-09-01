@@ -103,6 +103,7 @@ h3{
 		<td><input type="text" class="input-large" name="account_group_name" value="" /></td>
 		<td><input type="text" class="input-large" name="keyword" value="" /></td>
 		<td><input type="text" class="input-small" name="pickup_limit" value="100" /></td>
+		<td><input type="text" class="input-small" name="pickup_count" value="0" /></td>
 		<td>
 			<input type="radio" name="post_interval" value="0" checked />更新停止&nbsp;
 			<input type="radio" name="post_interval" value="30" />30分毎&nbsp;

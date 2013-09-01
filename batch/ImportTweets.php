@@ -82,7 +82,7 @@ if(is_array($accountGroups)){
 				$saved_count = 0;
 				foreach($tweets as $tweet){
 					// 規定の件数追加した場合は終了
-					if($accountGroup["pickup_count"] <= $saved_count) break;
+					if(0 < $accountGroup["pickup_count"] && $accountGroup["pickup_count"] <= $saved_count) break;
 
 					// 日本語でないツイートは除外
 					if($tweet->lang != "ja") continue;
