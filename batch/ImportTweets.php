@@ -21,7 +21,7 @@ define("MAX_SEARCH_TWEET_PAGES", 5);
 define("MAX_SEARCH_USERS", 5);
 
 // Twitterの投稿をキーワード検索する。
-function searchTweets($twitter, $keyword){
+function searchTweets($twitter, $keyword, $limit, $count){
 	$tweets = array();
 	$max_id = "";
 	// ヒットしたツイートを取得（直近1000件でリツイートのあるもの）
@@ -57,11 +57,25 @@ function searchTweets($twitter, $keyword){
 	uasort($tweets, function($a, $b){
 		return $a->retweet_count < $b->retweet_count;
 	});
-	return $tweets;
+	
+	$result = array();
+	foreach($tweets as $tweet){
+		// 日本語でないツイートは除外
+		if($tweet->lang != "ja") continue;
+			
+		// 規定のリツイート数に満たない場合は除外
+		if($tweet->retweet_count < $limit) continue;
+		
+		$result[] = $tweet;
+	}
+	if($count > 0 && $count < count($result)){
+		array_splice($result, $count);
+	}
+	return $result;
 }
 
 $connection = new Connection();
-$result = $connection->query("SELECT * FROM account_groups");
+$result = $connection->query("SELECT * FROM account_groups WHERE import_flg = 1");
 $accountGroups = $result->fetchAll();
 $result->close();
 if(is_array($accountGroups)){
@@ -72,24 +86,10 @@ if(is_array($accountGroups)){
 		$accounts = $result->fetchAll();
 		$result->close();
 		if(is_array($accounts) && count($accounts) > 0){
-			foreach($accounts as $account){
-				// 既存のアカウントのランクを1000上げる
-				$connection->query("UPDATE tweets SET rank = rank + 1000 WHERE account_id = '".$connection->escape($account["account_id"])."'");
-			}
 			$twitter = getTwitter($accounts[0]["account_id"]);
-			$tweets = searchTweets($twitter, $accountGroup["keyword"]);
+			$tweets = searchTweets($twitter, $accountGroup["keyword"], $accountGroup["pickup_limit"], $accountGroup["pickup_count"]);
 			if(is_array($tweets)){
-				$saved_count = 0;
 				foreach($tweets as $tweet){
-					// 規定の件数追加した場合は終了
-					if(0 < $accountGroup["pickup_count"] && $accountGroup["pickup_count"] <= $saved_count) break;
-
-					// 日本語でないツイートは除外
-					if($tweet->lang != "ja") continue;
-					
-					// 規定のリツイート数に満たない場合は除外
-					if($tweet->retweet_count < $accountGroup["pickup_limit"]) continue;
-					
 					// Tweetの取得元がシステム上のものは除外
 					$sql = "SELECT tweets.* FROM tweets WHERE post_id = '".$connection->escape($tweet->id)."'";
 					$result = $connection->query($sql);
@@ -112,21 +112,14 @@ if(is_array($accountGroups)){
 					foreach($accounts as $account){
 						// Tweetを登録
 						$sqlval = array();
-						$sqlval["account_id"] = $account["account_id"];
-						$sqlval["source_post_id"] = $tweet->id;
-						$sqlval["tweet_text"] = $tweet->text;
 						$sqlval["source_favorite_count"] = $tweet->favorite_count;
 						$sqlval["source_retweet_count"] = $tweet->retweet_count;
-						$sqlval["post_status"] = "1";
-						$sqlval["rank"] = mt_rand(1, 1000);
 						
 						// 既に登録済みか調べる。
 						$result = $connection->query("SELECT * FROM tweets WHERE account_id = '".$connection->escape($sqlval["account_id"])."' AND source_post_id = '".$connection->escape($sqlval["source_post_id"])."'");
 						$registeredTweets = $result->fetchAll();
 						if(is_array($registeredTweets) && count($registeredTweets) > 0){
 							if($registeredTweets[0]["post_status"] == "1"){
-								// 登録済み／未投稿の場合はrankを引き継いで更新
-								$sqlval["rank"] = $registeredTweets[0]["rank"];
 								foreach($sqlval as $key => $value){
 									$sqlval[$key] = $key." = '".$connection->escape($value)."'";
 								}
@@ -135,6 +128,11 @@ if(is_array($accountGroups)){
 								$result = $connection->query($sql);
 							}
 						}else{
+							$sqlval["account_id"] = $account["account_id"];
+							$sqlval["source_post_id"] = $tweet->id;
+							$sqlval["tweet_text"] = $tweet->text;
+							$sqlval["post_status"] = "1";
+							$sqlval["rank"] = mt_rand(1, 10000);
 							foreach($sqlval as $key => $value){
 								$sqlval[$key] = $connection->escape($value);
 							}
@@ -143,7 +141,6 @@ if(is_array($accountGroups)){
 							$result = $connection->query($sql);
 						}
 					}
-					$saved_count ++;
 				}
 			}
 		}

@@ -66,6 +66,7 @@ h3{
 		<th class="blue header">キーワード</th>
 		<th class="blue header">RT数制限</th>
 		<th class="blue header">件数制限</th>
+		<th class="blue header">自動取得</th>
 		<th class="blue header">投稿間隔(デフォルト)</th>
 		<th class="blue header">更新</th>
 		<th class="blue header">削除</th>
@@ -75,10 +76,14 @@ h3{
 	<input type="hidden" name="account_group_id" value="<?php echo $accountGroup["account_group_id"]; ?>" />
 	<tr>
 		<td><?php echo $accountGroup["account_group_id"]; ?></td>
-		<td><input type="text" class="input-large" name="account_group_name" value="<?php echo $accountGroup["account_group_name"]; ?>" /></td>
-		<td><input type="text" class="input-large" name="keyword" value="<?php echo $accountGroup["keyword"]; ?>" /></td>
-		<td><input type="text" class="input-small" name="pickup_limit" value="<?php echo $accountGroup["pickup_limit"]; ?>" /></td>
-		<td><input type="text" class="input-small" name="pickup_count" value="<?php echo $accountGroup["pickup_count"]; ?>" /></td>
+		<td><input type="text" class="input-medium" name="account_group_name" value="<?php echo $accountGroup["account_group_name"]; ?>" /></td>
+		<td><input type="text" class="input-medium" name="keyword" value="<?php echo $accountGroup["keyword"]; ?>" /></td>
+		<td><input type="text" class="input-mini" name="pickup_limit" value="<?php echo $accountGroup["pickup_limit"]; ?>" /></td>
+		<td><input type="text" class="input-mini" name="pickup_count" value="<?php echo $accountGroup["pickup_count"]; ?>" /></td>
+		<td>
+			<input type="radio" name="import_flg" value="1"<?php if($accountGroup["import_flg"] == "1") echo " checked"; ?> />する&nbsp;
+			<input type="radio" name="import_flg" value="2"<?php if($accountGroup["import_flg"] == "2") echo " checked"; ?> />しない&nbsp;
+		</td>
 		<td>
 			<input type="radio" name="post_interval" value="0"<?php if($accountGroup["post_interval"] == "") echo " checked"; ?> />更新停止&nbsp;
 			<input type="radio" name="post_interval" value="30"<?php if($accountGroup["post_interval"] == 30) echo " checked"; ?> />30分毎&nbsp;
@@ -100,10 +105,14 @@ h3{
 	<input type="hidden" name="account_group_id" value="" />
 	<tr>
 		<td></td>
-		<td><input type="text" class="input-large" name="account_group_name" value="" /></td>
-		<td><input type="text" class="input-large" name="keyword" value="" /></td>
-		<td><input type="text" class="input-small" name="pickup_limit" value="100" /></td>
-		<td><input type="text" class="input-small" name="pickup_count" value="0" /></td>
+		<td><input type="text" class="input-medium" name="account_group_name" value="" /></td>
+		<td><input type="text" class="input-medium" name="keyword" value="" /></td>
+		<td><input type="text" class="input-mini" name="pickup_limit" value="100" /></td>
+		<td><input type="text" class="input-mini" name="pickup_count" value="0" /></td>
+		<td>
+			<input type="radio" name="import_flg" value="1" checked />する&nbsp;
+			<input type="radio" name="import_flg" value="2" />しない&nbsp;
+		</td>
 		<td>
 			<input type="radio" name="post_interval" value="0" checked />更新停止&nbsp;
 			<input type="radio" name="post_interval" value="30" />30分毎&nbsp;
