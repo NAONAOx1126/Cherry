@@ -18,7 +18,7 @@ $_SERVER["TWEET_STATUS"] = array(
 // ツイートを取得
 function getTweets($account_id){
 	$connection = new Connection();
-	$result = $connection->query("SELECT * FROM tweets WHERE account_id = '".$connection->escape($account_id)."' ORDER BY rank DESC");
+	$result = $connection->query("SELECT * FROM tweets WHERE account_id = '".$connection->escape($account_id)."' AND delete_flg = 0 ORDER BY rank DESC");
 	return $result->fetchAll();
 }
 
@@ -35,7 +35,7 @@ function deleteTweet(){
 					$twitter = getTwitter($tweets[0]["account_id"]);
 					$twitter->statuses_destroy_ID(array("id" => $tweets[0]["post_id"]));
 				}
-				$connection->query("DELETE FROM tweets WHERE tweet_id = '".$connection->escape($tweets[0]["tweet_id"])."'");
+				$connection->query("UPDATE tweets SET post_status = 1, delete_flg = 1 WHERE tweet_id = '".$connection->escape($tweets[0]["tweet_id"])."'");
 			}				
 		}
 		

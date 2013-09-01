@@ -21,7 +21,7 @@ $result->close();
 if(is_array($accounts)){
 	foreach($accounts as $account){
 		// アカウントの最優先の投稿を取得
-		$sql = "SELECT * FROM tweets WHERE account_id = '".$account["account_id"]."' AND post_status = 1 ORDER BY rank DESC LIMIT 1";
+		$sql = "SELECT * FROM tweets WHERE account_id = '".$account["account_id"]."' AND post_status = 1 AND delete_flg = 0 ORDER BY rank DESC LIMIT 1";
 		$result = $connection->query($sql);
 		$tweets = $result->fetchAll();
 		$result->close();
