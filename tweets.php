@@ -76,7 +76,7 @@ h3{
 	<input type="hidden" name="account_id" value="<?php echo $_POST["account_id"]; ?>" />
 	<?php foreach($tweets as $tweet): ?>
 	<tr>
-		<td><input type="checkbox" name="account_ids[]" value="<?php echo $tweet["tweet_id"]; ?>" /></td>
+		<td><input type="checkbox" name="tweet_ids[]" value="<?php echo $tweet["tweet_id"]; ?>" /></td>
 		<td><?php echo $tweet["tweet_id"]; ?></td>
 		<td><?php echo $tweet["tweet_text"]; ?></td>
 		<td><?php echo $_SERVER["TWEET_STATUS"][$tweet["post_status"]]; ?></td>
