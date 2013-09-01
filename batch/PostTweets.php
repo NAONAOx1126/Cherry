@@ -14,8 +14,9 @@
 require_once(dirname(__FILE__)."/../require.php");
 
 $connection = new Connection();
-$result = $connection->query("SELECT accounts.* FROM accounts, tweets WHERE accounts.account_id = tweets.account_id AND accounts.post_interval > 0 GROUP BY tweets.account_id HAVING accounts.post_interval * 60 < UNIX_TIMESTAMP() - MAX(tweets.post_time)");
+$result = $connection->query("SELECT accounts.* FROM accounts, tweets WHERE accounts.account_id = tweets.account_id AND accounts.post_interval > 0 GROUP BY tweets.account_id HAVING accounts.post_interval * 60 < UNIX_TIMESTAMP() - UNIX_TIMESTAMP(MAX(tweets.post_time))");
 $accounts = $result->fetchAll();
+print_r($accounts);
 $result->close();
 if(is_array($accounts)){
 	foreach($accounts as $account){
@@ -40,6 +41,7 @@ if(is_array($accounts)){
 				$params = array("status" => $tweets[0]["tweet_text"]);
 				$tweeted = $twitter->statuses_update($params);
 			}
+			print_r($tweeted);
 			$sqlval = array();
 			$sqlval["post_id"] = $tweeted->id;
 			$sqlval["post_status"] = "2";
