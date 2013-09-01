@@ -28,7 +28,7 @@ define("APP_ROOT", $appRoot);
 // アプリケーションのサブディレクトリ
 $docRoot = $_SERVER["DOCUMENT_ROOT"];
 if(substr($docRoot, -1) == ""){
-	$docRoot = substr($docRoot, 0, -1);
+	$docRoot = substr($docRoot, 0, strlen($docRoot) - 1);
 }
 $appSubdir = str_replace($docRoot, "", $appRoot);
 define("APP_SUBDIR", $appSubdir);
