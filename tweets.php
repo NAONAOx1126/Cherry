@@ -63,13 +63,13 @@ h3{
 	<input type="hidden" name="account_id" value="<?php echo $_POST["account_id"]; ?>" />
 	<input type="text" class="input-small" name="past_days" value="7" />日以上経過している、リツイート数が
 	<input type="text" class="input-small" name="retweets" value="20" />未満のツイートを
-	<input type="submit" class="btn" name="delete" value="削除" onclick="return confirm('削除します。よろしいですか？') />
+	<input type="submit" class="btn" name="delete" value="削除" onclick="return confirm('削除します。よろしいですか？');" />
 	</form>
 	<table class="table table-bordered table-striped" summary="一覧">
 	<form action="tweets.php" method="POST">
 	<input type="hidden" name="account_id" value="<?php echo $_POST["account_id"]; ?>" />
 	<tr><td colspan="7">
-	<input type="submit" class="btn" name="delete" value="チェックした投稿を削除" onclick="return confirm('削除します。よろしいですか？') />
+	<input type="submit" class="btn" name="delete" value="チェックした投稿を削除" onclick="return confirm('削除します。よろしいですか？');" />
 	<input type="submit" class="btn" name="update" value="投稿を更新" />
 	</td></tr>
 	<tr>
@@ -99,7 +99,7 @@ h3{
 	</tr>
 	<?php endforeach; ?>
 	<tr><td colspan="7">
-	<input type="submit" class="btn" name="delete" value="チェックした投稿を削除" onclick="return confirm('削除します。よろしいですか？') />
+	<input type="submit" class="btn" name="delete" value="チェックした投稿を削除" onclick="return confirm('削除します。よろしいですか？');" />
 	<input type="submit" class="btn" name="update" value="投稿を更新" />
 	</td></tr>
 	</form>
