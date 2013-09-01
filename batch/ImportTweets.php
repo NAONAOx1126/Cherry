@@ -79,11 +79,15 @@ if(is_array($accountGroups)){
 			$twitter = getTwitter($accounts[0]["account_id"]);
 			$tweets = searchTweets($twitter, $accountGroup["keyword"]);
 			if(is_array($tweets)){
+				$saved_count = 0;
 				foreach($tweets as $tweet){
+					// 規定の件数追加した場合は終了
+					if($accountGroup["pickup_count"] <= $saved_count) break;
+
 					// 日本語でないツイートは除外
 					if($tweet->lang != "ja") continue;
 					
-					// 規定のリツイート数に見た無い場合は除外
+					// 規定のリツイート数に満たない場合は除外
 					if($tweet->retweet_count < $accountGroup["pickup_limit"]) continue;
 					
 					// Tweetの取得元がシステム上のものは除外
@@ -139,6 +143,7 @@ if(is_array($accountGroups)){
 							$result = $connection->query($sql);
 						}
 					}
+					$saved_count ++;
 				}
 			}
 		}
