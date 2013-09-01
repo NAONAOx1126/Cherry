@@ -26,7 +26,11 @@ $appRoot = realpath(dirname(__FILE__));
 define("APP_ROOT", $appRoot);
 
 // アプリケーションのサブディレクトリ
-$appSubdir = str_replace($_SERVER["DOCUMENT_ROOT"], "", $appRoot);
+$docRoot = $_SERVER["DOCUMENT_ROOT"];
+if(substr($docRoot, -1) == ""){
+	$docRoot = substr($docRoot, 0, -1);
+}
+$appSubdir = str_replace($docRoot, "", $appRoot);
 define("APP_SUBDIR", $appSubdir);
 
 // アプリケーションのURLパス
