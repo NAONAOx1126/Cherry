@@ -71,3 +71,23 @@ function deleteTweet(){
 		}
 	}
 }
+
+// ツイートを更新
+function updateTweet(){
+	if(!empty($_POST["update"])){
+		$connection = new Connection();
+		$result = $connection->query("SELECT * FROM accounts WHERE account_id = '".$connection->escape($_POST["account_id"])."' AND administrator_id = '".$connection->escape($_SESSION["ADMINISTRATOR"]["administrator_id"])."'");
+		$accounts = $result->fetchAll();
+		if(is_array($accounts) && count($accounts) > 0){
+			if(is_array($_POST["tweet_text"]) && count($_POST["tweet_text"]) > 0){
+				foreach($_POST["tweet_text"] as $tweet_id => $tweet_text){
+					$connection->query("UPDATE tweets SET tweet_text = '".$connection->escape($tweet_text)."' WHERE tweet_id = '".$connection->escape($tweet_id)."'");
+				}
+			}
+				
+			// GETパラメータを削除するため、自分のURLにリダイレクト
+			header('Location: tweets.php?account_id='.$_POST["account_id"]);
+			exit;
+		}
+	}
+}

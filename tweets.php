@@ -20,6 +20,9 @@ checkLoginAdministrator();
 // アカウントグループを削除
 deleteTweet();
 
+// アカウントグループを削除
+updateTweet();
+
 // アカウントグループを取得
 $tweets = getTweets($_POST["account_id"]);
 ?>
@@ -74,10 +77,19 @@ h3{
 	</tr>
 	<form action="tweets.php" method="POST">
 	<input type="hidden" name="account_id" value="<?php echo $_POST["account_id"]; ?>" />
+	<tr><td colspan="7">
+	<input type="submit" class="btn" name="update" value="投稿を更新" />
+	</td></tr>
 	<?php foreach($tweets as $tweet): ?>
 	<tr>
 		<td><input type="checkbox" name="tweet_ids[]" value="<?php echo $tweet["tweet_id"]; ?>" /></td>
-		<td><?php echo $tweet["tweet_text"]; ?></td>
+		<td>
+		<?php if($tweet["post_status"] == "2"): ?>
+		<?php echo $tweet["tweet_text"]; ?>
+		<?php else: ?>
+		<textarea name="tweet_text[<?php echo $tweet["tweet_id"]; ?>]" class="span8"><?php echo $tweet["tweet_text"]; ?></textarea>
+		<?php endif; ?>
+		</td>
 		<td><?php echo $_SERVER["TWEET_STATUS"][$tweet["post_status"]]; ?></td>
 		<td><?php echo $tweet["source_retweet_count"]; ?></td>
 		<td><?php echo $tweet["retweet_count"]; ?></td>
