@@ -11,6 +11,10 @@
 /**
  * ツイートの取り込み処理を行います。
  */
+$_SERVER["HTTPS"] = "";
+$_SERVER["SERVER_NAME"] = $argv[1];
+$_SERVER["REQUEST_URI"] = "/batch/PostTweets.php";
+
 require_once(dirname(__FILE__)."/../require.php");
 
 $connection = new Connection();
