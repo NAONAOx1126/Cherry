@@ -47,7 +47,7 @@ define("APP_URL_PATH", $appUrlPath);
 $_SERVER["ERRORS"] = array();
 
 // 設定ファイルを読み込み
-require_once(APP_ROOT."/configure.php");
+require_once(APP_ROOT."/configure/configure".$_SERVER["SERVER_NAME"].".php");
 
 // 共通で使用するクラスの呼び出し
 require_once(APP_ROOT."/libs/Connection.php");
