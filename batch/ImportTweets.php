@@ -93,7 +93,7 @@ if(is_array($accountGroups)){
 					if(is_array($relatedTweets) && count($relatedTweets)) continue;
 					
 					// 画像がある場合は元画像をダウンロードする。
-					if(is_array($tweet->entities->media)){
+					if(isset($tweet->entities->media) && is_array($tweet->entities->media)){
 						foreach($tweet->entities->media as $index => $media){
 							$imageFilename = "/images/".$tweet->id."-".($index + 1);
 							if(($fp = fopen(APP_ROOT.$imageFilename, "w+")) !== FALSE){
