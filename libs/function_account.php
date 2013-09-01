@@ -99,6 +99,7 @@ function updateAccount(){
 		$connection = new Connection();
 		$sqlval = array();
 		$sqlval["post_interval"] = $_POST["post_interval"];
+		$sqlval["post_order"] = $_POST["post_order"];
 		foreach($sqlval as $key => $value){
 			$sqlval[$key] = $key." = '".$connection->escape($value)."'";
 		}

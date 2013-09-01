@@ -65,6 +65,7 @@ h3{
 		<th class="blue header">グループ名</th>
 		<th class="blue header">キーワード</th>
 		<th class="blue header">RT数制限</th>
+		<th class="blue header">件数制限</th>
 		<th class="blue header">投稿間隔(デフォルト)</th>
 		<th class="blue header">更新</th>
 		<th class="blue header">削除</th>
@@ -77,6 +78,7 @@ h3{
 		<td><input type="text" class="input-large" name="account_group_name" value="<?php echo $accountGroup["account_group_name"]; ?>" /></td>
 		<td><input type="text" class="input-large" name="keyword" value="<?php echo $accountGroup["keyword"]; ?>" /></td>
 		<td><input type="text" class="input-small" name="pickup_limit" value="<?php echo $accountGroup["pickup_limit"]; ?>" /></td>
+		<td><input type="text" class="input-small" name="pickup_count" value="<?php echo $accountGroup["pickup_count"]; ?>" /></td>
 		<td>
 			<input type="radio" name="post_interval" value="0"<?php if($accountGroup["post_interval"] == "") echo " checked"; ?> />更新停止&nbsp;
 			<input type="radio" name="post_interval" value="30"<?php if($accountGroup["post_interval"] == 30) echo " checked"; ?> />30分毎&nbsp;

@@ -25,6 +25,7 @@ function registerAccountGroup(){
 		$sqlval["account_group_name"] = $_POST["account_group_name"];
 		$sqlval["keyword"] = $_POST["keyword"];
 		$sqlval["pickup_limit"] = $_POST["pickup_limit"];
+		$sqlval["pickup_count"] = $_POST["pickup_count"];
 		$sqlval["post_interval"] = $_POST["post_interval"];
 		if(!empty($_POST["account_group_id"])){
 			foreach($sqlval as $key => $value){

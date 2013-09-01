@@ -20,12 +20,16 @@ require_once(dirname(__FILE__)."/../require.php");
 $connection = new Connection();
 $result = $connection->query("SELECT accounts.* FROM accounts, tweets WHERE accounts.account_id = tweets.account_id AND accounts.post_interval > 0 GROUP BY tweets.account_id HAVING UNIX_TIMESTAMP( MAX( tweets.post_time ) ) IS NULL OR accounts.post_interval * 60 < UNIX_TIMESTAMP() - UNIX_TIMESTAMP(MAX(tweets.post_time))");
 $accounts = $result->fetchAll();
-print_r($accounts);
 $result->close();
 if(is_array($accounts)){
 	foreach($accounts as $account){
 		// アカウントの最優先の投稿を取得
-		$sql = "SELECT * FROM tweets WHERE account_id = '".$account["account_id"]."' AND post_status = 1 AND delete_flg = 0 ORDER BY rank DESC LIMIT 1";
+		if($account["post_order"] == "2"){
+			$order = "rank";
+		}else{
+			$order = "source_retweet_count";
+		}
+		$sql = "SELECT * FROM tweets WHERE account_id = '".$account["account_id"]."' AND post_status = 1 AND delete_flg = 0 ORDER BY ".$order." DESC LIMIT 1";
 		$result = $connection->query($sql);
 		$tweets = $result->fetchAll();
 		$result->close();
