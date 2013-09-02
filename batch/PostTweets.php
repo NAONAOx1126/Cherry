@@ -40,11 +40,11 @@ if(is_array($accounts)){
 			// 画像がある場合と無い場合で分岐
 			$imageFilename = "/images/".$tweets[0]["source_post_id"]."-1";
 			if(file_exists(APP_ROOT.$imageFilename)){
-				$medias = array();
+				$params = array("status" => $tweets[0]["tweet_text"]);
 				for($i = 1; file_exists(APP_ROOT."/images/".$tweets[0]["source_post_id"]."-".$i); $i ++){
-					$medias[] = APP_ROOT."/images/".$tweets[0]["source_post_id"]."-".$i;
+					$params["media[".($i - 1)."]"] = APP_ROOT."/images/".$tweets[0]["source_post_id"]."-".$i;
 				}
-				$tweeted = $twitter->statuses_updateWithMedia(array("status" => $tweets[0]["tweet_text"], "media[]" => $medias));
+				$tweeted = $twitter->statuses_updateWithMedia($params);
 			}else{
 				$params = array("status" => $tweets[0]["tweet_text"]);
 				$tweeted = $twitter->statuses_update($params);
