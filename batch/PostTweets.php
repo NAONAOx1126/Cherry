@@ -42,7 +42,7 @@ if(is_array($accounts)){
 			if(file_exists(APP_ROOT.$imageFilename)){
 				$medias = array();
 				for($i = 1; file_exists(APP_ROOT."/images/".$tweets[0]["source_post_id"]."-".$i); $i ++){
-					$medias[] = urlencode(APP_ROOT."/images/".$tweets[0]["source_post_id"]."-".$i);
+					$medias[] = APP_ROOT."/images/".$tweets[0]["source_post_id"]."-".$i;
 				}
 				$tweeted = $twitter->statuses_updateWithMedia(array("status" => $tweets[0]["tweet_text"], "media[]" => $medias));
 			}else{
