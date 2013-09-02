@@ -116,8 +116,8 @@ if(is_array($accountGroups)){
 						$sqlval["source_favorite_count"] = $tweet->favorite_count;
 						$sqlval["source_retweet_count"] = $tweet->retweet_count;
 						
-						// 既に登録済みか調べる。
-						$result = $connection->query("SELECT * FROM tweets WHERE account_id = '".$connection->escape($sqlval["account_id"])."' AND source_post_id = '".$connection->escape($sqlval["source_post_id"])."'");
+						// 既に登録済みか調べる。(IDか内容が一致するものは除外する。)
+						$result = $connection->query("SELECT * FROM tweets WHERE account_id = '".$connection->escape($sqlval["account_id"])."' AND (source_post_id = '".$connection->escape($sqlval["source_post_id"])."'");
 						$registeredTweets = $result->fetchAll();
 						if(is_array($registeredTweets) && count($registeredTweets) > 0){
 							if($registeredTweets[0]["post_status"] == "1"){
@@ -129,8 +129,8 @@ if(is_array($accountGroups)){
 								$result = $connection->query($sql);
 							}
 						}else{
-							$sqlval["account_id"] = $account["account_id"];
 							$sqlval["tweet_text"] = $tweet->text;
+							$sqlval["account_id"] = $account["account_id"];
 							$sqlval["post_status"] = "1";
 							$sqlval["rank"] = mt_rand(1, 10000);
 							foreach($sqlval as $key => $value){
