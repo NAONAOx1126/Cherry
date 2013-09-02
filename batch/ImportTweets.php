@@ -41,11 +41,11 @@ if(is_array($keywords)){
 		// アカウントグループのキーワードで検索します。
 		$tweets = array();
 		$twitter = getTwitter($keyword["account_id"]);
-		$condition = array("q" => $keyword, "lang" => "ja", "result_type" => "recent", "count" => 100);
+		$condition = array("q" => $keyword["keyword"], "lang" => "ja", "result_type" => "recent", "count" => 100);
 		if(!empty($max_id)) $condition["max_id"] = $max_id;
 		$result = $twitter->search_tweets($condition);
 		foreach($result->statuses as $tweet){
-			if(!empty($tweet->retweeted_status)) $tweet = $tweet->retweeted_status;
+			if(isset($tweet->retweeted_status) && !empty($tweet->retweeted_status)) $tweet = $tweet->retweeted_status;
 			if($tweet->retweet_count > 0){
 				$tweets[$tweet->id] = $tweet;
 			}
