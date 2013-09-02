@@ -48,7 +48,7 @@ function searchTweets($twitter, $keyword, $limit, $count){
 		$result = $twitter->statuses_userTimeline($condition);
 		foreach($result as $tweet){
 			if(!empty($tweet->retweeted_status)) $tweet = $tweet->retweeted_status;
-			if($tweet->retweet_count > 0){
+			if(isset($tweet->retweet_count) && $tweet->retweet_count > 0){
 				$tweets[$tweet->id] = $tweet;
 			}
 		}
@@ -117,8 +117,7 @@ if(is_array($accountGroups)){
 						$sqlval["source_retweet_count"] = $tweet->retweet_count;
 						
 						// 既に登録済みか調べる。(IDか内容が一致するものは除外する。)
-						$sql = "SELECT * FROM tweets WHERE account_id = '".$connection->escape($account["account_id"])."' AND (source_post_id = '".$connection->escape($tweet->id)."'";
-						echo $sql."\r\n";
+						$sql = "SELECT * FROM tweets WHERE account_id = '".$connection->escape($account["account_id"])."' AND source_post_id = '".$connection->escape($tweet->id)."'";
 						$result = $connection->query($sql);
 						$registeredTweets = $result->fetchAll();
 						if(is_array($registeredTweets) && count($registeredTweets) > 0){
