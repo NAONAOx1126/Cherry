@@ -18,7 +18,7 @@ $_SERVER["REQUEST_URI"] = "/batch/ImportTweets.php";
 require_once(dirname(__FILE__)."/../require.php");
 
 $connection = new Connection();
-$sql = "SELECT accounts.*, account_groups.keyword_id, account_groups.pickup_limit, account_groups.pickup_count FROM accounts, account_groups";
+$sql = "SELECT accounts.*, account_groups.keyword_id, account_groups.pickup_limit, account_groups.pickup_count";
 $sql .= " FROM accounts, account_groups";
 $sql .= " WHERE account_groups.account_group_id = accounts.account_group_id";
 $sql .= " AND account_groups.import_flag = 1";
