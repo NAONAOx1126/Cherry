@@ -21,7 +21,7 @@ $connection = new Connection();
 $sql = "SELECT accounts.*, account_groups.keyword_id, account_groups.pickup_limit, account_groups.pickup_count";
 $sql .= " FROM accounts, account_groups";
 $sql .= " WHERE account_groups.account_group_id = accounts.account_group_id";
-$sql .= " AND account_groups.import_flag = 1";
+$sql .= " AND account_groups.import_flg = 1";
 $result = $connection->query($sql);
 $accounts = $result->fetchAll();
 $result->close();
