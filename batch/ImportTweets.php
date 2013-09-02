@@ -112,6 +112,7 @@ if(is_array($accountGroups)){
 					foreach($accounts as $account){
 						// Tweetを登録
 						$sqlval = array();
+						$sqlval["source_post_id"] = $tweet->id;
 						$sqlval["source_favorite_count"] = $tweet->favorite_count;
 						$sqlval["source_retweet_count"] = $tweet->retweet_count;
 						
@@ -129,7 +130,6 @@ if(is_array($accountGroups)){
 							}
 						}else{
 							$sqlval["account_id"] = $account["account_id"];
-							$sqlval["source_post_id"] = $tweet->id;
 							$sqlval["tweet_text"] = $tweet->text;
 							$sqlval["post_status"] = "1";
 							$sqlval["rank"] = mt_rand(1, 10000);
