@@ -86,6 +86,8 @@ if(is_array($keywords)){
 				}
 			}
 			
+			print_r($tweet);
+			
 			$sqlval = array();
 			$sqlval["keyword_id"] = $keyword["keyword_id"];
 			$sqlval["post_id"] = $tweet->id;
