@@ -132,6 +132,7 @@ if(is_array($keywords)){
 						}
 						$sql = "UPDATE tweet_caches SET ".implode(", ", $sqlval);
 						$sql .= " WHERE tweet_id = '".$connection->escape($tweet_id)."'";
+						echo $sql."\r\n";
 						$result = $connection->query($sql);
 					}
 				}
@@ -141,6 +142,7 @@ if(is_array($keywords)){
 				}
 				$sql = "INSERT INTO tweet_caches";
 				$sql .= "(".implode(", ", array_keys($sqlval)).") VALUES ('".implode("', '", $sqlval)."')";
+				echo $sql."\r\n";
 				$result = $connection->query($sql);
 			}
 		}
