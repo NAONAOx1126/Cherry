@@ -51,19 +51,18 @@ if(is_array($keywords)){
 			}
 		}
 		
-		
-		if(preg_match("/max_id=([0-9]+)/", $result->search_metadata->next_results, $params) > 0){
-			if(!empty($max_id)){
-				if(isset($params[1]) && $params[1] > 0){
+		if(isset($result->search_metadata->next_results)){
+			if(preg_match("/max_id=([0-9]+)/", $result->search_metadata->next_results, $params) > 0){
+				if(!empty($max_id)){
 					$sql = "UPDATE tweet_search_cache SET max_id = '".$connection->escape($params[1])."' WHERE account_id = '".$connection->escape($keyword["account_id"])."'";
-				}else{
-					$sql = "DELETE FROM tweet_search_cache WHERE account_id = '".$connection->escape($keyword["account_id"])."'";
 				}
 			}else{
 				$sql = "INSERT INTO tweet_search_cache (account_id, max_id) VALUES ('".$connection->escape($keyword["account_id"])."', '".$connection->escape($params[1])."')";
 			}
-			$result = $connection->query($sql);
+		}else{
+			$sql = "DELETE FROM tweet_search_cache WHERE account_id = '".$connection->escape($keyword["account_id"])."'";
 		}
+		$result = $connection->query($sql);
 		
 		foreach($tweets as $tweet){
 			// Tweetの取得元がシステム上のものは除外
@@ -85,8 +84,6 @@ if(is_array($keywords)){
 					}
 				}
 			}
-			
-			print_r($tweet);
 			
 			$sqlval = array();
 			$sqlval["keyword_id"] = $keyword["keyword_id"];
