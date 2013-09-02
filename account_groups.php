@@ -23,6 +23,9 @@ registerAccountGroup();
 // アカウントグループを削除
 deleteAccountGroup();
 
+// キーワード一覧を取得
+$keywords = getKeywords();
+
 // アカウントグループを取得
 $accountGroups = getAccountGroups();
 ?>
@@ -61,7 +64,6 @@ h3{
 <div class="span12">
 	<table class="table table-bordered table-striped" summary="一覧">
 	<tr>
-		<th class="blue header">ID</th>
 		<th class="blue header">グループ名</th>
 		<th class="blue header">キーワード</th>
 		<th class="blue header">RT数制限</th>
@@ -75,9 +77,14 @@ h3{
 	<form action="account_groups.php" method="POST">
 	<input type="hidden" name="account_group_id" value="<?php echo $accountGroup["account_group_id"]; ?>" />
 	<tr>
-		<td><?php echo $accountGroup["account_group_id"]; ?></td>
 		<td><input type="text" class="input-medium" name="account_group_name" value="<?php echo $accountGroup["account_group_name"]; ?>" /></td>
-		<td><input type="text" class="input-medium" name="keyword" value="<?php echo $accountGroup["keyword"]; ?>" /></td>
+		<td>
+			<select name="keyword_id">
+			<?php foreach($keywords as $keyword): ?>
+			<option value="<?php echo $keyword["keyword_id"]; ?>"<?php if($keyword["keyword_id"] == $accountGroup["keyword_id"]) echo " selected"; ?>><?php echo $keyword["keyword"]; ?></option>
+			<?php endforeach; ?>
+			</select>
+		</td>
 		<td><input type="text" class="input-mini" name="pickup_limit" value="<?php echo $accountGroup["pickup_limit"]; ?>" /></td>
 		<td><input type="text" class="input-mini" name="pickup_count" value="<?php echo $accountGroup["pickup_count"]; ?>" /></td>
 		<td>
@@ -104,9 +111,14 @@ h3{
 	<form action="account_groups.php" method="POST">
 	<input type="hidden" name="account_group_id" value="" />
 	<tr>
-		<td></td>
 		<td><input type="text" class="input-medium" name="account_group_name" value="" /></td>
-		<td><input type="text" class="input-medium" name="keyword" value="" /></td>
+		<td>
+			<select name="keyword_id">
+			<?php foreach($keywords as $keyword): ?>
+			<option value="<?php echo $keyword["keyword_id"]; ?>"><?php echo $keyword["keyword"]; ?></option>
+			<?php endforeach; ?>
+			</select>
+		</td>
 		<td><input type="text" class="input-mini" name="pickup_limit" value="100" /></td>
 		<td><input type="text" class="input-mini" name="pickup_count" value="0" /></td>
 		<td>

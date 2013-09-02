@@ -80,7 +80,6 @@ h3{
 	<br />
 	<table class="table table-bordered table-striped" summary="一覧">
 	<tr>
-		<th class="blue header">ID</th>
 		<th class="blue header">TwitterユーザーID</th>
 		<th class="blue header">Twitterユーザー名</th>
 		<th class="blue header">投稿間隔</th>
@@ -93,7 +92,6 @@ h3{
 	<form action="accounts.php" method="POST">
 	<input type="hidden" name="account_id" value="<?php echo $account["account_id"]; ?>" />
 	<tr>
-		<td><?php echo $account["account_id"]; ?></td>
 		<td><?php echo $account["user_id"]; ?></td>
 		<td><?php echo $account["screen_name"]; ?></td>
 		<td>

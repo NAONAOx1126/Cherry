@@ -58,6 +58,7 @@ require_once(APP_ROOT."/libs/codebird.php");
 \Codebird\Codebird::setConsumerKey(TWITTER_APP_ID, TWITTER_SECRET);
 
 // 関数群を読み込み
+require_once(APP_ROOT."/libs/function_keyword.php");
 require_once(APP_ROOT."/libs/function_account_group.php");
 require_once(APP_ROOT."/libs/function_account.php");
 require_once(APP_ROOT."/libs/function_administrator.php");

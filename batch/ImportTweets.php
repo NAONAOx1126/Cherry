@@ -17,15 +17,30 @@ $_SERVER["REQUEST_URI"] = "/batch/ImportTweets.php";
 
 require_once(dirname(__FILE__)."/../require.php");
 
-define("MAX_SEARCH_TWEET_PAGES", 5);
-define("MAX_SEARCH_USERS", 5);
-
-// Twitterの投稿をキーワード検索する。
-function searchTweets($twitter, $keyword, $limit, $count){
-	$tweets = array();
-	$max_id = "";
-	// ヒットしたツイートを取得（直近1000件でリツイートのあるもの）
-	for($i = 0; $i < MAX_SEARCH_TWEET_PAGES; $i ++){
+$connection = new Connection();
+$sql = "SELECT keywords.*, accounts.account_id";
+$sql .= " FROM keywords, account_groups, accounts";
+$sql .= " WHERE keywords.keyword_id = account_groups.keyword_id";
+$sql .= " AND account_groups.account_group_id = accounts.account_group_id";
+$sql .= " AND keywords.delete_flg = 0";
+$result = $connection->query($sql);
+$keywords = $result->fetchAll();
+$result->close();
+if(is_array($keywords)){
+	foreach($keywords as $keyword){
+		// そのアカウントのmax_idを取得します。
+		$sql = "SELECT * FROM tweet_search_cache WHERE account_id = '".$connection->escape($keyword["account_id"])."'";
+		$result = $connection->query($sql);
+		$search_caches = $result->fetchAll();
+		$result->close();
+		$max_id = "";
+		if(is_array($search_caches) && count($search_caches) > 0){
+			$max_id = $search_caches[0]["max_id"];
+		}
+		
+		// アカウントグループのキーワードで検索します。
+		$tweets = array();
+		$twitter = getTwitter($keyword["account_id"]);
 		$condition = array("q" => $keyword, "lang" => "ja", "result_type" => "recent", "count" => 100);
 		if(!empty($max_id)) $condition["max_id"] = $max_id;
 		$result = $twitter->search_tweets($condition);
@@ -35,114 +50,98 @@ function searchTweets($twitter, $keyword, $limit, $count){
 				$tweets[$tweet->id] = $tweet;
 			}
 		}
-		if(preg_match("/max_id=([0-9]+)/", $result->search_metadata->next_results, $params) > 0){
-			$max_id = $params[1];
-		}
-	}
-
-	// ヒットしたユーザーを取得
-	$condition = array("q" => $keyword, "page" => "1", "count" => MAX_SEARCH_USERS);
-	$result = $twitter->users_search($condition);
-	foreach($result as $user){
-		$condition = array("user_id" => $user->id, "count" => 200, "trim_user" => false, "exclude_replies" => true, "include_rts" => false);
-		$result = $twitter->statuses_userTimeline($condition);
-		foreach($result as $tweet){
-			if(!empty($tweet->retweeted_status)) $tweet = $tweet->retweeted_status;
-			if(isset($tweet->retweet_count) && $tweet->retweet_count > 0){
-				$tweets[$tweet->id] = $tweet;
-			}
-		}
-	}
-
-	uasort($tweets, function($a, $b){
-		return $a->retweet_count < $b->retweet_count;
-	});
-	
-	$result = array();
-	foreach($tweets as $tweet){
-		// 日本語でないツイートは除外
-		if($tweet->lang != "ja") continue;
-			
-		// 規定のリツイート数に満たない場合は除外
-		if($tweet->retweet_count < $limit) continue;
 		
-		$result[] = $tweet;
-	}
-	if($count > 0 && $count < count($result)){
-		array_splice($result, $count);
-	}
-	return $result;
-}
-
-$connection = new Connection();
-$result = $connection->query("SELECT * FROM account_groups WHERE import_flg = 1");
-$accountGroups = $result->fetchAll();
-$result->close();
-if(is_array($accountGroups)){
-	foreach($accountGroups as $accountGroup){
-		// アカウントグループのキーワードで検索します。
-		$sql = "SELECT * FROM accounts WHERE account_group_id = '".$accountGroup["account_group_id"]."'";
-		$result = $connection->query($sql);
-		$accounts = $result->fetchAll();
-		$result->close();
-		if(is_array($accounts) && count($accounts) > 0){
-			$twitter = getTwitter($accounts[0]["account_id"]);
-			$tweets = searchTweets($twitter, $accountGroup["keyword"], $accountGroup["pickup_limit"], $accountGroup["pickup_count"]);
-			if(is_array($tweets)){
-				foreach($tweets as $tweet){
-					// Tweetの取得元がシステム上のものは除外
-					$sql = "SELECT tweets.* FROM tweets WHERE post_id = '".$connection->escape($tweet->id)."'";
-					$result = $connection->query($sql);
-					$relatedTweets = $result->fetchAll();
-					if(is_array($relatedTweets) && count($relatedTweets)) continue;
-					
-					// 画像がある場合は元画像をダウンロードする。
-					if(isset($tweet->entities->media) && is_array($tweet->entities->media)){
-						foreach($tweet->entities->media as $index => $media){
-							$imageFilename = "/images/".$tweet->id."-".($index + 1);
-							if(($fp = fopen(APP_ROOT.$imageFilename, "w+")) !== FALSE){
-								fwrite($fp, file_get_contents($media->media_url));
-								fclose($fp);
-								@chmod(APP_ROOT.$imageFilename, 0666);
-								// 画像を取得し、テキスト内のURLを削除
-								$tweet->text = str_replace($media->url, "", $tweet->text);
-							}
-						}
-					}
-					foreach($accounts as $account){
-						// Tweetを登録
-						$sqlval = array();
-						$sqlval["source_post_id"] = $tweet->id;
-						$sqlval["source_favorite_count"] = $tweet->favorite_count;
-						$sqlval["source_retweet_count"] = $tweet->retweet_count;
-						
-						// 既に登録済みか調べる。(IDか内容が一致するものは除外する。)
-						$sql = "SELECT * FROM tweets WHERE account_id = '".$connection->escape($account["account_id"])."' AND source_post_id = '".$connection->escape($tweet->id)."'";
-						$result = $connection->query($sql);
-						$registeredTweets = $result->fetchAll();
-						if(is_array($registeredTweets) && count($registeredTweets) > 0){
-							if($registeredTweets[0]["post_status"] == "1"){
-								foreach($sqlval as $key => $value){
-									$sqlval[$key] = $key." = '".$connection->escape($value)."'";
-								}
-								$sql = "UPDATE tweets SET ".implode(", ", $sqlval);
-								$sql .= " WHERE tweet_id = '".$connection->escape($registeredTweets[0]["tweet_id"])."'";
-								$result = $connection->query($sql);
-							}
-						}else{
-							$sqlval["tweet_text"] = $tweet->text;
-							$sqlval["account_id"] = $account["account_id"];
-							$sqlval["post_status"] = "1";
-							$sqlval["rank"] = mt_rand(1, 10000);
-							foreach($sqlval as $key => $value){
-								$sqlval[$key] = $connection->escape($value);
-							}
-							$sql = "INSERT INTO tweets";
-							$sql .= "(".implode(", ", array_keys($sqlval)).") VALUES ('".implode("', '", $sqlval)."')";
-							$result = $connection->query($sql);
-						}
+		
+		if(preg_match("/max_id=([0-9]+)/", $result->search_metadata->next_results, $params) > 0){
+			if(!empty($max_id)){
+				if(isset($params[1]) && $params[1] > 0){
+					$sql = "UPDATE tweet_search_cache SET max_id = '".$connection->escape($params[1])."' WHERE account_id = '".$connection->escape($keyword["account_id"])."'";
+				}else{
+					$sql = "DELETE FROM tweet_search_cache WHERE account_id = '".$connection->escape($keyword["account_id"])."'";
+				}
+			}else{
+				$sql = "INSERT INTO tweet_search_cache (account_id, max_id) VALUES ('".$connection->escape($keyword["account_id"])."', '".$connection->escape($params[1])."')";
+			}
+			$result = $connection->query($sql);
+		}
+		
+		foreach($tweets as $tweet){
+			// Tweetの取得元がシステム上のものは除外
+			$sql = "SELECT tweets.* FROM tweets WHERE post_id = '".$connection->escape($tweet->id)."'";
+			$result = $connection->query($sql);
+			$relatedTweets = $result->fetchAll();
+			if(is_array($relatedTweets) && count($relatedTweets)) continue;
+				
+			// 画像がある場合は元画像をダウンロードする。
+			if(isset($tweet->entities->media) && is_array($tweet->entities->media)){
+				foreach($tweet->entities->media as $index => $media){
+					$imageFilename = "/images/".$tweet->id."-".($index + 1);
+					if(($fp = fopen(APP_ROOT.$imageFilename, "w+")) !== FALSE){
+						fwrite($fp, file_get_contents($media->media_url));
+						fclose($fp);
+						@chmod(APP_ROOT.$imageFilename, 0666);
+						// 画像を取得し、テキスト内のURLを削除
+						$tweet->text = str_replace($media->url, "", $tweet->text);
 					}
 				}
+			}
+			
+			$sqlval = array();
+			$sqlval["keyword_id"] = $keyword["keyword_id"];
+			$sqlval["post_id"] = $tweet->id;
+			$sqlval["tweet_text"] = $tweet->text;
+			$sqlval["favorite_count"] = $tweet->favorite_count;
+			$sqlval["retweet_count"] = $tweet->retweet_count;
+			
+			// 同じ内容かつIDが別のツイートを取得
+			$tweet_id = "";
+			$sql = "SELECT * FROM tweet_caches WHERE keyword_id = '".$connection->escape($keyword["keyword_id"])."'";
+			$sql .= " AND tweet_text = '".$connection->escape($tweet->text)."'";
+			$sql .= " AND post_id != '".$connection->escape($tweet->id)."'";
+			$result = $connection->query($sql);
+			$sameTweets = $result->fetchAll();
+			$result->close();
+			if(isset($sameTweets) && count($sameTweets) > 0){
+				foreach($sameTweets as $sameTweet){
+					if($sameTweet["retweet_count"] < $sqlval["retweet_count"]){
+						$tweet_id = $sameTweet["tweet_id"];
+					}
+				}
+			}
+			
+			if(empty($tweet_id)){
+				// 既に登録済みか調べる。(IDか内容が一致するものは除外する。)
+				$sql = "SELECT * FROM tweet_caches WHERE keyword_id = '".$connection->escape($keyword["keyword_id"])."' AND post_id = '".$connection->escape($tweet->id)."'";
+				$result = $connection->query($sql);
+				$registeredTweets = $result->fetchAll();
+				$result->close();
+				if(is_array($registeredTweets) && count($registeredTweets) > 0){
+					$tweet_id = $registeredTweets[0]["tweet_id"];
+				}
+			}
+
+			if(!empty($tweet_id)){
+				$sql = "SELECT * FROM tweet_caches WHERE tweet_id = '".$connection->escape($tweet_id)."'";
+				$result = $connection->query($sql);
+				$registeredTweets = $result->fetchAll();
+				$result->close();
+				if(is_array($registeredTweets) && count($registeredTweets) > 0){
+					if($registeredTweets[0]["post_status"] == "1"){
+						foreach($sqlval as $key => $value){
+							$sqlval[$key] = $key." = '".$connection->escape($value)."'";
+						}
+						$sql = "UPDATE tweet_caches SET ".implode(", ", $sqlval);
+						$sql .= " WHERE tweet_id = '".$connection->escape($tweet_id)."'";
+						$result = $connection->query($sql);
+					}
+				}
+			}else{
+				foreach($sqlval as $key => $value){
+					$sqlval[$key] = $connection->escape($value);
+				}
+				$sql = "INSERT INTO tweet_caches";
+				$sql .= "(".implode(", ", array_keys($sqlval)).") VALUES ('".implode("', '", $sqlval)."')";
+				$result = $connection->query($sql);
 			}
 		}
 	}
