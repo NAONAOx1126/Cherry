@@ -52,6 +52,7 @@ if(is_array($accounts)){
 			$sql = "SELECT * FROM tweets WHERE account_id = '".$connection->escape($sqlval["account_id"])."' AND  source_post_id = '".$connection->escape($sqlval["source_post_id"])."'";
 			$result = $connection->query($sql);
 			$registeredTweets = $result->fetchAll();
+			print_r($sqlval);
 			$result->close();
 			if(is_array($registeredTweets) && count($registeredTweets) > 0){
 				if($registeredTweets[0]["post_status"] == "1"){
