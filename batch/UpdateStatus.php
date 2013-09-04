@@ -29,9 +29,10 @@ if(is_array($accounts)){
 		$tweets = (array) $twitter->statuses_userTimeline($condition);
 		if(is_array($tweets) && count($tweets) > 0){
 			foreach($tweets as $tweet){
-					print_r($tweets);
 				if($tweets->favorite_count > 0 || $tweets->rewteet_count){
-					$connection->query("UPDATE tweets SET favorite_count = '".$connection->escape($tweet->favorite_count)."', retweet_count = '".$connection->escape($tweet->retweet_count)."' WHERE post_id = '".$connection->escape($tweet->id)."'");
+					$sql = "UPDATE tweets SET favorite_count = '".$connection->escape($tweet->favorite_count)."', retweet_count = '".$connection->escape($tweet->retweet_count)."' WHERE post_id = '".$connection->escape($tweet->id)."'";
+					echo ($sql);
+					$connection->query($sql);
 				}
 			}
 		}
