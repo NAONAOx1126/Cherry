@@ -18,7 +18,7 @@ $_SERVER["REQUEST_URI"] = "/batch/PostTweets.php";
 require_once(dirname(__FILE__)."/../require.php");
 
 $connection = new Connection();
-$result = $connection->query("SELECT accounts.* FROM accounts, tweets WHERE accounts.account_id = tweets.account_id AND accounts.post_interval > 0 GROUP BY tweets.account_id HAVING UNIX_TIMESTAMP( MAX( tweets.post_time ) ) IS NULL OR accounts.post_interval * 60 < UNIX_TIMESTAMP() - UNIX_TIMESTAMP(MAX(tweets.post_time))");
+$result = $connection->query("SELECT accounts.* FROM accounts, tweets WHERE accounts.account_id = tweets.account_id AND accounts.post_interval > 0 GROUP BY tweets.account_id HAVING UNIX_TIMESTAMP( MAX( tweets.post_time ) ) IS NULL OR accounts.post_interval * ".mt_rand(15, 60)." < UNIX_TIMESTAMP() - UNIX_TIMESTAMP(MAX(tweets.post_time))");
 $accounts = $result->fetchAll();
 $result->close();
 if(is_array($accounts)){
