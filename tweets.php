@@ -93,8 +93,8 @@ h3{
 		<?php endif; ?>
 		</td>
 		<td>
-			<?php $index = 1; while(file_exists(APP_ROOT."/images/".$tweets[0]["source_post_id"]."-".$index)): ?>
-			<img src="<?php echo APP_SUBDIR."/images/".$tweets[0]["source_post_id"]."-".($index ++); ?>" width="100" />
+			<?php $index = 1; while(file_exists(APP_ROOT."/images/".$tweet["source_post_id"]."-".$index)): ?>
+			<img src="<?php echo APP_SUBDIR."/images/".$tweet["source_post_id"]."-".($index ++); ?>" width="100" />
 			<?php endwhile; ?>
 		</td>
 		<td><?php echo $_SERVER["TWEET_STATUS"][$tweet["post_status"]]; ?></td>
