@@ -68,13 +68,14 @@ h3{
 	<table class="table table-bordered table-striped" summary="一覧">
 	<form action="tweets.php" method="POST">
 	<input type="hidden" name="account_id" value="<?php echo $_POST["account_id"]; ?>" />
-	<tr><td colspan="7">
+	<tr><td colspan="8">
 	<input type="submit" class="btn" name="delete" value="チェックした投稿を削除" onclick="return confirm('削除します。よろしいですか？');" />
 	<input type="submit" class="btn" name="update" value="投稿を更新" />
 	</td></tr>
 	<tr>
 		<th class="blue header"></th>
 		<th class="blue header">テキスト</th>
+		<th class="blue header">画像</th>
 		<th class="blue header">投稿状態</th>
 		<th class="blue header">元RT数</th>
 		<th class="blue header">RT数</th>
@@ -91,6 +92,11 @@ h3{
 		<textarea name="tweet_text[<?php echo $tweet["tweet_id"]; ?>]" class="span8" rows="5"><?php echo $tweet["tweet_text"]; ?></textarea>
 		<?php endif; ?>
 		</td>
+		<td>
+			<?php $index = 1; while(file_exists(APP_ROOT."/images/".$tweets[0]["source_post_id"]."-".$index)): ?>
+			<img src="<?php echo APP_ROOT."/images/".$tweets[0]["source_post_id"]."-".($index ++); ?>" width="100" />
+			<?php endwhile; ?>
+		</td>
 		<td><?php echo $_SERVER["TWEET_STATUS"][$tweet["post_status"]]; ?></td>
 		<td><?php echo $tweet["source_retweet_count"]; ?></td>
 		<td><?php echo $tweet["retweet_count"]; ?></td>
@@ -98,7 +104,7 @@ h3{
 		<td><a class="btn" href="tweets.php?delete=1&account_id=<?php echo $tweet["account_id"]; ?>&tweet_id=<?php echo $tweet["tweet_id"]; ?>" onclick="return confirm('削除します。よろしいですか？')">削除</a></td>
 	</tr>
 	<?php endforeach; ?>
-	<tr><td colspan="7">
+	<tr><td colspan="8">
 	<input type="submit" class="btn" name="delete" value="チェックした投稿を削除" onclick="return confirm('削除します。よろしいですか？');" />
 	<input type="submit" class="btn" name="update" value="投稿を更新" />
 	</td></tr>
