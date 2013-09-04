@@ -27,10 +27,12 @@ if(is_array($accounts)){
 		$twitter = getTwitter($account["account_id"]);
 		$condition = array("user_id" => $account["user_id"], "count" => 200, "trim_user" => false, "exclude_replies" => true, "include_rts" => false);
 		$tweets = (array) $twitter->statuses_userTimeline($condition);
-		
 		if(is_array($tweets) && count($tweets) > 0){
 			foreach($tweets as $tweet){
-				$connection->query("UPDATE tweets SET favorite_count = '".$connection->escape($tweet->favorite_count)."', retweet_count = '".$connection->escape($tweet->retweet_count)."' WHERE post_id = '".$connection->escape($tweet->id)."'");
+					print_r($tweets);
+				if($tweets->favorite_count > 0 || $tweets->rewteet_count){
+					$connection->query("UPDATE tweets SET favorite_count = '".$connection->escape($tweet->favorite_count)."', retweet_count = '".$connection->escape($tweet->retweet_count)."' WHERE post_id = '".$connection->escape($tweet->id)."'");
+				}
 			}
 		}
 	}
