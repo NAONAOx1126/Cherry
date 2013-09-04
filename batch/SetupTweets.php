@@ -41,7 +41,7 @@ if(is_array($accounts)){
 			$result->close();
 			
 			// 予約済みツイートが規定数以上なら登録終了します。
-			if(is_array($tweets) && $account["pickup_count"] <= count($tweets)) break;
+			if(is_array($tweets) && $account["pickup_count"] > 0 && $account["pickup_count"] <= count($tweets)) break;
 			
 			// ツイートを登録します。
 			$sqlval = array();
