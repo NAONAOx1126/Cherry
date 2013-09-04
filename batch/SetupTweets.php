@@ -65,6 +65,7 @@ if(is_array($accounts)){
 				}
 			}else{
 				$sqlval["tweet_text"] = $cached_tweet["tweet_text"];
+				$sqlval["post_status"] = "1";
 				$sqlval["rank"] = mt_rand(1, 100000);
 				foreach($sqlval as $key => $value){
 					$sqlval[$key] = $connection->escape($value);
