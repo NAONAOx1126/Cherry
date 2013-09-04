@@ -54,7 +54,6 @@ if(is_array($accounts)){
 			$registeredTweets = $result->fetchAll();
 			$result->close();
 			if(is_array($registeredTweets) && count($registeredTweets) > 0){
-				print_r($sqlval);
 				if($registeredTweets[0]["post_status"] == "1"){
 					foreach($sqlval as $key => $value){
 						$sqlval[$key] = $key." = '".$connection->escape($value)."'";
@@ -65,7 +64,6 @@ if(is_array($accounts)){
 					$result = $connection->query($sql);
 				}
 			}else{
-				print_r($sqlval);
 				$sqlval["tweet_text"] = $cached_tweet["tweet_text"];
 				$sqlval["rank"] = mt_rand(1, 100000);
 				foreach($sqlval as $key => $value){
