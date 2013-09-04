@@ -28,7 +28,7 @@ $result->close();
 if(is_array($accounts)){
 	foreach($accounts as $account){
 		// そのアカウントに投稿する投稿を取得します。
-		$sql = "SELECT * FROM tweet_caches WHERE keyword_id = '".$connection->escape($account["keyword_id"])."' AND delete_flg = 0 ORDER BY retweet_count DESC";
+		$sql = "SELECT * FROM tweet_caches WHERE keyword_id = '".$connection->escape($account["keyword_id"])."' AND retweet_count = '".$connection->escape($account["pickup_limit"])."' AND delete_flg = 0 ORDER BY retweet_count DESC";
 		$result = $connection->query($sql);
 		$cached_tweets = $result->fetchAll();
 		$result->close();
@@ -52,9 +52,9 @@ if(is_array($accounts)){
 			$sql = "SELECT * FROM tweets WHERE account_id = '".$connection->escape($sqlval["account_id"])."' AND  source_post_id = '".$connection->escape($sqlval["source_post_id"])."'";
 			$result = $connection->query($sql);
 			$registeredTweets = $result->fetchAll();
-			print_r($sqlval);
 			$result->close();
 			if(is_array($registeredTweets) && count($registeredTweets) > 0){
+				print_r($sqlval);
 				if($registeredTweets[0]["post_status"] == "1"){
 					foreach($sqlval as $key => $value){
 						$sqlval[$key] = $key." = '".$connection->escape($value)."'";
@@ -65,6 +65,7 @@ if(is_array($accounts)){
 					$result = $connection->query($sql);
 				}
 			}else{
+				print_r($sqlval);
 				$sqlval["tweet_text"] = $cached_tweet["tweet_text"];
 				$sqlval["rank"] = mt_rand(1, 100000);
 				foreach($sqlval as $key => $value){
