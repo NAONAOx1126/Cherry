@@ -28,7 +28,7 @@ $result->close();
 if(is_array($accounts)){
 	foreach($accounts as $account){
 		// そのアカウントに投稿する投稿を取得します。
-		$sql = "SELECT * FROM tweet_caches WHERE keyword_id = '".$connection->escape($account["keyword_id"])."' AND retweet_count = '".$connection->escape($account["pickup_limit"])."' AND delete_flg = 0 ORDER BY retweet_count DESC";
+		$sql = "SELECT * FROM tweet_caches WHERE keyword_id = '".$connection->escape($account["keyword_id"])."' AND retweet_count >= '".$connection->escape($account["pickup_limit"])."' AND delete_flg = 0 ORDER BY retweet_count DESC";
 		$result = $connection->query($sql);
 		$cached_tweets = $result->fetchAll();
 		$result->close();
