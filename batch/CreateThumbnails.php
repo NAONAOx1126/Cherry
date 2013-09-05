@@ -18,11 +18,11 @@ $_SERVER["REQUEST_URI"] = "/batch/CrateThumbnail.php";
 require_once(dirname(__FILE__)."/../require.php");
 
 // 画像ファイルを取得
-if ($dir = opendir(APP_ROOT."images/")) {
+if ($dir = opendir(APP_ROOT."/images/")) {
 	while (($file = readdir($dir)) !== false) {
-		if (!file_exists(APP_ROOT."thumbnails/".$file)) {
+		if (!file_exists(APP_ROOT."/thumbnails/".$file)) {
 			// 存在しない場合はサムネイルを作成
-			$info = getimagesize(APP_ROOT."thumbnails/".$file);
+			$info = getimagesize(APP_ROOT."/thumbnails/".$file);
 			// 変換後のサイズを計算
 			$tinfo = $info;
 			if($info[0]  > 150){
@@ -39,24 +39,24 @@ if ($dir = opendir(APP_ROOT."images/")) {
 				$image = FALSE;
 				switch($info[2]){
 					case IMAGETYPE_GIF:
-						$image = imagecreatefromgif(APP_ROOT."images/".$file);
+						$image = imagecreatefromgif(APP_ROOT."/images/".$file);
 						break;
 					case IMAGETYPE_JPEG:
 					case IMAGETYPE_JPEG2000:
-						$image = imagecreatefromjpeg(APP_ROOT."images/".$file);
+						$image = imagecreatefromjpeg(APP_ROOT."/images/".$file);
 						break;
 					case IMAGETYPE_PNG:
-						$image = imagecreatefrompng(APP_ROOT."images/".$file);
+						$image = imagecreatefrompng(APP_ROOT."/images/".$file);
 						break;
 				}
 				if($image !== FALSE){
 					$timage = imagecreatetruecolor($tinfo[0], $tinfo[1]);
 					imagecopyresampled($timage, $image, 0, 0, 0, 0, $tinfo[0], $tinfo[1], $info[0], $info[1]);
-					imagepng(APP_ROOT."thumbnails/".$file);
+					imagepng(APP_ROOT."/thumbnails/".$file);
 				}
 			}else{
 				// 画像サイズが同じ場合はコピー
-				copy(APP_ROOT."images/".$file, APP_ROOT."thumbnails/".$file);
+				copy(APP_ROOT."/images/".$file, APP_ROOT."/thumbnails/".$file);
 			}
 		}
 	}
