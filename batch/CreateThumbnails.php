@@ -30,7 +30,7 @@ if ($dir = opendir(APP_ROOT."/images/")) {
 				$tinfo[0] = 150;
 			}
 			if($tinfo[1] > 250){
-				$tinfo[0] = ceil($tinfo[0] * 250 / $info[1]);
+				$tinfo[0] = ceil($tinfo[0] * 250 / $tinfo[1]);
 				$tinfo[1] = 250;
 			}
 			
