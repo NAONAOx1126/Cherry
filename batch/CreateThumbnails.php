@@ -22,7 +22,7 @@ if ($dir = opendir(APP_ROOT."/images/")) {
 	while (($file = readdir($dir)) !== false) {
 		if (!file_exists(APP_ROOT."/thumbnails/".$file)) {
 			// 存在しない場合はサムネイルを作成
-			$info = getimagesize(APP_ROOT."/thumbnails/".$file);
+			$info = getimagesize(APP_ROOT."/images/".$file);
 			// 変換後のサイズを計算
 			$tinfo = $info;
 			if($info[0]  > 150){
