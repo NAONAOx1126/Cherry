@@ -95,7 +95,7 @@ h3{
 		<td>
 			<?php $index = 1; while(file_exists(APP_ROOT."/thumbnails/".$tweet["source_post_id"]."-".$index)): ?>
 			<a href="<?php echo APP_SUBDIR."/images/".$tweet["source_post_id"]."-".($index); ?>" target="_blank">
-			<img src="<?php echo APP_SUBDIR."/thumbnails/".$tweet["source_post_id"]."-".($index ++); ?>" width="100" />
+			<img src="<?php echo APP_SUBDIR."/thumbnails/".$tweet["source_post_id"]."-".($index ++); ?>" />
 			</a>
 			<?php endwhile; ?>
 		</td>
