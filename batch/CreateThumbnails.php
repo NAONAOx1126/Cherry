@@ -52,7 +52,7 @@ if ($dir = opendir(APP_ROOT."/images/")) {
 				if($image !== FALSE){
 					$timage = imagecreatetruecolor($tinfo[0], $tinfo[1]);
 					imagecopyresampled($timage, $image, 0, 0, 0, 0, $tinfo[0], $tinfo[1], $info[0], $info[1]);
-					imagepng(APP_ROOT."/thumbnails/".$file);
+					imagepng($timage, APP_ROOT."/thumbnails/".$file);
 				}
 			}else{
 				// 画像サイズが同じ場合はコピー
