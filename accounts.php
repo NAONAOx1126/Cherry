@@ -99,7 +99,7 @@ h3{
 			<input type="radio" name="post_interval" value="0"<?php if($account["post_interval"] == "0") echo " checked"; ?> />更新停止&nbsp;
 			<input type="radio" name="post_interval" value="30"<?php if($account["post_interval"] == 30) echo " checked"; ?> />30分毎&nbsp;
 			<input type="radio" name="post_interval" value="60"<?php if($account["post_interval"] == 60) echo " checked"; ?> />1時間毎&nbsp;
-			<input type="radio" name="post_interval" value="120"<?php if($account["post_interval"] == 120) echo " checked"; ?> />2時間毎&nbsp;
+			<input type="radio" name="post_interval" value="120"<?php if($account["post_interval"] == 120) echo " checked"; ?> />2時間毎<br />
 			<input type="radio" name="post_interval" value="180"<?php if($account["post_interval"] == 180) echo " checked"; ?> />3時間毎&nbsp;
 			<input type="radio" name="post_interval" value="240"<?php if($account["post_interval"] == 240) echo " checked"; ?> />4時間毎&nbsp;
 			<input type="radio" name="post_interval" value="300"<?php if($account["post_interval"] == 300) echo " checked"; ?> />5時間毎&nbsp;
