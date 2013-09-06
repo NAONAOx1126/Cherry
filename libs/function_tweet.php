@@ -21,7 +21,19 @@ function getTweets($account_id){
 	$result = $connection->query("SELECT * FROM accounts WHERE account_id = '".$connection->escape($account_id)."' AND administrator_id = '".$connection->escape($_SESSION["ADMINISTRATOR"]["administrator_id"])."'");
 	$accounts = $result->fetchAll();
 	if(is_array($accounts) && count($accounts) > 0){
-		$result = $connection->query("SELECT * FROM tweets WHERE account_id = '".$connection->escape($account_id)."' AND delete_flg = 0 ORDER BY source_retweet_count DESC");
+		$result = $connection->query("SELECT * FROM tweets WHERE account_id = '".$connection->escape($account_id)."' AND post_status = 1 AND delete_flg = 0 ORDER BY source_retweet_count DESC");
+		return $result->fetchAll();
+	}
+	return array();
+}
+
+// ツイートを取得
+function getPostedTweets($account_id){
+	$connection = new Connection();
+	$result = $connection->query("SELECT * FROM accounts WHERE account_id = '".$connection->escape($account_id)."' AND administrator_id = '".$connection->escape($_SESSION["ADMINISTRATOR"]["administrator_id"])."'");
+	$accounts = $result->fetchAll();
+	if(is_array($accounts) && count($accounts) > 0){
+		$result = $connection->query("SELECT * FROM tweets WHERE account_id = '".$connection->escape($account_id)."' AND post_status = 2 AND delete_flg = 0 ORDER BY post_time DESC");
 		return $result->fetchAll();
 	}
 	return array();

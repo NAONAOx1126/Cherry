@@ -84,7 +84,8 @@ h3{
 		<th class="blue header">Twitterユーザー名</th>
 		<th class="blue header">投稿間隔</th>
 		<th class="blue header">投稿順序</th>
-		<th class="blue header">投稿一覧</th>
+		<th class="blue header">予約済一覧</th>
+		<th class="blue header">投稿済一覧</th>
 		<th class="blue header">更新</th>
 		<th class="blue header">削除</th>
 	</tr>
@@ -108,7 +109,8 @@ h3{
 			<input type="radio" name="post_order" value="1"<?php if($account["post_order"] == "1") echo " checked"; ?> />RT数順&nbsp;
 			<input type="radio" name="post_order" value="2"<?php if($account["post_order"] == "2") echo " checked"; ?> />ランダム&nbsp;
 		</td>
-		<td><a class="btn" href="tweets.php?account_id=<?php echo $account["account_id"]; ?>">投稿一覧</a></td>
+		<td><a class="btn" href="tweets.php?account_id=<?php echo $account["account_id"]; ?>">予約済一覧</a></td>
+		<td><a class="btn" href="posted_tweets.php?account_id=<?php echo $account["account_id"]; ?>">投稿済一覧</a></td>
 		<td><input type="submit" class="btn" name="update" value="更新" /></td>
 		<td><a class="btn" href="accounts.php?delete=1&account_id=<?php echo $account["account_id"]; ?>" onclick="return confirm('削除します。よろしいですか？')">削除</a></td>
 	</tr>
