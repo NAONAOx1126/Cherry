@@ -80,21 +80,18 @@ h3{
 	<br />
 	<table class="table table-bordered table-striped" summary="一覧">
 	<tr>
-		<th class="blue header">TwitterユーザーID</th>
-		<th class="blue header">Twitterユーザー名</th>
+		<th class="blue header">Twitterユーザー</th>
 		<th class="blue header">投稿間隔</th>
 		<th class="blue header">投稿順序</th>
-		<th class="blue header">予約済一覧</th>
-		<th class="blue header">投稿済一覧</th>
-		<th class="blue header">更新</th>
-		<th class="blue header">削除</th>
+		<th class="blue header">投稿一覧</th>
+		<th class="blue header">アフィリエイト</th>
+		<th class="blue header">更新／削除</th>
 	</tr>
 	<?php foreach($accounts as $account): ?>
 	<form action="accounts.php" method="POST">
 	<input type="hidden" name="account_id" value="<?php echo $account["account_id"]; ?>" />
 	<tr>
-		<td><?php echo $account["user_id"]; ?></td>
-		<td><?php echo $account["screen_name"]; ?></td>
+		<td><?php echo $account["screen_name"]; ?><br />（<?php echo $account["user_id"]; ?>）</td>
 		<td>
 			<input type="radio" name="post_interval" value="0"<?php if($account["post_interval"] == "0") echo " checked"; ?> />更新停止&nbsp;
 			<input type="radio" name="post_interval" value="30"<?php if($account["post_interval"] == 30) echo " checked"; ?> />30分毎&nbsp;
@@ -109,10 +106,18 @@ h3{
 			<input type="radio" name="post_order" value="1"<?php if($account["post_order"] == "1") echo " checked"; ?> />RT数順&nbsp;
 			<input type="radio" name="post_order" value="2"<?php if($account["post_order"] == "2") echo " checked"; ?> />ランダム&nbsp;
 		</td>
-		<td><a class="btn" href="tweets.php?account_id=<?php echo $account["account_id"]; ?>">予約済一覧</a></td>
-		<td><a class="btn" href="posted_tweets.php?account_id=<?php echo $account["account_id"]; ?>">投稿済一覧</a></td>
-		<td><input type="submit" class="btn" name="update" value="更新" /></td>
-		<td><a class="btn" href="accounts.php?delete=1&account_id=<?php echo $account["account_id"]; ?>" onclick="return confirm('削除します。よろしいですか？')">削除</a></td>
+		<td><div class="btn-group">
+			<a class="btn" href="tweets.php?account_id=<?php echo $account["account_id"]; ?>">予約済一覧</a>
+			<a class="btn" href="posted_tweets.php?account_id=<?php echo $account["account_id"]; ?>">投稿済一覧</a>
+		</div></td>
+		<td>
+			<a class="btn" href="affiliates.php?account_id=<?php echo $account["account_id"]; ?>">アフィリエイト</a><br />
+			<input type="text" name="affiliate_interval" value="<?php echo $account["affiliate_interval"]; ?>" class="input-mini" />ツイート毎
+		</td>
+		<td><div class="btn-group">
+			<input type="submit" class="btn" name="update" value="更新" />
+			<a class="btn" href="accounts.php?delete=1&account_id=<?php echo $account["account_id"]; ?>" onclick="return confirm('削除します。よろしいですか？')">削除</a>
+		</div></td>
 	</tr>
 	</form>
 	<?php endforeach; ?>

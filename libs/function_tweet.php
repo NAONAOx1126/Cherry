@@ -84,6 +84,38 @@ function deleteTweet(){
 	}
 }
 
+// ツイートを追加
+function registerTweet(){
+	if(!empty($_POST["register"])){
+		$connection = new Connection();
+		$result = $connection->query("SELECT * FROM accounts WHERE account_id = '".$connection->escape($_POST["account_id"])."' AND administrator_id = '".$connection->escape($_SESSION["ADMINISTRATOR"]["administrator_id"])."'");
+		$accounts = $result->fetchAll();
+		if(is_array($accounts) && count($accounts) > 0){
+			$sqlval = array();
+			$sqlval["account_id"] = $accounts[0]["account_id"];
+			$sqlval["source_post_id"] = uniqid($accounts[0]["account_id"]."P");
+			$sqlval["tweet_text"] = $_POST["tweet_text"];
+			$sqlval["post_status"] = "1";
+			$sqlval["source_favorite_count"] = "99999999";
+			$sqlval["source_retweet_count"] = "99999999";
+			$sqlval["rank"] = "99999999";
+			$sqlval["delete_flg"] = "0";
+			if($_FILES["tweet_image"]["error"] == UPLOAD_ERR_OK){
+				move_uploaded_file($_FILES["tweet_image"]["tmp_name"], APP_ROOT."/images/".$sqlval["source_post_id"]."-1");
+			}
+			foreach($sqlval as $key => $value){
+				$sqlval[$key] = $connection->escape($value);
+			}
+			$sql = "INSERT INTO tweets";
+			$sql .= "(".implode(", ", array_keys($sqlval)).") VALUES ('".implode("', '", $sqlval)."')";
+			$result = $connection->query($sql);
+		}
+		// GETパラメータを削除するため、自分のURLにリダイレクト
+		header('Location: tweets.php?account_id='.$_POST["account_id"]);
+		exit;
+	}
+}
+
 // ツイートを更新
 function updateTweet(){
 	if(!empty($_POST["update"])){

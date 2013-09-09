@@ -17,13 +17,16 @@ require_once(dirname(__FILE__)."/require.php");
 // ログインチェックを行う。
 checkLoginAdministrator();
 
-// アカウントグループを削除
+// ツイートを追加
+registerTweet();
+
+// ツイートを削除
 deleteTweet();
 
-// アカウントグループを削除
+// ツイートを削除
 updateTweet();
 
-// アカウントグループを取得
+// ツイートを取得
 $tweets = getTweets($_POST["account_id"]);
 ?>
 <!DOCTYPE html>
@@ -59,13 +62,18 @@ h3{
 <div class="row-fluid">
 <!--/span-->
 <div class="span12">
-	<form action="tweets.php" method="POST">
-	<input type="hidden" name="account_id" value="<?php echo $_POST["account_id"]; ?>" />
-	<input type="text" class="input-small" name="past_days" value="7" />日以上経過している、リツイート数が
-	<input type="text" class="input-small" name="retweets" value="20" />未満のツイートを
-	<input type="submit" class="btn" name="delete" value="削除" onclick="return confirm('削除します。よろしいですか？');" />
-	</form>
 	<table class="table table-bordered table-striped" summary="一覧">
+	<tr><td colspan="8">
+		カスタム投稿を追加
+	</td></tr>
+	<form action="tweets.php" method="POST" enctype="multipart/form-data">
+	<input type="hidden" name="account_id" value="<?php echo $_POST["account_id"]; ?>" />
+	<tr><td colspan="8">
+		<textarea name="tweet_text" class="span8" rows="5"></textarea>
+		<input type="file" name="tweet_image" class="span8" />
+		<input type="submit" class="btn" name="register" value="投稿を追加" />
+	</td></tr>
+	</form>
 	<form action="tweets.php" method="POST">
 	<input type="hidden" name="account_id" value="<?php echo $_POST["account_id"]; ?>" />
 	<tr><td colspan="8">

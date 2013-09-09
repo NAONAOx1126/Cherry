@@ -24,15 +24,38 @@ $result->close();
 if(is_array($accounts)){
 	foreach($accounts as $account){
 		// アカウントの最優先の投稿を取得
-		if($account["post_order"] == "2"){
-			$order = "rank";
+		if($account["affiliate_interval"] <= $account["affiliate_token_count"]){
+			// 投稿可能なアフィリエイトを取得
+			$sql = "SELECT * FROM affiliates WHERE account_id = '".$account["account_id"]."'";
+			$result = $connection->query($sql);
+			$affiliates = $result->fetchAll();
+			$result->close();
+			// アフィリエイトを頻度毎にコピー
+			$freqAffiliates = array();
+			foreach($affiliates as $affiliate){
+				for($i = 0; $i < $affiliate["frequency"]; $i ++){
+					$freqAffiliates[] = $affiliate;
+				}
+			}
+			// 今回投稿するアフィリエイトを取得
+			$index = mt_rand(0, count($freqAffiliates));
+			if($index < count($freqAffiliates)){
+				$index = count($freqAffiliates) - 1;
+			}
+			$affiliate = $freqAffiliates[$index];
+			// アフィリエイトデータからツイートデータを構築
+			$tweets = array(array("source_post_id" => uniqid("AFF"), "tweet_text" => $affiliate["tweet_text"]));
 		}else{
-			$order = "source_retweet_count";
+			if($account["post_order"] == "2"){
+				$order = "rank";
+			}else{
+				$order = "source_retweet_count";
+			}
+			$sql = "SELECT * FROM tweets WHERE account_id = '".$account["account_id"]."' AND post_status = 1 AND delete_flg = 0 ORDER BY ".$order." DESC LIMIT 1";
+			$result = $connection->query($sql);
+			$tweets = $result->fetchAll();
+			$result->close();
 		}
-		$sql = "SELECT * FROM tweets WHERE account_id = '".$account["account_id"]."' AND post_status = 1 AND delete_flg = 0 ORDER BY ".$order." DESC LIMIT 1";
-		$result = $connection->query($sql);
-		$tweets = $result->fetchAll();
-		$result->close();
 		if(is_array($tweets) && count($tweets) > 0){
 			// 投稿可能なツイートがある場合は投稿する。
 			$twitter = getTwitter($account["account_id"]);
@@ -49,16 +72,23 @@ if(is_array($accounts)){
 				$params = array("status" => $tweets[0]["tweet_text"]);
 				$tweeted = $twitter->statuses_update($params);
 			}
-			print_r($tweeted);
-			$sqlval = array();
-			$sqlval["post_id"] = $tweeted->id;
-			$sqlval["post_status"] = "2";
-			$sqlval["post_time"] = date("Y-m-d H:i:s");
-			foreach($sqlval as $key => $value){
-				$sqlval[$key] = $key." = '".$connection->escape($value)."'";
+			if(isset($tweets[0]["tweet_id"])){
+				$sqlval = array();
+				$sqlval["post_id"] = $tweeted->id;
+				$sqlval["post_status"] = "2";
+				$sqlval["post_time"] = date("Y-m-d H:i:s");
+				foreach($sqlval as $key => $value){
+					$sqlval[$key] = $key." = '".$connection->escape($value)."'";
+				}
+				$sql = "UPDATE tweets SET ".implode(", ", $sqlval);
+				$sql .= " WHERE tweet_id = '".$connection->escape($tweets[0]["tweet_id"])."'";
+				$result = $connection->query($sql);
+				$account["affiliate_token_count"] += 1;
+			}else{
+				$account["affiliate_token_count"] = 0;
 			}
-			$sql = "UPDATE tweets SET ".implode(", ", $sqlval);
-			$sql .= " WHERE tweet_id = '".$connection->escape($tweets[0]["tweet_id"])."'";
+			$sql = "UPDATE accounts SET affiliate_token_count = '".$connection->escape($account["affiliate_token_count"])."'";
+			$sql .= " WHERE account_id = '".$connection->escape($account["account_id"])."'";
 			$result = $connection->query($sql);
 		}
 	}

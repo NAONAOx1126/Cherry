@@ -63,6 +63,7 @@ require_once(APP_ROOT."/libs/function_account_group.php");
 require_once(APP_ROOT."/libs/function_account.php");
 require_once(APP_ROOT."/libs/function_administrator.php");
 require_once(APP_ROOT."/libs/function_tweet.php");
+require_once(APP_ROOT."/libs/function_affiliate.php");
 
 // Twitterの認証のアカウントを取得する。
 function getTwitter($account_id){
