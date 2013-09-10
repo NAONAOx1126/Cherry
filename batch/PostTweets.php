@@ -23,13 +23,12 @@ $accounts = $result->fetchAll();
 $result->close();
 if(is_array($accounts)){
 	foreach($accounts as $account){
-		// アカウントの最優先の投稿を取得
-		if($account["affiliate_interval"] <= $account["affiliate_token_count"]){
-			// 投稿可能なアフィリエイトを取得
-			$sql = "SELECT * FROM affiliates WHERE account_id = '".$account["account_id"]."'";
-			$result = $connection->query($sql);
-			$affiliates = $result->fetchAll();
-			$result->close();
+		// 投稿可能なアフィリエイトを取得
+		$sql = "SELECT * FROM affiliates WHERE account_id = '".$account["account_id"]."'";
+		$result = $connection->query($sql);
+		$affiliates = $result->fetchAll();
+		$result->close();
+		if($account["affiliate_interval"] > 0 && $account["affiliate_interval"] <= $account["affiliate_token_count"] && is_array($affiliates) && count($affiliates) > 0){
 			// アフィリエイトを頻度毎にコピー
 			$freqAffiliates = array();
 			foreach($affiliates as $affiliate){
@@ -46,6 +45,7 @@ if(is_array($accounts)){
 			// アフィリエイトデータからツイートデータを構築
 			$tweets = array(array("source_post_id" => uniqid("AFF"), "tweet_text" => $affiliate["tweet_text"]));
 		}else{
+			// アカウントの最優先の投稿を取得
 			if($account["post_order"] == "2"){
 				$order = "rank";
 			}else{
