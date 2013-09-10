@@ -91,7 +91,7 @@ class Connection{
 	
 	public function escape($value){
 		if($this->connection != null){
-			return mysqli_real_escape_string($this->connection, $value);
+			return str_replace("\\\"", "\"", mysqli_real_escape_string($this->connection, $value));
 		}
 		return null;
 	}

@@ -20,10 +20,32 @@ function getAccountGroups(){
 function registerAccountGroup(){
 	if(!empty($_POST["register"])){
 		$connection = new Connection();
+		// キーワードデータを取得
+		$keyword_ids = array();
+		for($i = 1; $i < 5; $i ++){
+			if($_POST["keyword_id".$i] > 0){
+				$keyword_ids[] = $_POST["keyword_id".$i];
+			}
+		}
+		$sql = "SELECT * FROM keywords WHERE keyword_id IN (".implode(", ", $keyword_ids).")";
+		$result = $connection->query($sql);
+		$datas = $result->fetchAll();
+		$result->close();
+		
+		// キーワードを取得
+		$keywords = array();
+		foreach($datas as $k){
+			if(!empty($k["keyword"])){
+				$keywords[] = $k["keyword"];
+			}
+		}
 		$sqlval = array();
 		$sqlval["administrator_id"] = $_SESSION["ADMINISTRATOR"]["administrator_id"];
 		$sqlval["account_group_name"] = $_POST["account_group_name"];
-		$sqlval["keyword"] = $_POST["keyword"];
+		$sqlval["keyword_id1"] = $_POST["keyword_id1"];
+		$sqlval["keyword_id2"] = $_POST["keyword_id2"];
+		$sqlval["keyword_id3"] = $_POST["keyword_id3"];
+		$sqlval["keyword_id4"] = $_POST["keyword_id4"];
 		$sqlval["pickup_limit"] = $_POST["pickup_limit"];
 		$sqlval["pickup_count"] = $_POST["pickup_count"];
 		$sqlval["import_flg"] = $_POST["import_flg"];
