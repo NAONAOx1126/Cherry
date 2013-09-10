@@ -41,7 +41,7 @@ if(is_array($keywords)){
 		// アカウントグループのキーワードで検索します。
 		$tweets = array();
 		$twitter = getTwitter($keyword["account_id"]);
-		$condition = array("q" => str_replace(" OR -", " -", str_replace(" ", " OR ", str_replace("　", " ", $keyword["keyword"]))), "lang" => "ja", "result_type" => "recent", "count" => 100);
+		$condition = array("q" => str_replace("　", " ", $keyword["keyword"]), "lang" => "ja", "result_type" => "recent", "count" => 100);
 		if(!empty($max_id)) $condition["max_id"] = $max_id;
 		$result = $twitter->search_tweets($condition);
 		foreach($result->statuses as $tweet){

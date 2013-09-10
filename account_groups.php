@@ -36,8 +36,8 @@ $accountGroups = getAccountGroups();
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="robots" content="noindex,nofollow" />
 <title>CHERRY - Twitter自動投稿アプリ</title>
-<link rel="stylesheet" href="<?php echo APP_SUBDIR; ?>/css/bootstrap.css" />
-<link rel="stylesheet" href="<?php echo APP_SUBDIR; ?>/css/bootstrap-responsive.css" />
+<link rel="stylesheet" href="<?php val(APP_SUBDIR); ?>/css/bootstrap.css" />
+<link rel="stylesheet" href="<?php val(APP_SUBDIR); ?>/css/bootstrap-responsive.css" />
 <style>
 body {
 	padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -54,7 +54,7 @@ h3{
 	font-size: 11px;
 }
 </style>
-<script type="text/javascript" src="<?php echo APP_SUBDIR; ?>/js/bootstrap.js"></script>
+<script type="text/javascript" src="<?php val(APP_SUBDIR); ?>/js/bootstrap.js"></script>
 </head>
 <body>
 <?php require(APP_ROOT."/parts/header.php"); ?>
@@ -75,36 +75,36 @@ h3{
 	</tr>
 	<?php foreach($accountGroups as $accountGroup): ?>
 	<form action="account_groups.php" method="POST">
-	<input type="hidden" name="account_group_id" value="<?php echo $accountGroup["account_group_id"]; ?>" />
+	<input type="hidden" name="account_group_id" value="<?php val($accountGroup["account_group_id"]); ?>" />
 	<tr>
-		<td><input type="text" class="input-medium" name="account_group_name" value="<?php echo $accountGroup["account_group_name"]; ?>" /></td>
+		<td><input type="text" class="input-medium" name="account_group_name" value="<?php val($accountGroup["account_group_name"]); ?>" /></td>
 		<td>
 			<select name="keyword_id">
 			<?php foreach($keywords as $keyword): ?>
-			<option value="<?php echo $keyword["keyword_id"]; ?>"<?php if($keyword["keyword_id"] == $accountGroup["keyword_id"]) echo " selected"; ?>><?php echo $keyword["keyword"]; ?></option>
+			<option value="<?php val($keyword["keyword_id"]); ?>"<?php if($keyword["keyword_id"] == $accountGroup["keyword_id"]) val(" selected"); ?>><?php val($keyword["keyword"]); ?></option>
 			<?php endforeach; ?>
 			</select>
 		</td>
-		<td><input type="text" class="input-mini" name="pickup_limit" value="<?php echo $accountGroup["pickup_limit"]; ?>" /></td>
-		<td><input type="text" class="input-mini" name="pickup_count" value="<?php echo $accountGroup["pickup_count"]; ?>" /></td>
+		<td><input type="text" class="input-mini" name="pickup_limit" value="<?php val($accountGroup["pickup_limit"]); ?>" /></td>
+		<td><input type="text" class="input-mini" name="pickup_count" value="<?php val($accountGroup["pickup_count"]); ?>" /></td>
 		<td>
-			<input type="radio" name="import_flg" value="1"<?php if($accountGroup["import_flg"] == "1") echo " checked"; ?> />する&nbsp;
-			<input type="radio" name="import_flg" value="2"<?php if($accountGroup["import_flg"] == "2") echo " checked"; ?> />しない&nbsp;
+			<input type="radio" name="import_flg" value="1"<?php if($accountGroup["import_flg"] == "1") val(" checked"); ?> />する&nbsp;
+			<input type="radio" name="import_flg" value="2"<?php if($accountGroup["import_flg"] == "2") val(" checked"); ?> />しない&nbsp;
 		</td>
 		<td>
-			<input type="radio" name="post_interval" value="0"<?php if($accountGroup["post_interval"] == 0) echo " checked"; ?> />更新停止&nbsp;
-			<input type="radio" name="post_interval" value="30"<?php if($accountGroup["post_interval"] == 30) echo " checked"; ?> />30分毎&nbsp;
-			<input type="radio" name="post_interval" value="60"<?php if($accountGroup["post_interval"] == 60) echo " checked"; ?> />1時間毎&nbsp;
-			<input type="radio" name="post_interval" value="120"<?php if($accountGroup["post_interval"] == 120) echo " checked"; ?> />2時間毎<br />
-			<input type="radio" name="post_interval" value="180"<?php if($accountGroup["post_interval"] == 180) echo " checked"; ?> />3時間毎&nbsp;
-			<input type="radio" name="post_interval" value="240"<?php if($accountGroup["post_interval"] == 240) echo " checked"; ?> />4時間毎&nbsp;
-			<input type="radio" name="post_interval" value="300"<?php if($accountGroup["post_interval"] == 300) echo " checked"; ?> />5時間毎&nbsp;
-			<input type="radio" name="post_interval" value="360"<?php if($accountGroup["post_interval"] == 360) echo " checked"; ?> />6時間毎&nbsp;
+			<input type="radio" name="post_interval" value="0"<?php if($accountGroup["post_interval"] == 0) val(" checked"); ?> />更新停止&nbsp;
+			<input type="radio" name="post_interval" value="30"<?php if($accountGroup["post_interval"] == 30) val(" checked"); ?> />30分毎&nbsp;
+			<input type="radio" name="post_interval" value="60"<?php if($accountGroup["post_interval"] == 60) val(" checked"); ?> />1時間毎&nbsp;
+			<input type="radio" name="post_interval" value="120"<?php if($accountGroup["post_interval"] == 120) val(" checked"); ?> />2時間毎<br />
+			<input type="radio" name="post_interval" value="180"<?php if($accountGroup["post_interval"] == 180) val(" checked"); ?> />3時間毎&nbsp;
+			<input type="radio" name="post_interval" value="240"<?php if($accountGroup["post_interval"] == 240) val(" checked"); ?> />4時間毎&nbsp;
+			<input type="radio" name="post_interval" value="300"<?php if($accountGroup["post_interval"] == 300) val(" checked"); ?> />5時間毎&nbsp;
+			<input type="radio" name="post_interval" value="360"<?php if($accountGroup["post_interval"] == 360) val(" checked"); ?> />6時間毎&nbsp;
 		</td>
 		<td>
 			<input type="submit" class="btn" name="register" value="更新" />
 		</td>
-		<td><a class="btn" href="account_groups.php?delete=1&account_group_id=<?php echo $accountGroup["account_group_id"]; ?>" onclick="return confirm('削除します。よろしいですか？')">削除</a></td>
+		<td><a class="btn" href="account_groups.php?delete=1&account_group_id=<?php val($accountGroup["account_group_id"]); ?>" onclick="return confirm('削除します。よろしいですか？')">削除</a></td>
 	</tr>
 	</form>
 	<?php endforeach; ?>
@@ -115,7 +115,7 @@ h3{
 		<td>
 			<select name="keyword_id">
 			<?php foreach($keywords as $keyword): ?>
-			<option value="<?php echo $keyword["keyword_id"]; ?>"><?php echo $keyword["keyword"]; ?></option>
+			<option value="<?php val($keyword["keyword_id"]); ?>"><?php val($keyword["keyword"]); ?></option>
 			<?php endforeach; ?>
 			</select>
 		</td>

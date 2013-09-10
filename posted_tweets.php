@@ -33,8 +33,8 @@ $tweets = getPostedTweets($_POST["account_id"]);
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="robots" content="noindex,nofollow" />
 <title>CHERRY - Twitter自動投稿アプリ</title>
-<link rel="stylesheet" href="<?php echo APP_SUBDIR; ?>/css/bootstrap.css" />
-<link rel="stylesheet" href="<?php echo APP_SUBDIR; ?>/css/bootstrap-responsive.css" />
+<link rel="stylesheet" href="<?php val(APP_SUBDIR); ?>/css/bootstrap.css" />
+<link rel="stylesheet" href="<?php val(APP_SUBDIR); ?>/css/bootstrap-responsive.css" />
 <style>
 body {
 	padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -51,7 +51,7 @@ h3{
 	font-size: 11px;
 }
 </style>
-<script type="text/javascript" src="<?php echo APP_SUBDIR; ?>/js/bootstrap.js"></script>
+<script type="text/javascript" src="<?php val(APP_SUBDIR); ?>/js/bootstrap.js"></script>
 </head>
 <body>
 <?php require(APP_ROOT."/parts/header.php"); ?>
@@ -60,14 +60,14 @@ h3{
 <!--/span-->
 <div class="span12">
 	<form action="tweets.php" method="POST">
-	<input type="hidden" name="account_id" value="<?php echo $_POST["account_id"]; ?>" />
+	<input type="hidden" name="account_id" value="<?php val($_POST["account_id"]); ?>" />
 	<input type="text" class="input-small" name="past_days" value="7" />日以上経過している、リツイート数が
 	<input type="text" class="input-small" name="retweets" value="20" />未満のツイートを
 	<input type="submit" class="btn" name="delete" value="削除" onclick="return confirm('削除します。よろしいですか？');" />
 	</form>
 	<table class="table table-bordered table-striped" summary="一覧">
 	<form action="tweets.php" method="POST">
-	<input type="hidden" name="account_id" value="<?php echo $_POST["account_id"]; ?>" />
+	<input type="hidden" name="account_id" value="<?php val($_POST["account_id"]); ?>" />
 	<tr><td colspan="8">
 	<input type="submit" class="btn" name="delete" value="チェックした投稿を削除" onclick="return confirm('削除します。よろしいですか？');" />
 	<input type="submit" class="btn" name="update" value="投稿を更新" />
@@ -84,26 +84,26 @@ h3{
 	</tr>
 	<?php foreach($tweets as $tweet): ?>
 	<tr>
-		<td><input type="checkbox" name="tweet_ids[]" value="<?php echo $tweet["tweet_id"]; ?>" /></td>
+		<td><input type="checkbox" name="tweet_ids[]" value="<?php val($tweet["tweet_id"]); ?>" /></td>
 		<td>
 		<?php if($tweet["post_status"] == "2"): ?>
-		<?php echo $tweet["tweet_text"]; ?>
+		<?php val($tweet["tweet_text"]); ?>
 		<?php else: ?>
-		<textarea name="tweet_text[<?php echo $tweet["tweet_id"]; ?>]" class="span8" rows="5"><?php echo $tweet["tweet_text"]; ?></textarea>
+		<textarea name="tweet_text[<?php val($tweet["tweet_id"]); ?>]" class="span8" rows="5"><?php val($tweet["tweet_text"]); ?></textarea>
 		<?php endif; ?>
 		</td>
 		<td>
 			<?php $index = 1; while(file_exists(APP_ROOT."/thumbnails/".$tweet["source_post_id"]."-".$index)): ?>
-			<a href="<?php echo APP_SUBDIR."/images/".$tweet["source_post_id"]."-".($index); ?>" target="_blank">
-			<img src="<?php echo APP_SUBDIR."/thumbnails/".$tweet["source_post_id"]."-".($index ++); ?>" />
+			<a href="<?php val(APP_SUBDIR."/images/".$tweet["source_post_id"]."-".($index)); ?>" target="_blank">
+			<img src="<?php val(APP_SUBDIR."/thumbnails/".$tweet["source_post_id"]."-".($index ++)); ?>" />
 			</a>
 			<?php endwhile; ?>
 		</td>
-		<td><?php echo $_SERVER["TWEET_STATUS"][$tweet["post_status"]]; ?></td>
-		<td><?php echo $tweet["source_retweet_count"]; ?></td>
-		<td><?php echo $tweet["retweet_count"]; ?></td>
-		<td><?php echo $tweet["post_time"]; ?></td>
-		<td><a class="btn" href="tweets.php?delete=1&account_id=<?php echo $tweet["account_id"]; ?>&tweet_id=<?php echo $tweet["tweet_id"]; ?>" onclick="return confirm('削除します。よろしいですか？')">削除</a></td>
+		<td><?php val($_SERVER["TWEET_STATUS"][$tweet["post_status"]]); ?></td>
+		<td><?php val($tweet["source_retweet_count"]); ?></td>
+		<td><?php val($tweet["retweet_count"]); ?></td>
+		<td><?php val($tweet["post_time"]); ?></td>
+		<td><a class="btn" href="tweets.php?delete=1&account_id=<?php val($tweet["account_id"]); ?>&tweet_id=<?php val($tweet["tweet_id"]); ?>" onclick="return confirm('削除します。よろしいですか？')">削除</a></td>
 	</tr>
 	<?php endforeach; ?>
 	<tr><td colspan="8">

@@ -39,8 +39,8 @@ $accounts = getAccounts();
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="robots" content="noindex,nofollow" />
 <title>CHERRY - Twitter自動投稿アプリ</title>
-<link rel="stylesheet" href="<?php echo APP_SUBDIR; ?>/css/bootstrap.css" />
-<link rel="stylesheet" href="<?php echo APP_SUBDIR; ?>/css/bootstrap-responsive.css" />
+<link rel="stylesheet" href="<?php val(APP_SUBDIR); ?>/css/bootstrap.css" />
+<link rel="stylesheet" href="<?php val(APP_SUBDIR); ?>/css/bootstrap-responsive.css" />
 <style>
 body {
 	padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -57,7 +57,7 @@ h3{
 	font-size: 11px;
 }
 </style>
-<script type="text/javascript" src="<?php echo APP_SUBDIR; ?>/js/bootstrap.js"></script>
+<script type="text/javascript" src="<?php val(APP_SUBDIR); ?>/js/bootstrap.js"></script>
 </head>
 <body>
 <?php require(APP_ROOT."/parts/header.php"); ?>
@@ -70,7 +70,7 @@ h3{
 		<form action="accounts.php" method="POST">
 		<select name="account_group_id">
 		<?php foreach($accountGroups as $accountGroup): ?>
-		<option value="<?php echo $accountGroup["account_group_id"]; ?>"><?php echo $accountGroup["account_group_name"]; ?></option>
+		<option value="<?php val($accountGroup["account_group_id"]); ?>"><?php val($accountGroup["account_group_name"]); ?></option>
 		<?php endforeach; ?>
 		</select>
 		<input type="submit" class="btn" name="add_account" value="新規アカウント追加" />
@@ -89,34 +89,34 @@ h3{
 	</tr>
 	<?php foreach($accounts as $account): ?>
 	<form action="accounts.php" method="POST">
-	<input type="hidden" name="account_id" value="<?php echo $account["account_id"]; ?>" />
+	<input type="hidden" name="account_id" value="<?php val($account["account_id"]); ?>" />
 	<tr>
-		<td><?php echo $account["screen_name"]; ?><br />（<?php echo $account["user_id"]; ?>）</td>
+		<td><?php val($account["screen_name"]); ?><br />（<?php val($account["user_id"]); ?>）</td>
 		<td>
-			<input type="radio" name="post_interval" value="0"<?php if($account["post_interval"] == "0") echo " checked"; ?> />更新停止&nbsp;
-			<input type="radio" name="post_interval" value="30"<?php if($account["post_interval"] == 30) echo " checked"; ?> />30分毎&nbsp;
-			<input type="radio" name="post_interval" value="60"<?php if($account["post_interval"] == 60) echo " checked"; ?> />1時間毎&nbsp;
-			<input type="radio" name="post_interval" value="120"<?php if($account["post_interval"] == 120) echo " checked"; ?> />2時間毎<br />
-			<input type="radio" name="post_interval" value="180"<?php if($account["post_interval"] == 180) echo " checked"; ?> />3時間毎&nbsp;
-			<input type="radio" name="post_interval" value="240"<?php if($account["post_interval"] == 240) echo " checked"; ?> />4時間毎&nbsp;
-			<input type="radio" name="post_interval" value="300"<?php if($account["post_interval"] == 300) echo " checked"; ?> />5時間毎&nbsp;
-			<input type="radio" name="post_interval" value="360"<?php if($account["post_interval"] == 360) echo " checked"; ?> />6時間毎&nbsp;
+			<input type="radio" name="post_interval" value="0"<?php if($account["post_interval"] == "0") val(" checked"); ?> />更新停止&nbsp;
+			<input type="radio" name="post_interval" value="30"<?php if($account["post_interval"] == 30) val(" checked"); ?> />30分毎&nbsp;
+			<input type="radio" name="post_interval" value="60"<?php if($account["post_interval"] == 60) val(" checked"); ?> />1時間毎&nbsp;
+			<input type="radio" name="post_interval" value="120"<?php if($account["post_interval"] == 120) val(" checked"); ?> />2時間毎<br />
+			<input type="radio" name="post_interval" value="180"<?php if($account["post_interval"] == 180) val(" checked"); ?> />3時間毎&nbsp;
+			<input type="radio" name="post_interval" value="240"<?php if($account["post_interval"] == 240) val(" checked"); ?> />4時間毎&nbsp;
+			<input type="radio" name="post_interval" value="300"<?php if($account["post_interval"] == 300) val(" checked"); ?> />5時間毎&nbsp;
+			<input type="radio" name="post_interval" value="360"<?php if($account["post_interval"] == 360) val(" checked"); ?> />6時間毎&nbsp;
 		</td>
 		<td>
-			<input type="radio" name="post_order" value="1"<?php if($account["post_order"] == "1") echo " checked"; ?> />RT数順&nbsp;
-			<input type="radio" name="post_order" value="2"<?php if($account["post_order"] == "2") echo " checked"; ?> />ランダム&nbsp;
+			<input type="radio" name="post_order" value="1"<?php if($account["post_order"] == "1") val(" checked"); ?> />RT数順&nbsp;
+			<input type="radio" name="post_order" value="2"<?php if($account["post_order"] == "2") val(" checked"); ?> />ランダム&nbsp;
 		</td>
 		<td><div class="btn-group">
-			<a class="btn" href="tweets.php?account_id=<?php echo $account["account_id"]; ?>">予約済一覧</a>
-			<a class="btn" href="posted_tweets.php?account_id=<?php echo $account["account_id"]; ?>">投稿済一覧</a>
+			<a class="btn" href="tweets.php?account_id=<?php val($account["account_id"]); ?>">予約済一覧</a>
+			<a class="btn" href="posted_tweets.php?account_id=<?php val($account["account_id"]); ?>">投稿済一覧</a>
 		</div></td>
 		<td>
-			<a class="btn" href="affiliates.php?account_id=<?php echo $account["account_id"]; ?>">アフィリエイト</a><br />
-			<input type="text" name="affiliate_interval" value="<?php echo $account["affiliate_interval"]; ?>" class="input-mini" />ツイート毎
+			<a class="btn" href="affiliates.php?account_id=<?php val($account["account_id"]); ?>">アフィリエイト</a><br />
+			<input type="text" name="affiliate_interval" value="<?php val($account["affiliate_interval"]); ?>" class="input-mini" />ツイート毎
 		</td>
 		<td><div class="btn-group">
 			<input type="submit" class="btn" name="update" value="更新" />
-			<a class="btn" href="accounts.php?delete=1&account_id=<?php echo $account["account_id"]; ?>" onclick="return confirm('削除します。よろしいですか？')">削除</a>
+			<a class="btn" href="accounts.php?delete=1&account_id=<?php val($account["account_id"]); ?>" onclick="return confirm('削除します。よろしいですか？')">削除</a>
 		</div></td>
 	</tr>
 	</form>

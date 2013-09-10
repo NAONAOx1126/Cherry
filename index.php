@@ -24,8 +24,8 @@ checkLoginAdministrator();
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="robots" content="noindex,nofollow" />
 <title>CHERRY - Twitter自動投稿アプリ</title>
-<link rel="stylesheet" href="<?php echo APP_SUBDIR; ?>/css/bootstrap.css" />
-<link rel="stylesheet" href="<?php echo APP_SUBDIR; ?>/css/bootstrap-responsive.css" />
+<link rel="stylesheet" href="<?php val(APP_SUBDIR); ?>/css/bootstrap.css" />
+<link rel="stylesheet" href="<?php val(APP_SUBDIR); ?>/css/bootstrap-responsive.css" />
 <style>
 body {
 	padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -42,7 +42,7 @@ h3{
 	font-size: 11px;
 }
 </style>
-<script type="text/javascript" src="<?php echo APP_SUBDIR; ?>/js/bootstrap.js"></script>
+<script type="text/javascript" src="<?php val(APP_SUBDIR); ?>/js/bootstrap.js"></script>
 </head>
 <body>
 <?php require(APP_ROOT."/parts/header.php"); ?>

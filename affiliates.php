@@ -36,8 +36,8 @@ $affiliates = getAffiliates($_POST["account_id"]);
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="robots" content="noindex,nofollow" />
 <title>CHERRY - Twitter自動投稿アプリ</title>
-<link rel="stylesheet" href="<?php echo APP_SUBDIR; ?>/css/bootstrap.css" />
-<link rel="stylesheet" href="<?php echo APP_SUBDIR; ?>/css/bootstrap-responsive.css" />
+<link rel="stylesheet" href="<?php val(APP_SUBDIR); ?>/css/bootstrap.css" />
+<link rel="stylesheet" href="<?php val(APP_SUBDIR); ?>/css/bootstrap-responsive.css" />
 <style>
 body {
 	padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -54,7 +54,7 @@ h3{
 	font-size: 11px;
 }
 </style>
-<script type="text/javascript" src="<?php echo APP_SUBDIR; ?>/js/bootstrap.js"></script>
+<script type="text/javascript" src="<?php val(APP_SUBDIR); ?>/js/bootstrap.js"></script>
 </head>
 <body>
 <?php require(APP_ROOT."/parts/header.php"); ?>
@@ -67,7 +67,7 @@ h3{
 		カスタム投稿を追加
 	</td></tr>
 	<form action="affiliates.php" method="POST">
-	<input type="hidden" name="account_id" value="<?php echo $_POST["account_id"]; ?>" />
+	<input type="hidden" name="account_id" value="<?php val($_POST["account_id"]); ?>" />
 	<tr><td colspan="8">
 		<textarea name="tweet_text" class="span8" rows="5"></textarea><br />
 		<input type="text" name="frequency" class="span2" value="1" />
@@ -75,7 +75,7 @@ h3{
 	</td></tr>
 	</form>
 	<form action="affiliates.php" method="POST">
-	<input type="hidden" name="account_id" value="<?php echo $_POST["account_id"]; ?>" />
+	<input type="hidden" name="account_id" value="<?php val($_POST["account_id"]); ?>" />
 	<tr><td colspan="8">
 	<input type="submit" class="btn" name="delete" value="チェックしたアフィリエイトを削除" onclick="return confirm('削除します。よろしいですか？');" />
 	<input type="submit" class="btn" name="update" value="アフィリエイトを更新" />
@@ -88,12 +88,12 @@ h3{
 	</tr>
 	<?php foreach($affiliates as $affiliate): ?>
 	<tr>
-		<td><input type="checkbox" name="affiliate_ids[]" value="<?php echo $affiliate["affiliate_id"]; ?>" /></td>
+		<td><input type="checkbox" name="affiliate_ids[]" value="<?php val($affiliate["affiliate_id"]); ?>" /></td>
 		<td>
-		<textarea name="tweet_text[<?php echo $affiliate["affiliate_id"]; ?>]" class="span8" rows="5"><?php echo $affiliate["tweet_text"]; ?></textarea>
+		<textarea name="tweet_text[<?php val($affiliate["affiliate_id"]); ?>]" class="span8" rows="5"><?php val($affiliate["tweet_text"]); ?></textarea>
 		</td>
-		<td><input type="text" name="frequency[<?php echo $affiliate["affiliate_id"]; ?>]" value="<?php echo $affiliate["frequency"]; ?>" /></td>
-		<td><a class="btn" href="affiliates.php?delete=1&account_id=<?php echo $affiliate["account_id"]; ?>&affiliate_id=<?php echo $affiliate["affiliate_id"]; ?>" onclick="return confirm('削除します。よろしいですか？')">削除</a></td>
+		<td><input type="text" name="frequency[<?php val($affiliate["affiliate_id"]); ?>]" value="<?php val($affiliate["frequency"]); ?>" /></td>
+		<td><a class="btn" href="affiliates.php?delete=1&account_id=<?php val($affiliate["account_id"]); ?>&affiliate_id=<?php val($affiliate["affiliate_id"]); ?>" onclick="return confirm('削除します。よろしいですか？')">削除</a></td>
 	</tr>
 	<?php endforeach; ?>
 	<tr><td colspan="8">

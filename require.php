@@ -12,11 +12,31 @@
 // タイムゾーンを設定
 date_default_timezone_set("Asia/Tokyo");
 
-// POSTとGETを統合
-foreach($_POST as $key => $value){
-	$_GET[$key] = $value;
+// 入力のサニタイズ用関数
+function sanitizeInput(){
+	// マジッククオートを解除する関数
+	function remove_magic_quote($value){
+		if(get_magic_quotes_gpc() == "1"){
+			if(is_array($value)){
+				foreach($value as $i => $val){
+					$value[$i] = remove_magic_quote($val);
+				}
+			}else{
+				$value = str_replace("\\\"", "\"", $value);
+				$value = str_replace("\\\'", "\'", $value);
+				$value = str_replace("\\\\", "\\", $value);
+			}
+		}
+		return $value;
+	}
+
+	// POSTとGETを統合
+	foreach($_POST as $key => $value){
+		$_GET[$key] = $value;
+	}
+	$_POST = $_GET = remove_magic_quote($_GET);
 }
-$_POST = $_GET;
+sanitizeInput();
 
 // セッションを開始
 session_start();
@@ -64,6 +84,11 @@ require_once(APP_ROOT."/libs/function_account.php");
 require_once(APP_ROOT."/libs/function_administrator.php");
 require_once(APP_ROOT."/libs/function_tweet.php");
 require_once(APP_ROOT."/libs/function_affiliate.php");
+
+// HTML value用のエスケープ処理
+function val($text){
+	echo str_replace("\"", "&quot;", $text);
+}
 
 // Twitterの認証のアカウントを取得する。
 function getTwitter($account_id){

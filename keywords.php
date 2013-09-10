@@ -67,13 +67,13 @@ h3{
 	</tr>
 	<?php foreach($keywords as $keyword): ?>
 	<form action="keywords.php" method="POST">
-	<input type="hidden" name="keyword_id" value="<?php echo $keyword["keyword_id"]; ?>" />
+	<input type="hidden" name="keyword_id" value="<?php val($keyword["keyword_id"]); ?>" />
 	<tr>
-		<td><input type="text" class="input-xxlarge" name="keyword" value="<?php echo $keyword["keyword"]; ?>" /></td>
+		<td><input type="text" class="input-xxlarge" name="keyword" value="<?php val($keyword["keyword"]); ?>" /></td>
 		<td>
 			<input type="submit" class="btn" name="register" value="更新" />
 		</td>
-		<td><a class="btn" href="keywords.php?delete=1&keyword_id=<?php echo $keyword["keyword_id"]; ?>" onclick="return confirm('削除します。よろしいですか？')">削除</a></td>
+		<td><a class="btn" href="keywords.php?delete=1&keyword_id=<?php val($keyword["keyword_id"]); ?>" onclick="return confirm('削除します。よろしいですか？')">削除</a></td>
 	</tr>
 	</form>
 	<?php endforeach; ?>
