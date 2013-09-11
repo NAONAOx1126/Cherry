@@ -28,6 +28,14 @@ if(is_array($accounts)){
 		$result = $connection->query($sql);
 		$affiliates = $result->fetchAll();
 		$result->close();
+		
+		// ツイート停止時間帯の場合はスキップ
+		if($account["tweet_suspend_start"] < $account["tweet_suspend_end"]){
+			if($account["tweet_suspend_start"] < date("H") && date("H") < $account["tweet_suspend_end"]) continue;
+		}elseif($account["tweet_suspend_end"] < $account["tweet_suspend_start"]){
+			if($account["tweet_suspend_start"] < date("H") || date("H") < $account["tweet_suspend_end"]) continue;
+		}
+		
 		if($account["affiliate_interval"] > 0 && $account["affiliate_interval"] <= $account["affiliate_token_count"] && is_array($affiliates) && count($affiliates) > 0){
 			// アフィリエイトを頻度毎にコピー
 			$freqAffiliates = array();

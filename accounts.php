@@ -104,7 +104,9 @@ h3{
 		</td>
 		<td>
 			<input type="radio" name="post_order" value="1"<?php if($account["post_order"] == "1") val(" checked"); ?> />RT数順&nbsp;
-			<input type="radio" name="post_order" value="2"<?php if($account["post_order"] == "2") val(" checked"); ?> />ランダム&nbsp;
+			<input type="radio" name="post_order" value="2"<?php if($account["post_order"] == "2") val(" checked"); ?> />ランダム&nbsp;<br />
+			<input type="text" name="tweet_suspend_start" value="<?php val($account["tweet_suspend_start"]); ?>" class="input-mini" />時〜
+			<input type="text" name="tweet_suspend_end" value="<?php val($account["tweet_suspend_end"]); ?>" class="input-mini" />時は投稿しない。
 		</td>
 		<td><div class="btn-group">
 			<a class="btn" href="tweets.php?account_id=<?php val($account["account_id"]); ?>">予約済一覧</a>

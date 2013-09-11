@@ -101,6 +101,8 @@ function updateAccount(){
 		$sqlval["post_interval"] = $_POST["post_interval"];
 		$sqlval["post_order"] = $_POST["post_order"];
 		$sqlval["affiliate_interval"] = $_POST["affiliate_interval"];
+		$sqlval["tweet_suspend_start"] = $_POST["tweet_suspend_start"];
+		$sqlval["tweet_suspend_end"] = $_POST["tweet_suspend_end"];
 		foreach($sqlval as $key => $value){
 			$sqlval[$key] = $key." = '".$connection->escape($value)."'";
 		}
