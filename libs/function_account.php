@@ -62,8 +62,7 @@ function addTwitterAccount($loginAs = ""){
 		unset($_SESSION["ACCOUNT_GROUP_ID"]);
 			
 		// GETパラメータを削除するため、自分のURLにリダイレクト
-		header('Location: accounts.php');
-		exit;
+		reload();
 	}elseif(!empty($_POST["add_account"]) && !empty($_POST["account_group_id"])){
 		// リクエストトークンを取得
 		$reply = $_SERVER["TWITTER"]->oauth_requestToken(array("callback_url" => APP_ROOT_URL.APP_URL_PATH));
@@ -111,8 +110,7 @@ function updateAccount(){
 		$result = $connection->query($sql);
 		
 		// GETパラメータを削除するため、自分のURLにリダイレクト
-		header('Location: accounts.php');
-		exit;
+		reload();
 	}
 }
 
@@ -124,7 +122,6 @@ function deleteAccount(){
 			$result = $connection->query("DELETE FROM accounts WHERE account_id = '".$connection->escape($_POST["account_id"])."'");
 		}
 		// GETパラメータを削除するため、自分のURLにリダイレクト
-		header('Location: accounts.php');
-		exit;
+		reload();
 	}
 }

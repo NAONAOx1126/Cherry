@@ -66,8 +66,7 @@ function registerAccountGroup(){
 			$result = $connection->query($sql);
 		}
 		// GETパラメータを削除するため、自分のURLにリダイレクト
-		header('Location: account_groups.php');
-		exit;
+		reload();
 	}
 }
 
@@ -79,7 +78,6 @@ function deleteAccountGroup(){
 			$result = $connection->query("DELETE FROM account_groups WHERE account_group_id = '".$connection->escape($_GET["account_group_id"])."'");
 		}
 		// GETパラメータを削除するため、自分のURLにリダイレクト
-		header('Location: account_groups.php');
-		exit;
+		reload();
 	}
 }

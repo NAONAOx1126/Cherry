@@ -107,3 +107,11 @@ function getTwitter($account_id){
 	}
 	return FALSE;
 }
+
+// 現在のページをリロードする。
+function reload($params = ""){
+	$path = str_replace("?".$_SERVER["QUERY_STRING"], "", $_SERVER["REQUEST_URI"]);
+	header("Location: ".$path."?".$params);
+	exit;
+}
+

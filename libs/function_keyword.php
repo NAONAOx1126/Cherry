@@ -39,8 +39,7 @@ function registerKeyword(){
 			$result = $connection->query($sql);
 		}
 		// GETパラメータを削除するため、自分のURLにリダイレクト
-		header('Location: keywords.php');
-		exit;
+		reload();
 	}
 }
 
@@ -52,7 +51,6 @@ function deleteKeyword(){
 			$result = $connection->query("UPDATE keywords SET delete_flg = 1 WHERE keyword_id = '".$connection->escape($_GET["keyword_id"])."'");
 		}
 		// GETパラメータを削除するため、自分のURLにリダイレクト
-		header('Location: keywords.php');
-		exit;
+		reload();
 	}
 }

@@ -59,14 +59,14 @@ h3{
 <div class="row-fluid">
 <!--/span-->
 <div class="span12">
-	<form action="tweets.php" method="POST">
+	<form action="posted_tweets.php" method="POST">
 	<input type="hidden" name="account_id" value="<?php val($_POST["account_id"]); ?>" />
 	<input type="text" class="input-small" name="past_days" value="7" />日以上経過している、リツイート数が
 	<input type="text" class="input-small" name="retweets" value="20" />未満のツイートを
 	<input type="submit" class="btn" name="delete" value="削除" onclick="return confirm('削除します。よろしいですか？');" />
 	</form>
 	<table class="table table-bordered table-striped" summary="一覧">
-	<form action="tweets.php" method="POST">
+	<form action="posted_tweets.php" method="POST">
 	<input type="hidden" name="account_id" value="<?php val($_POST["account_id"]); ?>" />
 	<tr><td colspan="8">
 	<input type="submit" class="btn" name="delete" value="チェックした投稿を削除" onclick="return confirm('削除します。よろしいですか？');" />
@@ -103,7 +103,7 @@ h3{
 		<td><?php val($tweet["source_retweet_count"]); ?></td>
 		<td><?php val($tweet["retweet_count"]); ?></td>
 		<td><?php val($tweet["post_time"]); ?></td>
-		<td><a class="btn" href="tweets.php?delete=1&account_id=<?php val($tweet["account_id"]); ?>&tweet_id=<?php val($tweet["tweet_id"]); ?>" onclick="return confirm('削除します。よろしいですか？')">削除</a></td>
+		<td><a class="btn" href="posted_tweets.php?delete=1&account_id=<?php val($tweet["account_id"]); ?>&tweet_id=<?php val($tweet["tweet_id"]); ?>" onclick="return confirm('削除します。よろしいですか？')">削除</a></td>
 	</tr>
 	<?php endforeach; ?>
 	<tr><td colspan="8">

@@ -45,8 +45,7 @@ function deleteAffiliate(){
 			}
 			
 			// GETパラメータを削除するため、自分のURLにリダイレクト
-			header('Location: affiliates.php?account_id='.$_POST["account_id"]);
-			exit;
+			reload("account_id=".$_POST["account_id"]);
 		}
 	}
 }
@@ -70,8 +69,7 @@ function registerAffiliate(){
 			$result = $connection->query($sql);
 		}
 		// GETパラメータを削除するため、自分のURLにリダイレクト
-		header('Location: affiliates.php?account_id='.$_POST["account_id"]);
-		exit;
+		reload("account_id=".$_POST["account_id"]);
 	}
 }
 
@@ -92,8 +90,7 @@ function updateAffiliate(){
 			}
 				
 			// GETパラメータを削除するため、自分のURLにリダイレクト
-			header('Location: affiliates.php?account_id='.$_POST["account_id"]);
-			exit;
+			reload("account_id=".$_POST["account_id"]);
 		}
 	}
 }

@@ -78,8 +78,7 @@ function deleteTweet(){
 			}
 			
 			// GETパラメータを削除するため、自分のURLにリダイレクト
-			header('Location: tweets.php?account_id='.$_POST["account_id"]);
-			exit;
+			reload("account_id=".$_POST["account_id"]);
 		}
 	}
 }
@@ -111,8 +110,7 @@ function registerTweet(){
 			$result = $connection->query($sql);
 		}
 		// GETパラメータを削除するため、自分のURLにリダイレクト
-		header('Location: tweets.php?account_id='.$_POST["account_id"]);
-		exit;
+		reload("account_id=".$_POST["account_id"]);
 	}
 }
 
@@ -130,8 +128,7 @@ function updateTweet(){
 			}
 				
 			// GETパラメータを削除するため、自分のURLにリダイレクト
-			header('Location: tweets.php?account_id='.$_POST["account_id"]);
-			exit;
+			reload("account_id=".$_POST["account_id"]);
 		}
 	}
 }
