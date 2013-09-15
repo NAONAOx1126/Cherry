@@ -52,7 +52,6 @@ if(is_array($accounts)){
 				$condition = array("user_id" => $account["user_id"], "count" => 200, "trim_user" => false, "exclude_replies" => true, "include_rts" => false);
 				$statuses = (array) $twitter->statuses_userTimeline($condition);
 				if(is_array($statuses)){
-					print_r($statuses);
 					foreach($statuses as $status){
 						// リツイート済みは対象外
 						if($status->retweeted) continue;
@@ -77,8 +76,7 @@ if(is_array($accounts)){
 				return floor(mt_rand(0, 2)) - 1;
 			});
 			
-			
-			$twitter->status_retweet(array("id" => $tweets[0]->id));
+			$twitter->statuses_retweet(array("id" => $tweets[0]->id));
 			exit;
 			
 			$nextInterval = mt_rand($account["retweet_interval"] - $account["retweet_flactuation"], $account["retweet_interval"] + $account["retweet_flactuation"]);
