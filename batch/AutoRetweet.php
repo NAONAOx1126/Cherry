@@ -59,8 +59,9 @@ if(is_array($accounts)){
 							// 自分の投稿予定に含まれている場合は除外
 							$sql = "SELECT my_tweets.* FROM tweets AS my_tweets, tweets";
 							$sql .= " WHERE my_tweets.tweet_text = tweets.tweet_text";
-							$sql .= " AND my_tweets.post_id = tweets.post_id";
+							$sql .= " AND my_tweets.post_id != tweets.post_id";
 							$sql .= " AND tweets.post_id = '".$status->id_str."'";
+							$sql .= " AND my_tweets.account_id = '".$account["account_id"]."'";
 							$result = $connection->query($sql);
 							if($result->count() > 0) continue;
 							// 投稿をエントリー
@@ -72,15 +73,12 @@ if(is_array($accounts)){
 		}
 		
 		if(count($tweets) > 0){
-			print_r($tweets);
 			// エントリーされたツイートをソート
 			usort($tweets, function($a, $b){
 				if($a->retweet_count < $b->retweet_count) return -1;
 				if($b->retweet_count < $a->retweet_count) return 1;
 				return floor(mt_rand(0, 2)) - 1;
 			});
-			print_r($tweets);
-			exit;
 			
 			$twitter->statuses_retweet(array("id" => $tweets[0]->id));
 			exit;
