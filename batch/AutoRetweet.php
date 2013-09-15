@@ -49,7 +49,7 @@ if(is_array($accounts)){
 		$tweets = array();
 		if(is_array($targets)){
 			foreach($targets as $target){
-				$condition = array("user_id" => $account["user_id"], "count" => 2, "trim_user" => false, "exclude_replies" => true, "include_rts" => false);
+				$condition = array("user_id" => $target["user_id"], "count" => 200, "trim_user" => false, "exclude_replies" => true, "include_rts" => false);
 				$statuses = (array) $twitter->statuses_userTimeline($condition);
 				if(is_array($statuses)){
 					foreach($statuses as $status){
@@ -81,7 +81,6 @@ if(is_array($accounts)){
 			});
 			
 			$twitter->statuses_retweet_ID(array("id" => $tweets[0]->id));
-			exit;
 			
 			$nextInterval = mt_rand($account["retweet_interval"] - $account["retweet_flactuation"], $account["retweet_interval"] + $account["retweet_flactuation"]);
 			
