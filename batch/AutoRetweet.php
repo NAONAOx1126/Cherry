@@ -49,7 +49,8 @@ if(is_array($accounts)){
 		$tweets = array();
 		if(is_array($targets)){
 			foreach($targets as $target){
-				$statuses = $twitter->status_userTimeline(array("user_id" => $target["user_id"], "count" => 200));
+				$condition = array("user_id" => $account["user_id"], "count" => 200, "trim_user" => false, "exclude_replies" => true, "include_rts" => false);
+				$statuses = (array) $twitter->statuses_userTimeline($condition);
 				if(is_array($statuses)){
 					print_r($statuses);
 					foreach($statuses as $status){
