@@ -80,7 +80,7 @@ if(is_array($accounts)){
 				return floor(mt_rand(0, 2)) - 1;
 			});
 			
-			$twitter->statuses_retweet(array("id" => $tweets[0]->id));
+			$twitter->statuses_retweet_ID(array("id" => $tweets[0]->id));
 			exit;
 			
 			$nextInterval = mt_rand($account["retweet_interval"] - $account["retweet_flactuation"], $account["retweet_interval"] + $account["retweet_flactuation"]);
