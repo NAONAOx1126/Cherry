@@ -49,8 +49,9 @@ if(is_array($accounts)){
 		$tweets = array();
 		if(is_array($targets)){
 			foreach($targets as $target){
-				$statuses = $twitter->users_show(array("user_id" => $target["user_id"]));
+				$statuses = $twitter->status_userTimeline(array("user_id" => $target["user_id"], "count" => 200));
 				if(is_array($statuses)){
+					print_r($statuses);
 					foreach($statuses as $status){
 						// リツイート済みは対象外
 						if($status->retweeted) continue;
@@ -67,28 +68,31 @@ if(is_array($accounts)){
 			}
 		}
 		
-		// エントリーされたツイートをソート
-		usort($tweets, function($a, $b){
-			if($a->retweet_count < $b->retweet_count) return -1;
-			if($b->retweet_count < $a->retweet_count) return 1;
-			return floor(mt_rand(0, 2)) - 1;
-		});
-		
-		$twitter->status_retweet(array("id" => $tweets[0]->id));
-		exit;
-		
-		$nextInterval = mt_rand($account["retweet_interval"] - $account["retweet_flactuation"], $account["retweet_interval"] + $account["retweet_flactuation"]);
-		
-		$sqlval = array();
-		$sqlval["last_retweeted"] = date("Y-m-d H:i:s");
-		$sqlval["next_retweet"] = date("Y-m-d H:i:s", strtotime("+".$nextInterval." minutes"));
-		
-		foreach($sqlval as $key => $value){
-			$sqlval[$key] = $key." = '".$this->escape($value)."'";
+		if(count($tweets) > 0){
+			// エントリーされたツイートをソート
+			usort($tweets, function($a, $b){
+				if($a->retweet_count < $b->retweet_count) return -1;
+				if($b->retweet_count < $a->retweet_count) return 1;
+				return floor(mt_rand(0, 2)) - 1;
+			});
+			
+			
+			$twitter->status_retweet(array("id" => $tweets[0]->id));
+			exit;
+			
+			$nextInterval = mt_rand($account["retweet_interval"] - $account["retweet_flactuation"], $account["retweet_interval"] + $account["retweet_flactuation"]);
+			
+			$sqlval = array();
+			$sqlval["last_retweeted"] = date("Y-m-d H:i:s");
+			$sqlval["next_retweet"] = date("Y-m-d H:i:s", strtotime("+".$nextInterval." minutes"));
+			
+			foreach($sqlval as $key => $value){
+				$sqlval[$key] = $key." = '".$this->escape($value)."'";
+			}
+			$sql = "UPDATE retweet_group_accounts SET ".implode(", ", $sqlval);
+			$sql .= " WHERE retweet_group_id = '".$this->escape($account["retweet_group_id"])."'";
+			$sql .= " WHERE user_id = '".$this->escape($account["user_id"])."'";
+			$result = $this->query($sql);
 		}
-		$sql = "UPDATE retweet_group_accounts SET ".implode(", ", $sqlval);
-		$sql .= " WHERE retweet_group_id = '".$this->escape($account["retweet_group_id"])."'";
-		$sql .= " WHERE user_id = '".$this->escape($account["user_id"])."'";
-		$result = $this->query($sql);
 	}
 }
