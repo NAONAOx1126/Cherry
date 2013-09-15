@@ -59,6 +59,7 @@ if(is_array($accounts)){
 							// 自分の投稿予定に含まれている場合は除外
 							$sql = "SELECT my_tweets.* FROM tweets AS my_tweets, tweets";
 							$sql .= " WHERE my_tweets.tweet_text = tweets.tweet_text";
+							$sql .= " AND my_tweets.post_id = tweets.post_id";
 							$sql .= " AND tweets.post_id = '".$status->id_str."'";
 							$result = $connection->query($sql);
 							if($result->count() > 0) continue;
