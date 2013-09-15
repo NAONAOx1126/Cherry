@@ -49,9 +49,10 @@ if(is_array($accounts)){
 		$tweets = array();
 		if(is_array($targets)){
 			foreach($targets as $target){
-				$condition = array("user_id" => $account["user_id"], "count" => 200, "trim_user" => false, "exclude_replies" => true, "include_rts" => false);
+				$condition = array("user_id" => $account["user_id"], "count" => 2, "trim_user" => false, "exclude_replies" => true, "include_rts" => false);
 				$statuses = (array) $twitter->statuses_userTimeline($condition);
 				if(is_array($statuses)){
+					print_r($statuses);
 					foreach($statuses as $status){
 						// リツイート済みは対象外
 						if($status->retweeted) continue;
@@ -75,6 +76,7 @@ if(is_array($accounts)){
 				if($b->retweet_count < $a->retweet_count) return 1;
 				return floor(mt_rand(0, 2)) - 1;
 			});
+			exit;
 			
 			$twitter->statuses_retweet(array("id" => $tweets[0]->id));
 			exit;
