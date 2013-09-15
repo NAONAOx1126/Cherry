@@ -23,7 +23,7 @@ $connection = new Connection();
 $sql = "SELECT accounts.*, retweet_groups.* FROM retweet_groups, retweet_group_accounts, accounts";
 $sql .= " WHERE retweet_groups.retweet_group_id = retweet_group_accounts.retweet_group_id";
 $sql .= " AND retweet_group_accounts.screen_name = accounts.screen_name";
-$sql .= " AND UNIX_TIMESTAMP() - UNIX_TIMESTAMP(next_retweet)";
+$sql .= " AND UNIX_TIMESTAMP(next_retweet) < UNIX_TIMESTAMP()";
 $result = $connection->query($sql);
 $accounts = $result->fetchAll();
 $result->close();
@@ -80,7 +80,8 @@ if(is_array($accounts)){
 				return floor(mt_rand(0, 2)) - 1;
 			});
 			
-			$twitter->statuses_retweet_ID(array("id" => $tweets[0]->id));
+			$result = $twitter->statuses_retweet_ID(array("id" => $tweets[0]->id));
+			print_r($result);
 			
 			$nextInterval = mt_rand($account["retweet_interval"] - $account["retweet_flactuation"], $account["retweet_interval"] + $account["retweet_flactuation"]);
 			
@@ -93,7 +94,7 @@ if(is_array($accounts)){
 			}
 			$sql = "UPDATE retweet_group_accounts SET ".implode(", ", $sqlval);
 			$sql .= " WHERE retweet_group_id = '".$connection->escape($account["retweet_group_id"])."'";
-			$sql .= " WHERE user_id = '".$connection->escape($account["user_id"])."'";
+			$sql .= " AND user_id = '".$connection->escape($account["user_id"])."'";
 			$result = $connection->query($sql);
 		}
 	}
