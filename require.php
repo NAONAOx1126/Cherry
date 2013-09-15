@@ -84,6 +84,7 @@ require_once(APP_ROOT."/libs/function_account.php");
 require_once(APP_ROOT."/libs/function_administrator.php");
 require_once(APP_ROOT."/libs/function_tweet.php");
 require_once(APP_ROOT."/libs/function_affiliate.php");
+require_once(APP_ROOT."/libs/function_retweet_group.php");
 
 // HTML value用のエスケープ処理
 function val($text){

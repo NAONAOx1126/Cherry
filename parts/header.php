@@ -19,7 +19,8 @@
 		<li><a href="<?php echo APP_SUBDIR; ?>/keywords.php">キーワード一覧</a></li>
 		<li><a href="<?php echo APP_SUBDIR; ?>/account_groups.php">アカウントグループ一覧</a></li>
 		<li><a href="<?php echo APP_SUBDIR; ?>/accounts.php">アカウント一覧</a></li>
-	</ul>
+		<li><a href="<?php echo APP_SUBDIR; ?>/retweet_groups.php">リツイートグループ一覧</a></li>
+		</ul>
 </div>
 <?php endif; ?>
 </div>

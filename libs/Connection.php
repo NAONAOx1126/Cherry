@@ -115,6 +115,24 @@ class Connection{
 		return null;
 	}
 	
+	public function insert($table, $sqlval){
+		foreach($sqlval as $key => $value){
+			$sqlval[$key] = $this->escape($value);
+		}
+		$sql = "INSERT INTO ".$table;
+		$sql .= "(".implode(", ", array_keys($sqlval)).") VALUES ('".implode("', '", $sqlval)."')";
+		$this->query($sql);
+	}
+	
+	public function update($table, $sqlval, $idkey, $idval){
+		foreach($sqlval as $key => $value){
+			$sqlval[$key] = $key." = '".$this->escape($value)."'";
+		}
+		$sql = "UPDATE ".$table." SET ".implode(", ", $sqlval);
+		$sql .= " WHERE ".$idkey." = '".$this->escape($idval)."'";
+		$result = $this->query($sql);
+	}
+	
 	public function auto_increment(){
 		return mysqli_insert_id($this->connection);
 	}
