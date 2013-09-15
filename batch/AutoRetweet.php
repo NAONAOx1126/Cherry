@@ -89,12 +89,12 @@ if(is_array($accounts)){
 			$sqlval["next_retweet"] = date("Y-m-d H:i:s", strtotime("+".$nextInterval." minutes"));
 			
 			foreach($sqlval as $key => $value){
-				$sqlval[$key] = $key." = '".$this->escape($value)."'";
+				$sqlval[$key] = $key." = '".$connection->escape($value)."'";
 			}
 			$sql = "UPDATE retweet_group_accounts SET ".implode(", ", $sqlval);
-			$sql .= " WHERE retweet_group_id = '".$this->escape($account["retweet_group_id"])."'";
-			$sql .= " WHERE user_id = '".$this->escape($account["user_id"])."'";
-			$result = $this->query($sql);
+			$sql .= " WHERE retweet_group_id = '".$connection->escape($account["retweet_group_id"])."'";
+			$sql .= " WHERE user_id = '".$connection->escape($account["user_id"])."'";
+			$result = $connection->query($sql);
 		}
 	}
 }
