@@ -32,8 +32,8 @@ function updateSetting(){
 		$sqlval = $_POST;
 		unset($sqlval["update"]);
 		$connection->update("administrators", $sqlval, "administrator_id", $_SESSION["ADMINISTRATOR"]["administrator_id"]);
+		reload();
 	}
-	reload();
 }
 
 // 設定を更新
