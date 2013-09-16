@@ -34,3 +34,15 @@ function updateSetting(){
 		$connection->update("administrators", $sqlval, "administrator_id", $_SESSION["ADMINISTRATOR"]["administrator_id"]);
 	}
 }
+
+// 設定を更新
+function updateAccount(){
+	if($_SESSION["ADMINISTRATOR"]["administrator_id"] > 0){
+		$connection = new Connection();
+		$result = $connection->query("SELECT * FROM administrators WHERE administrator_id = '".$_SESSION["ADMINISTRATOR"]["administrator_id"]."'");
+		$data = $result->fetchAll();
+		if(count($data) > 0){
+			$_SESSION["ADMINISTRATOR"] = $data[0];
+		}
+	}
+}
