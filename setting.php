@@ -21,7 +21,7 @@ checkLoginAdministrator();
 updateSetting();
 
 // アカウントを更新
-updateAccount();
+updateAdministrator();
 ?>
 <!DOCTYPE html>
 <html lang="ja">

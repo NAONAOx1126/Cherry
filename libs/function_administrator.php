@@ -36,7 +36,7 @@ function updateSetting(){
 }
 
 // 設定を更新
-function updateAccount(){
+function updateAdministrator(){
 	if($_SESSION["ADMINISTRATOR"]["administrator_id"] > 0){
 		$connection = new Connection();
 		$result = $connection->query("SELECT * FROM administrators WHERE administrator_id = '".$_SESSION["ADMINISTRATOR"]["administrator_id"]."'");
