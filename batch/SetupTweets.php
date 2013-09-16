@@ -30,7 +30,13 @@ $result->close();
 if(is_array($accounts)){
 	foreach($accounts as $account){
 		// そのアカウントに投稿する投稿を取得します。
-		$sql = "SELECT * FROM tweet_caches WHERE keyword_id = '".$connection->escape($account["keyword_id"])."' AND retweet_count >= '".$connection->escape($account["pickup_limit"])."' AND delete_flg = 0 ORDER BY retweet_count DESC";
+		$keywords = array();
+		for($i = 1; $i < 9; $i ++){
+			if($account["keyword_id".$i] > 0){
+				$keywords[] = $account["keyword_id".$i];
+			}
+		}
+		$sql = "SELECT * FROM tweet_caches WHERE keyword_id IN (".implode(", ", $keywords).") AND retweet_count >= '".$connection->escape($account["pickup_limit"])."' AND delete_flg = 0 ORDER BY retweet_count DESC";
 		$result = $connection->query($sql);
 		$cached_tweets = $result->fetchAll();
 		$result->close();
