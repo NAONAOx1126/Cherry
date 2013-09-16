@@ -20,7 +20,8 @@ require_once(dirname(__FILE__)."/../require.php");
 $connection = new Connection();
 
 // リツイート可能なアカウントを取得する。
-$sql = "SELECT accounts.*, retweet_groups.* FROM retweet_groups, retweet_group_accounts, accounts";
+$sql = "SELECT accounts.*, retweet_groups.*, retweet_group_accounts.last_retweet_to";
+$sql .= " FROM retweet_groups, retweet_group_accounts, accounts";
 $sql .= " WHERE retweet_groups.retweet_group_id = retweet_group_accounts.retweet_group_id";
 $sql .= " AND retweet_group_accounts.screen_name = accounts.screen_name";
 $sql .= " AND UNIX_TIMESTAMP(next_retweet) < UNIX_TIMESTAMP()";
@@ -31,7 +32,7 @@ if(is_array($accounts)){
 	foreach($accounts as $account){
 		// 同じグループのアカウントを取得する。
 		$sql = "SELECT * FROM retweet_group_accounts WHERE retweet_group_id = '".$account["retweet_group_id"]."'";
-		$sql .= " AND screen_name != '".$account["screen_name"]."'";
+		$sql .= " AND screen_name != '".$account["screen_name"]."' AND user_id != '".$account["last_retweet_to"]."'";
 		$result = $connection->query($sql);
 		$targets = $result->fetchAll();
 		$result->close();
@@ -89,6 +90,7 @@ if(is_array($accounts)){
 			
 			$sqlval = array();
 			$sqlval["last_retweeted"] = date("Y-m-d H:i:s");
+			$sqlval["last_retweet_to"] = $tweets[0]->id;
 			$sqlval["next_retweet"] = date("Y-m-d H:i:s", strtotime("+".$nextInterval." minutes"));
 			
 			foreach($sqlval as $key => $value){
