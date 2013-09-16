@@ -25,3 +25,12 @@ function checkLoginAdministrator(){
 	}
 }
 
+// 設定を更新
+function updateSetting(){
+	if(isset($_POST["update"])){
+		$connection = new Connection();
+		$sqlval = $_POST;
+		unset($sqlval["update"]);
+		$connection->update("administrators", $sqlval, "administrator_id", $_SESSION["ADMINISTRATOR"]["administrator_id"]);
+	}
+}

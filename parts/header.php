@@ -16,6 +16,7 @@
 <?php if(is_array($_SESSION["ADMINISTRATOR"]) && $_SESSION["ADMINISTRATOR"]["administrator_id"] > 0): ?>
 <div class="nav-collapse">
 	<ul class="nav pull-right">
+		<li><a href="<?php echo APP_SUBDIR; ?>/setting.php">自動フォロー設定</a></li>
 		<li><a href="<?php echo APP_SUBDIR; ?>/keywords.php">キーワード一覧</a></li>
 		<li><a href="<?php echo APP_SUBDIR; ?>/account_groups.php">アカウントグループ一覧</a></li>
 		<li><a href="<?php echo APP_SUBDIR; ?>/accounts.php">アカウント一覧</a></li>
