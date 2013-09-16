@@ -56,6 +56,8 @@ if(is_array($accounts)){
 						if(is_object($status)){
 							// リツイート済みは対象外
 							if($status->retweeted) continue;
+							// 7日以上経過したツイートは除外
+							if(strtotime($status->created_at) < strtotime("-7 day")) continue;
 							// 自分の投稿予定に含まれている場合は除外
 							$sql = "SELECT my_tweets.* FROM tweets AS my_tweets, tweets";
 							$sql .= " WHERE my_tweets.tweet_text = tweets.tweet_text";
