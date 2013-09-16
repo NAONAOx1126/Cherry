@@ -37,6 +37,7 @@ if(is_array($accounts)){
 			}
 		}
 		$sql = "SELECT * FROM tweet_caches WHERE keyword_id IN (".implode(", ", $keywords).") AND retweet_count >= '".$connection->escape($account["pickup_limit"])."' AND delete_flg = 0 ORDER BY retweet_count DESC";
+		echo $sql."\r\n";
 		$result = $connection->query($sql);
 		$cached_tweets = $result->fetchAll();
 		$result->close();
