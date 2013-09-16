@@ -93,11 +93,11 @@ h3{
 	<th class="blue header">除外条件</th>
 	<td>
 		<input type="hidden" name="ignore_non_japanese_flg" value="0" />
-		<input type="checkbox" name="ignore_non_japanese_flg" value="1"<?php echo ($_SESSION["ADMINISTRATOR"]["ignore_non_japanese_flg"] == "1")?" checked":""; ?>" /> 外国人／
+		<input type="checkbox" name="ignore_non_japanese_flg" value="1"<?php echo ($_SESSION["ADMINISTRATOR"]["ignore_non_japanese_flg"] == "1")?" checked":""; ?> /> 外国人／
 		<input type="hidden" name="ignore_bot_flg" value="0" />
-		<input type="checkbox" name="ignore_bot_flg" value="1"<?php echo ($_SESSION["ADMINISTRATOR"]["ignore_bot_flg"] == "1")?" checked":""; ?>" /> ボット／
+		<input type="checkbox" name="ignore_bot_flg" value="1"<?php echo ($_SESSION["ADMINISTRATOR"]["ignore_bot_flg"] == "1")?" checked":""; ?> /> ボット／
 		<input type="hidden" name="ignore_url_flg" value="0" />
-		<input type="checkbox" name="ignore_url_flg" value="1"<?php echo ($_SESSION["ADMINISTRATOR"]["ignore_url_flg"] == "1")?" checked":""; ?>" /> 含URL
+		<input type="checkbox" name="ignore_url_flg" value="1"<?php echo ($_SESSION["ADMINISTRATOR"]["ignore_url_flg"] == "1")?" checked":""; ?> /> 含URL
 	</td>
 	</tr>
 	<tr>
