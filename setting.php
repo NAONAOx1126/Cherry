@@ -69,6 +69,45 @@ h3{
 	<th class="blue header">フォロワー<?php val($follower); ?>人以上の時のフォロー人数比</th>
 	<td>フォロワーの<input type="text" name="max_follows_rate_over_<?php val($follower); ?>" class="input-small" value="<?php val($_SESSION["ADMINISTRATOR"]["max_follows_rate_over_".$follower]); ?>" />％</td>
 	</tr>
+	<tr>
+	<th class="blue header">フォロー基点のユーザー名</th>
+	<td><input type="text" name="root_screen_name" class="input-medium" value="<?php val($_SESSION["ADMINISTRATOR"]["root_screen_name"]); ?>" /></td>
+	</tr>
+	<tr>
+	<th class="blue header">フォロー基点のキーワード</th>
+	<td><input type="text" name="root_keyword" class="input-xxlarge" value="<?php val($_SESSION["ADMINISTRATOR"]["root_keyword"]); ?>" /></td>
+	</tr>
+	<tr>
+	<th class="blue header">フォロワー追跡の深度</th>
+	<td><select name="tree_depth">
+	<?php for($i = 0; $i < 5; $i ++): ?>
+	<option value="<?php val($i); ?>"<?php ($_SESSION["ADMINISTRATOR"]["tree_depth"] == $i)?" selected":""; ?>><?php val($i); ?></option>
+	<?php endfor; ?>
+	</select>階層まで</td>
+	</tr>
+	<tr>
+	<th class="blue header">1日にフォローするおよその人数</th>
+	<td><input type="text" name="oneday_follows" class="input-medium" value="<?php val($_SESSION["ADMINISTRATOR"]["oneday_follows"]); ?>" /></td>
+	</tr>
+	<tr>
+	<th class="blue header">除外条件</th>
+	<td>
+		<input type="hidden" name="ignore_non_japanese_flg" value="0" />
+		<input type="checkbox" name="ignore_non_japanese_flg" value="1"<?php ($_SESSION["ADMINISTRATOR"]["ignore_non_japanese_flg"] == "1")?" checked":""; ?>" /> 外国人／
+		<input type="hidden" name="ignore_bot_flg" value="0" />
+		<input type="checkbox" name="ignore_bot_flg" value="1"<?php ($_SESSION["ADMINISTRATOR"]["ignore_bot_flg"] == "1")?" checked":""; ?>" /> ボット／
+		<input type="hidden" name="ignore_url_flg" value="0" />
+		<input type="checkbox" name="ignore_url_flg" value="1"<?php ($_SESSION["ADMINISTRATOR"]["ignore_url_flg"] == "1")?" checked":""; ?>" /> 含URL
+	</td>
+	</tr>
+	<tr>
+	<th class="blue header">フォローするユーザーの最低フォロワー数</th>
+	<td><input type="text" name="follower_border" class="input-small" value="<?php val($_SESSION["ADMINISTRATOR"]["follower_border"]); ?>" />人以上</td>
+	</tr>
+	<tr>
+	<th class="blue header">フォロー返しを待つ日数</th>
+	<td><input type="text" name="unfollow_limit" class="input-small" value="<?php val($_SESSION["ADMINISTRATOR"]["unfollow_limit"]); ?>" />日</td>
+	</tr>
 	<tr><td colspan="2">
 	<input type="submit" class="btn" name="update" value="設定を更新" />
 	</td></tr>
