@@ -84,7 +84,6 @@ h3{
 		<th class="blue header"></th>
 		<th class="blue header">テキスト</th>
 		<th class="blue header">画像</th>
-		<th class="blue header">投稿状態</th>
 		<th class="blue header">元RT数</th>
 		<th class="blue header">RT数</th>
 		<th class="blue header">投稿日時</th>
@@ -107,7 +106,6 @@ h3{
 			</a>
 			<?php endwhile; ?>
 		</td>
-		<td><?php val($_SERVER["TWEET_STATUS"][$tweet["post_status"]]); ?></td>
 		<td><?php val($tweet["source_retweet_count"]); ?></td>
 		<td><?php val($tweet["retweet_count"]); ?></td>
 		<td><?php val($tweet["post_time"]); ?></td>

@@ -22,7 +22,7 @@ function registerAccountGroup(){
 		$connection = new Connection();
 		// キーワードデータを取得
 		$keyword_ids = array();
-		for($i = 1; $i < 5; $i ++){
+		for($i = 1; $i < 9; $i ++){
 			if($_POST["keyword_id".$i] > 0){
 				$keyword_ids[] = $_POST["keyword_id".$i];
 			}
@@ -46,6 +46,10 @@ function registerAccountGroup(){
 		$sqlval["keyword_id2"] = $_POST["keyword_id2"];
 		$sqlval["keyword_id3"] = $_POST["keyword_id3"];
 		$sqlval["keyword_id4"] = $_POST["keyword_id4"];
+		$sqlval["keyword_id5"] = $_POST["keyword_id5"];
+		$sqlval["keyword_id6"] = $_POST["keyword_id6"];
+		$sqlval["keyword_id7"] = $_POST["keyword_id7"];
+		$sqlval["keyword_id8"] = $_POST["keyword_id8"];
 		$sqlval["pickup_limit"] = $_POST["pickup_limit"];
 		$sqlval["pickup_count"] = $_POST["pickup_count"];
 		$sqlval["import_flg"] = $_POST["import_flg"];

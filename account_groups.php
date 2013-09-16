@@ -77,7 +77,7 @@ h3{
 	<tr>
 		<td><input type="text" class="input-medium" name="account_group_name" value="<?php val($accountGroup["account_group_name"]); ?>" /></td>
 		<td>
-			<?php for($i = 1; $i < 5; $i ++): ?>
+			<?php for($i = 1; $i < 9; $i ++): ?>
 			<select name="keyword_id<?php val($i); ?>">
 			<option value="">------</option>
 			<?php foreach($keywords as $keyword): ?>
@@ -115,7 +115,7 @@ h3{
 	<tr>
 		<td><input type="text" class="input-medium" name="account_group_name" value="" /></td>
 		<td>
-			<?php for($i = 1; $i < 5; $i ++): ?>
+			<?php for($i = 1; $i < 9; $i ++): ?>
 			<select name="keyword_id<?php val($i); ?>">
 			<option value="">------</option>
 			<?php foreach($keywords as $keyword): ?>
