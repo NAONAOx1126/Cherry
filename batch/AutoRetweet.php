@@ -57,6 +57,8 @@ if(is_array($accounts)){
 						if(is_object($status)){
 							// リツイート済みは対象外
 							if($status->retweeted) continue;
+							// URLを含むものは対象外
+							if(!empty($status->entities->urls)) continue;
 							// 7日以上経過したツイートは除外
 							if(strtotime($status->created_at) < strtotime("-7 day")) continue;
 							// 自分の投稿予定に含まれている場合は除外

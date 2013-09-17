@@ -77,6 +77,9 @@ if(is_array($keywords)){
 			$result = $connection->query($sql);
 			$relatedTweets = $result->fetchAll();
 			if(is_array($relatedTweets) && count($relatedTweets)) continue;
+			
+			// URLを含むものは対象外
+			if(!empty($tweet->entities->urls)) continue;
 				
 			// 画像がある場合は元画像をダウンロードする。
 			if(isset($tweet->entities->media) && is_array($tweet->entities->media)){
