@@ -92,7 +92,7 @@ if(is_array($accounts)){
 			
 			$sqlval = array();
 			$sqlval["last_retweeted"] = date("Y-m-d H:i:s");
-			$sqlval["last_retweet_to"] = $tweets[0]->id;
+			$sqlval["last_retweet_to"] = $tweets[0]->user->id_str;
 			$sqlval["next_retweet"] = date("Y-m-d H:i:s", strtotime("+".$nextInterval." minutes"));
 			
 			foreach($sqlval as $key => $value){
