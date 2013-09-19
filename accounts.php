@@ -108,8 +108,12 @@ h3{
 			<?php if($account["post_order"] == "2") val("ランダム"); ?>
 		</td>
 		<td>
+			<?php if($account["affiliate_interval"] > 0): ?>
 			<?php val($account["affiliate_interval"]); ?>ツイート毎に通常の投稿に代わって<br>
 			アフィリエイト投稿を行う。
+			<?php else: ?>
+			アフィリエイト投稿を行わない。
+			<?php endif; ?>
 		</td>
 		<td><div class="btn-group">
 			<a class="btn" href="tweets.php?account_id=<?php val($account["account_id"]); ?>">予約済一覧</a>
