@@ -73,6 +73,7 @@ h3{
 	<?php foreach($accountGroups as $accountGroup): ?>
 	<form action="account_groups.php" method="POST">
 	<input type="hidden" name="account_group_id" value="<?php val($accountGroup["account_group_id"]); ?>" />
+	<input type="hidden" name="post_interval" value="0" />
 	<tr>
 		<td><input type="text" class="input-medium" name="account_group_name" value="<?php val($accountGroup["account_group_name"]); ?>" /></td>
 		<td>
@@ -91,16 +92,6 @@ h3{
 		<td>
 			<input type="radio" name="import_flg" value="1"<?php if($accountGroup["import_flg"] == "1") val(" checked"); ?> />する<br />
 			<input type="radio" name="import_flg" value="2"<?php if($accountGroup["import_flg"] == "2") val(" checked"); ?> />しない
-		</td>
-		<td>
-			<input type="radio" name="post_interval" value="0"<?php if($accountGroup["post_interval"] == 0) val(" checked"); ?> />更新停止&nbsp;
-			<input type="radio" name="post_interval" value="30"<?php if($accountGroup["post_interval"] == 30) val(" checked"); ?> />30分毎<br />
-			<input type="radio" name="post_interval" value="60"<?php if($accountGroup["post_interval"] == 60) val(" checked"); ?> />1時間毎&nbsp;
-			<input type="radio" name="post_interval" value="120"<?php if($accountGroup["post_interval"] == 120) val(" checked"); ?> />2時間毎<br />
-			<input type="radio" name="post_interval" value="180"<?php if($accountGroup["post_interval"] == 180) val(" checked"); ?> />3時間毎&nbsp;
-			<input type="radio" name="post_interval" value="240"<?php if($accountGroup["post_interval"] == 240) val(" checked"); ?> />4時間毎<br />
-			<input type="radio" name="post_interval" value="300"<?php if($accountGroup["post_interval"] == 300) val(" checked"); ?> />5時間毎&nbsp;
-			<input type="radio" name="post_interval" value="360"<?php if($accountGroup["post_interval"] == 360) val(" checked"); ?> />6時間毎
 		</td>
 		<td><div class="btn-group">
 			<input type="submit" class="btn" name="register" value="更新" />
