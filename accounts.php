@@ -91,33 +91,28 @@ h3{
 	<form action="accounts.php" method="POST">
 	<input type="hidden" name="account_id" value="<?php val($account["account_id"]); ?>" />
 	<tr>
-		<td><?php val($account["screen_name"]); ?><br />（<?php val($account["user_id"]); ?>）</td>
+		<td><a href="account_details.php?account_id=<?php val($account["account_id"]); ?>">
+			<?php val($account["screen_name"]); ?>
+		</a></td>
 		<td>
-			<input type="radio" name="post_interval" value="0"<?php if($account["post_interval"] == "0") val(" checked"); ?> />更新停止&nbsp;
-			<input type="radio" name="post_interval" value="30"<?php if($account["post_interval"] == 30) val(" checked"); ?> />30分毎&nbsp;
-			<input type="radio" name="post_interval" value="60"<?php if($account["post_interval"] == 60) val(" checked"); ?> />1時間毎&nbsp;
-			<input type="radio" name="post_interval" value="120"<?php if($account["post_interval"] == 120) val(" checked"); ?> />2時間毎<br />
-			<input type="radio" name="post_interval" value="180"<?php if($account["post_interval"] == 180) val(" checked"); ?> />3時間毎&nbsp;
-			<input type="radio" name="post_interval" value="240"<?php if($account["post_interval"] == 240) val(" checked"); ?> />4時間毎&nbsp;
-			<input type="radio" name="post_interval" value="300"<?php if($account["post_interval"] == 300) val(" checked"); ?> />5時間毎&nbsp;
-			<input type="radio" name="post_interval" value="360"<?php if($account["post_interval"] == 360) val(" checked"); ?> />6時間毎&nbsp;
+			ツイート：<?php number_format(val($account["post_interval"] - $account["post_flactuation"])) ?>分〜
+			<?php number_format(val($account["post_interval"] + $account["post_flactuation"])) ?>分毎に１回<br>
+			リツイート：<?php number_format(val($account["retweet_interval"] - $account["retweet_flactuation"])) ?>分〜
+			<?php number_format(val($account["retweet_interval"] + $account["retweet_flactuation"])) ?>分毎に１回<br>
+			ただし、<?php val($account["tweet_suspend_start"]); ?>時〜<?php val($account["tweet_suspend_end"]); ?>時は投稿しない。
 		</td>
 		<td>
-			<input type="radio" name="post_order" value="1"<?php if($account["post_order"] == "1") val(" checked"); ?> />RT数順&nbsp;
-			<input type="radio" name="post_order" value="2"<?php if($account["post_order"] == "2") val(" checked"); ?> />ランダム&nbsp;<br />
-			<input type="text" name="tweet_suspend_start" value="<?php val($account["tweet_suspend_start"]); ?>" class="input-mini" />時〜
-			<input type="text" name="tweet_suspend_end" value="<?php val($account["tweet_suspend_end"]); ?>" class="input-mini" />時は投稿しない。
+			<?php if($account["post_order"] == "1") val("RT数順"); ?>
+			<?php if($account["post_order"] == "2") val(" checked"); ?>
+		</td>
+		<td>
+			<?php val($account["affiliate_interval"]); ?>ツイート毎に<br>
+			通常の投稿に代わってアフィリエイト投稿を行う。
 		</td>
 		<td><div class="btn-group">
 			<a class="btn" href="tweets.php?account_id=<?php val($account["account_id"]); ?>">予約済一覧</a>
 			<a class="btn" href="posted_tweets.php?account_id=<?php val($account["account_id"]); ?>">投稿済一覧</a>
-		</div></td>
-		<td>
-			<a class="btn" href="affiliates.php?account_id=<?php val($account["account_id"]); ?>">アフィリエイト</a><br />
-			<input type="text" name="affiliate_interval" value="<?php val($account["affiliate_interval"]); ?>" class="input-mini" />ツイート毎
-		</td>
-		<td><div class="btn-group">
-			<input type="submit" class="btn" name="update" value="更新" />
+			<a class="btn" href="affiliates.php?account_id=<?php val($account["account_id"]); ?>">アフィリエイト一覧</a><br />
 			<a class="btn" href="accounts.php?delete=1&account_id=<?php val($account["account_id"]); ?>" onclick="return confirm('削除します。よろしいですか？')">削除</a>
 		</div></td>
 	</tr>

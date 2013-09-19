@@ -92,6 +92,18 @@ function getAccounts($account_group_id = ""){
 	return $result->fetchAll();
 }
 
+// アカウントの一覧を取得する。
+function getAccount($account_id){
+	if($account_id > 0){
+		$connection = new Connection();
+		$sql = "SELECT * FROM accounts WHERE administrator_id = '".$_SESSION["ADMINISTRATOR"]["administrator_id"]."'";
+		$sql .= " AND account_id = '".$account_id."'";
+		$result = $connection->query($sql);
+		return $result->fetch();
+	}
+	return array();
+}
+
 // アカウントを更新
 function updateAccount(){
 	if(!empty($_POST["update"]) && $_POST["account_id"]){

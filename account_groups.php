@@ -68,7 +68,6 @@ h3{
 		<th class="blue header">キーワード</th>
 		<th class="blue header">RT数／件数制限</th>
 		<th class="blue header">自動取得</th>
-		<th class="blue header">投稿間隔(デフォルト)</th>
 		<th class="blue header">更新／削除</th>
 	</tr>
 	<?php foreach($accountGroups as $accountGroup): ?>
@@ -112,6 +111,7 @@ h3{
 	<?php endforeach; ?>
 	<form action="account_groups.php" method="POST">
 	<input type="hidden" name="account_group_id" value="" />
+	<input type="hidden" name="post_interval" value="0" />
 	<tr>
 		<td><input type="text" class="input-medium" name="account_group_name" value="" /></td>
 		<td>
@@ -131,16 +131,6 @@ h3{
 		<td>
 			<input type="radio" name="import_flg" value="1" checked />する<br />
 			<input type="radio" name="import_flg" value="2" />しない&nbsp;
-		</td>
-		<td>
-			<input type="radio" name="post_interval" value="0" checked />更新停止&nbsp;
-			<input type="radio" name="post_interval" value="30" />30分毎<br />
-			<input type="radio" name="post_interval" value="60" />1時間毎&nbsp;
-			<input type="radio" name="post_interval" value="120" />2時間毎<br />
-			<input type="radio" name="post_interval" value="180" />3時間毎&nbsp;
-			<input type="radio" name="post_interval" value="240" />4時間毎<br />
-			<input type="radio" name="post_interval" value="300" />5時間毎&nbsp;
-			<input type="radio" name="post_interval" value="360" />6時間毎
 		</td>
 		<td>
 			<input type="submit" class="btn" name="register" value="登録" />
