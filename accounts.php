@@ -80,6 +80,7 @@ h3{
 	<br />
 	<table class="table table-bordered table-striped" summary="一覧">
 	<tr>
+		<th class="blue header">グループ</th>
 		<th class="blue header">Twitterユーザー</th>
 		<th class="blue header">投稿間隔</th>
 		<th class="blue header">投稿順序</th>

@@ -118,7 +118,8 @@ h3{
 	</tr>
 	<tr>
 		<td><div class="btn-group">
-			<input type="submit" class="btn" name="update" value="更新" />
+			<input type="submit" class="btn" name="update" value="アカウントの設定を更新" />
+			<a href="accounts.php" class="btn">アカウント一覧に戻る</a>
 		</div></td>
 	</tr>
 	</table>

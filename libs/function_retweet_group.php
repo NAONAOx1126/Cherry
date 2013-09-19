@@ -25,8 +25,6 @@ function registerRetweetGroup(){
 		$sqlval = array();
 		$sqlval["administrator_id"] = $_SESSION["ADMINISTRATOR"]["administrator_id"];
 		$sqlval["retweet_group_name"] = $_POST["retweet_group_name"];
-		$sqlval["retweet_interval"] = $_POST["retweet_interval"];
-		$sqlval["retweet_flactuation"] = $_POST["retweet_flactuation"];
 		if(!empty($_POST["retweet_group_id"])){
 			$connection->update("retweet_groups", $sqlval, "retweet_group_id", $_POST["retweet_group_id"]);
 		}else{

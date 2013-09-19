@@ -68,8 +68,6 @@ h3{
 	<table class="table table-bordered table-striped" summary="一覧">
 	<tr>
 		<th class="blue header">グループ名</th>
-		<th class="blue header">リツイート間隔</th>
-		<th class="blue header">リツイート間隔揺らぎ</th>
 		<th class="blue header">メンバー</th>
 		<th class="blue header">更新／削除</th>
 	</tr>
@@ -78,13 +76,11 @@ h3{
 	<input type="hidden" name="retweet_group_id" value="<?php val($retweetGroup["retweet_group_id"]); ?>" />
 	<tr>
 		<td><input type="text" class="input-medium" name="retweet_group_name" value="<?php val($retweetGroup["retweet_group_name"]); ?>" /></td>
-		<td><input type="text" class="input-mini" name="retweet_interval" value="<?php val($retweetGroup["retweet_interval"]); ?>" />分間隔</td>
-		<td>前後<input type="text" class="input-mini" name="retweet_flactuation" value="<?php val($retweetGroup["retweet_flactuation"]); ?>" />分</td>
 		<td>
 			<?php $members = getRetweetGroupMember($retweetGroup["retweet_group_id"]); ?>
 			<?php if(is_array($members) && count($members) > 0): ?>
 			<?php foreach($members as $member): ?>
-			<div><?php val($member["screen_name"]); ?><a href="retweet_groups.php?remove_member=1&retweet_group_id=<?php val($retweetGroup["retweet_group_id"]); ?>&screen_name=<?php val($member["screen_name"]); ?>">削除</a></div>
+			<div><?php val($member["screen_name"]); ?>&nbsp;<a href="retweet_groups.php?remove_member=1&retweet_group_id=<?php val($retweetGroup["retweet_group_id"]); ?>&screen_name=<?php val($member["screen_name"]); ?>">削除</a></div>
 			<?php endforeach; ?>
 			<?php endif; ?>
 			<div><input type="text" class="input-medium" name="screen_name" /><input type="submit" class="btn" name="add_member" value="追加" /></div>
@@ -100,11 +96,9 @@ h3{
 	<input type="hidden" name="account_group_id" value="" />
 	<tr>
 		<td><input type="text" class="input-medium" name="retweet_group_name" value="" /></td>
-		<td><input type="text" class="input-mini" name="retweet_interval" value="" />分間隔</td>
-		<td>前後<input type="text" class="input-mini" name="retweet_flactuation" value="" />分</td>
 		<td></td>
 		<td><div class="btn-group">
-			<input type="submit" class="btn" name="register" value="登録" />
+			<input type="submit" class="btn" name="register" value="グループ新規登録" />
 		</div></td>
 		</tr>
 	</form>
