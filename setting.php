@@ -79,15 +79,15 @@ h3{
 	</tr>
 	<tr>
 	<th class="blue header">フォロー基点のユーザー名</th>
-	<td><input type="text" name="root_screen_name" class="input-medium" value="<?php val($_SESSION["ADMINISTRATOR"]["root_screen_name"]); ?>" /></td>
+	<td colspan="3"><input type="text" name="root_screen_name" class="input-medium" value="<?php val($_SESSION["ADMINISTRATOR"]["root_screen_name"]); ?>" /></td>
 	</tr>
 	<tr>
 	<th class="blue header">フォロー基点のキーワード</th>
-	<td><input type="text" name="root_keyword" class="input-xxlarge" value="<?php val($_SESSION["ADMINISTRATOR"]["root_keyword"]); ?>" /></td>
+	<td colspan="3"><input type="text" name="root_keyword" class="input-xxlarge" value="<?php val($_SESSION["ADMINISTRATOR"]["root_keyword"]); ?>" /></td>
 	</tr>
 	<tr>
 	<th class="blue header">フォロワー追跡の深度</th>
-	<td><select name="tree_depth">
+	<td colspan="3"><select name="tree_depth">
 	<?php for($i = 0; $i < 5; $i ++): ?>
 	<option value="<?php val($i); ?>"<?php echo ($_SESSION["ADMINISTRATOR"]["tree_depth"] == $i)?" selected":""; ?>><?php val($i); ?></option>
 	<?php endfor; ?>
@@ -95,7 +95,7 @@ h3{
 	</tr>
 	<tr>
 	<th class="blue header">除外条件</th>
-	<td>
+	<td colspan="3">
 		<input type="hidden" name="ignore_non_japanese_flg" value="0" />
 		<input type="checkbox" name="ignore_non_japanese_flg" value="1"<?php echo ($_SESSION["ADMINISTRATOR"]["ignore_non_japanese_flg"] == "1")?" checked":""; ?> /> 外国人／
 		<input type="hidden" name="ignore_bot_flg" value="0" />
@@ -106,7 +106,7 @@ h3{
 	</tr>
 	<tr>
 	<th class="blue header">フォロー返しを待つ日数</th>
-	<td><input type="text" name="unfollow_limit" class="input-small" value="<?php val($_SESSION["ADMINISTRATOR"]["unfollow_limit"]); ?>" />日</td>
+	<td colspan="3"><input type="text" name="unfollow_limit" class="input-small" value="<?php val($_SESSION["ADMINISTRATOR"]["unfollow_limit"]); ?>" />日</td>
 	</tr>
 	<tr><td colspan="2">
 	<input type="submit" class="btn" name="update" value="設定を更新" />
