@@ -84,8 +84,7 @@ h3{
 		<th class="blue header">投稿間隔</th>
 		<th class="blue header">投稿順序</th>
 		<th class="blue header">投稿一覧</th>
-		<th class="blue header">アフィリエイト</th>
-		<th class="blue header">更新／削除</th>
+		<th class="blue header">&nbsp;</th>
 	</tr>
 	<?php foreach($accounts as $account): ?>
 	<form action="accounts.php" method="POST">
@@ -95,19 +94,21 @@ h3{
 			<?php val($account["screen_name"]); ?>
 		</a></td>
 		<td>
-			ツイート：<?php number_format(val($account["post_interval"] - $account["post_flactuation"])) ?>分〜
-			<?php number_format(val($account["post_interval"] + $account["post_flactuation"])) ?>分毎に１回<br>
-			リツイート：<?php number_format(val($account["retweet_interval"] - $account["retweet_flactuation"])) ?>分〜
-			<?php number_format(val($account["retweet_interval"] + $account["retweet_flactuation"])) ?>分毎に１回<br>
+			ツイート：<?php if($account["post_interval"] > 0): ?><?php number_format(val($account["post_interval"] - $account["post_flactuation"])) ?>分〜
+			<?php number_format(val($account["post_interval"] + $account["post_flactuation"])) ?>分毎に１回<?php else: ?>投稿しない<?php endif; ?><br>
+			リツイート：<?php if($account["retweet_interval"] > 0): ?><?php number_format(val($account["retweet_interval"] - $account["retweet_flactuation"])) ?>分〜
+			<?php number_format(val($account["retweet_interval"] + $account["retweet_flactuation"])) ?>分毎に１回<?php else: ?>投稿しない<?php endif; ?><br>
+			<?php if($account["tweet_suspend_start"] != $account["tweet_suspend_end"]): ?>
 			ただし、<?php val($account["tweet_suspend_start"]); ?>時〜<?php val($account["tweet_suspend_end"]); ?>時は投稿しない。
+			<?php endif; ?>
 		</td>
 		<td>
 			<?php if($account["post_order"] == "1") val("RT数順"); ?>
-			<?php if($account["post_order"] == "2") val(" checked"); ?>
+			<?php if($account["post_order"] == "2") val("ランダム"); ?>
 		</td>
 		<td>
-			<?php val($account["affiliate_interval"]); ?>ツイート毎に<br>
-			通常の投稿に代わってアフィリエイト投稿を行う。
+			<?php val($account["affiliate_interval"]); ?>ツイート毎に通常の投稿に代わって<br>
+			アフィリエイト投稿を行う。
 		</td>
 		<td><div class="btn-group">
 			<a class="btn" href="tweets.php?account_id=<?php val($account["account_id"]); ?>">予約済一覧</a>
