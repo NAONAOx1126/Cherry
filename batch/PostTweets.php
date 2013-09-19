@@ -96,8 +96,8 @@ if(is_array($accounts)){
 				$account["affiliate_token_count"] = 0;
 			}
 			$sql = "UPDATE accounts SET affiliate_token_count = '".$connection->escape($account["affiliate_token_count"])."'";
-			$sql = ", last_posted = '".$connection->escape(date("Y-m-d H:i:s"))."'";
-			$sql = ", next_post = '".$connection->escape(date("Y-m-d H:i:s", strtotime("+".mt_rand($account["post_interval"] - $account["post_flactuation"], $account["post_interval"] + $account["post_flactuation"])." minutes")))."'";
+			$sql .= ", last_posted = '".$connection->escape(date("Y-m-d H:i:s"))."'";
+			$sql .= ", next_post = '".$connection->escape(date("Y-m-d H:i:s", strtotime("+".mt_rand($account["post_interval"] - $account["post_flactuation"], $account["post_interval"] + $account["post_flactuation"])." minutes")))."'";
 			$sql .= " WHERE account_id = '".$connection->escape($account["account_id"])."'";
 			$result = $connection->query($sql);
 		}
