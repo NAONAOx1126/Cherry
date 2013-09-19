@@ -21,7 +21,7 @@ checkLoginAdministrator();
 updateAccount();
 
 // アカウントを取得
-$accounts = getAccount($_POST["account_id"]);
+$account = getAccount($_POST["account_id"]);
 ?>
 <!DOCTYPE html>
 <html lang="ja">

@@ -113,7 +113,7 @@ h3{
 		<td><div class="btn-group">
 			<a class="btn" href="tweets.php?account_id=<?php val($account["account_id"]); ?>">予約済一覧</a>
 			<a class="btn" href="posted_tweets.php?account_id=<?php val($account["account_id"]); ?>">投稿済一覧</a>
-			<a class="btn" href="affiliates.php?account_id=<?php val($account["account_id"]); ?>">アフィリエイト一覧</a><br />
+			<a class="btn" href="affiliates.php?account_id=<?php val($account["account_id"]); ?>">アフィリエイト一覧</a>
 			<a class="btn" href="accounts.php?delete=1&account_id=<?php val($account["account_id"]); ?>" onclick="return confirm('削除します。よろしいですか？')">削除</a>
 		</div></td>
 	</tr>
