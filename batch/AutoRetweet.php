@@ -98,9 +98,8 @@ if(is_array($accounts)){
 			foreach($sqlval as $key => $value){
 				$sqlval[$key] = $key." = '".$connection->escape($value)."'";
 			}
-			$sql = "UPDATE retweet_group_accounts SET ".implode(", ", $sqlval);
-			$sql .= " WHERE retweet_group_id = '".$connection->escape($account["retweet_group_id"])."'";
-			$sql .= " AND user_id = '".$connection->escape($account["user_id"])."'";
+			$sql = "UPDATE accounts SET ".implode(", ", $sqlval);
+			$sql .= " WHERE account_id = '".$connection->escape($account["account_id"])."'";
 			$result = $connection->query($sql);
 		}
 	}
