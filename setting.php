@@ -58,16 +58,24 @@ h3{
 <div class="span12">
 	<form action="setting.php" method="POST">
 	<table class="table table-bordered table-striped" summary="一覧">
-	<?php $followers = array(10, 25, 50, 100, 250, 500, 1000); ?>
+	<?php $followers = array(50, 100, 200, 400, 800, 1200, 1600, 2000); ?>
+	<th class="blue header">フォローワー数</th>
+	<th class="blue header">最大フォロー比率／フォロワー数</th>
+	<th class="blue header">最大フォロー数／日</th>
+	<th class="blue header">最大アンフォロー数／日</th>
 	<?php foreach($followers as $follower): ?>
 	<tr>
-	<th class="blue header">フォロワー<?php val($follower); ?>までの最大フォロー人数</th>
-	<td><input type="text" name="max_follows_<?php val($follower); ?>" class="input-small" value="<?php val($_SESSION["ADMINISTRATOR"]["max_follows_".$follower]); ?>" />人</td>
+	<th class="blue header"><?php val($follower); ?>人まで</th>
+	<td><input type="text" name="max_follows_<?php val($follower); ?>" class="input-small" value="<?php val($_SESSION["ADMINISTRATOR"]["max_follows_".$follower]); ?>" />%</td>
+	<td><input type="text" name="daily_follows_<?php val($follower); ?>" class="input-small" value="<?php val($_SESSION["ADMINISTRATOR"]["daily_follows_".$follower]); ?>" />人</td>
+	<td><input type="text" name="daily_unfollows_<?php val($follower); ?>" class="input-small" value="<?php val($_SESSION["ADMINISTRATOR"]["daily_unfollows_".$follower]); ?>" />人</td>
 	</tr>
 	<?php endforeach; ?>
 	<tr>
-	<th class="blue header">フォロワー<?php val($follower); ?>人以上の時のフォロー人数比</th>
-	<td>フォロワーの<input type="text" name="max_follows_rate_over_<?php val($follower); ?>" class="input-small" value="<?php val($_SESSION["ADMINISTRATOR"]["max_follows_rate_over_".$follower]); ?>" />％</td>
+	<th class="blue header"><?php val($follower); ?>人以上</th>
+	<td><input type="text" name="max_follows_over_<?php val($follower); ?>" class="input-small" value="<?php val($_SESSION["ADMINISTRATOR"]["max_follows_over_".$follower]); ?>" />%</td>
+	<td><input type="text" name="daily_follows_over_<?php val($follower); ?>" class="input-small" value="<?php val($_SESSION["ADMINISTRATOR"]["daily_follows_over_".$follower]); ?>" />人</td>
+	<td><input type="text" name="daily_unfollows_over_<?php val($follower); ?>" class="input-small" value="<?php val($_SESSION["ADMINISTRATOR"]["daily_unfollows_over_".$follower]); ?>" />人</td>
 	</tr>
 	<tr>
 	<th class="blue header">フォロー基点のユーザー名</th>
@@ -86,10 +94,6 @@ h3{
 	</select>階層まで</td>
 	</tr>
 	<tr>
-	<th class="blue header">1日にフォローするおよその人数</th>
-	<td><input type="text" name="oneday_follows" class="input-medium" value="<?php val($_SESSION["ADMINISTRATOR"]["oneday_follows"]); ?>" /></td>
-	</tr>
-	<tr>
 	<th class="blue header">除外条件</th>
 	<td>
 		<input type="hidden" name="ignore_non_japanese_flg" value="0" />
@@ -99,10 +103,6 @@ h3{
 		<input type="hidden" name="ignore_url_flg" value="0" />
 		<input type="checkbox" name="ignore_url_flg" value="1"<?php echo ($_SESSION["ADMINISTRATOR"]["ignore_url_flg"] == "1")?" checked":""; ?> /> 含URL
 	</td>
-	</tr>
-	<tr>
-	<th class="blue header">フォローするユーザーの最低フォロワー数</th>
-	<td><input type="text" name="follower_border" class="input-small" value="<?php val($_SESSION["ADMINISTRATOR"]["follower_border"]); ?>" />人以上</td>
 	</tr>
 	<tr>
 	<th class="blue header">フォロー返しを待つ日数</th>
