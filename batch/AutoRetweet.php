@@ -20,11 +20,11 @@ require_once(dirname(__FILE__)."/../require.php");
 $connection = new Connection();
 
 // リツイート可能なアカウントを取得する。
-$sql = "SELECT accounts.*, retweet_groups.*, retweet_group_accounts.last_retweet_to";
+$sql = "SELECT accounts.*, retweet_groups.*";
 $sql .= " FROM retweet_groups, retweet_group_accounts, accounts";
 $sql .= " WHERE retweet_groups.retweet_group_id = retweet_group_accounts.retweet_group_id";
 $sql .= " AND retweet_group_accounts.screen_name = accounts.screen_name";
-$sql .= " AND UNIX_TIMESTAMP(next_retweet) < UNIX_TIMESTAMP()";
+$sql .= " AND UNIX_TIMESTAMP(accounts.next_retweet) < UNIX_TIMESTAMP()";
 $result = $connection->query($sql);
 $accounts = $result->fetchAll();
 $result->close();
