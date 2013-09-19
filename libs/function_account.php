@@ -110,6 +110,9 @@ function updateAccount(){
 		$connection = new Connection();
 		$sqlval = array();
 		$sqlval["post_interval"] = $_POST["post_interval"];
+		$sqlval["post_flactuation"] = $_POST["post_flactuation"];
+		$sqlval["retweet_interval"] = $_POST["retweet_interval"];
+		$sqlval["retweet_flactuation"] = $_POST["retweet_flactuation"];
 		$sqlval["post_order"] = $_POST["post_order"];
 		$sqlval["affiliate_interval"] = $_POST["affiliate_interval"];
 		$sqlval["tweet_suspend_start"] = $_POST["tweet_suspend_start"];
