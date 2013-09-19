@@ -122,7 +122,7 @@ function updateAccount(){
 		$result = $connection->query($sql);
 		
 		// GETパラメータを削除するため、自分のURLにリダイレクト
-		reload();
+		reload("account_id=".$_POST["account_id"]);
 	}
 }
 
