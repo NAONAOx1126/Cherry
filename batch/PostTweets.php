@@ -18,9 +18,8 @@ $_SERVER["REQUEST_URI"] = "/batch/PostTweets.php";
 require_once(dirname(__FILE__)."/../require.php");
 
 $connection = new Connection();
-$sql = "SELECT accounts.* FROM accounts, tweets";
-$sql .= " WHERE accounts.account_id = tweets.account_id AND accounts.post_interval > 0";
-$sql .= " GROUP BY tweets.account_id HAVING UNIX_TIMESTAMP(accounts.next_post) < UNIX_TIMESTAMP()";
+$sql = "SELECT accounts.* FROM accounts";
+$sql .= " WHERE accounts.post_interval > 0 AND UNIX_TIMESTAMP(accounts.next_post) < UNIX_TIMESTAMP()";
 $result = $connection->query($sql);
 $accounts = $result->fetchAll();
 $result->close();
