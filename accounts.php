@@ -84,16 +84,13 @@ h3{
 		<th class="blue header">Twitterユーザー</th>
 		<th class="blue header">投稿間隔</th>
 		<th class="blue header">投稿順序</th>
-		<th class="blue header">投稿一覧</th>
+		<th class="blue header">アフィリエイト</th>
 		<th class="blue header">&nbsp;</th>
 	</tr>
 	<?php foreach($accounts as $account): ?>
 	<form action="accounts.php" method="POST">
 	<input type="hidden" name="account_id" value="<?php val($account["account_id"]); ?>" />
 	<tr>
-		<td><a href="account_groups.php?account_group_id=<?php val($account["account_group_id"]); ?>">
-			<?php val($account["screen_name"]); ?>
-		</a></td>
 		<td>
 		<?php foreach($accountGroups as $accountGroup): ?>
 		<?php if($accountGroup["account_group_id"] == $account["account_group_id"]): ?>
@@ -102,6 +99,9 @@ h3{
 		<?php endif; ?>
 		<?php endforeach; ?>
 		</td>
+		<td><a href="account_groups.php?account_group_id=<?php val($account["account_group_id"]); ?>">
+			<?php val($account["screen_name"]); ?>
+		</a></td>
 		<td>
 			ツイート：<?php if($account["post_interval"] > 0): ?><?php number_format(val($account["post_interval"] - $account["post_flactuation"])) ?>分〜
 			<?php number_format(val($account["post_interval"] + $account["post_flactuation"])) ?>分毎に１回<?php else: ?>投稿しない<?php endif; ?><br>
