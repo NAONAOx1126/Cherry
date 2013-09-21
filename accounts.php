@@ -94,12 +94,13 @@ h3{
 		<td>
 		<?php foreach($accountGroups as $accountGroup): ?>
 		<?php if($accountGroup["account_group_id"] == $account["account_group_id"]): ?>
+		<a href="account_groups.php?account_group_id=<?php val($account["account_group_id"]); ?>">
 			<?php val($accountGroup["account_group_name"]); ?>
 		</a>
 		<?php endif; ?>
 		<?php endforeach; ?>
 		</td>
-		<td><a href="account_groups.php?account_group_id=<?php val($account["account_group_id"]); ?>">
+		<td><a href="account_details.php?account_id=<?php val($account["account_id"]); ?>">
 			<?php val($account["screen_name"]); ?>
 		</a></td>
 		<td>
