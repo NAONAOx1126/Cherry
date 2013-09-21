@@ -67,7 +67,7 @@ h3{
 		<td>
 		<select name="account_group_id">
 		<?php foreach($accountGroups as $accountGroup): ?>
-		<option value="<?php val($accountGroup["account_group_id"]); ?>"><?php val($accountGroup["account_group_name"]); ?></option>
+		<option value="<?php val($accountGroup["account_group_id"]); ?>"<?php val(($accountGroup["account_group_id"] == $account["account_group_id"])?" selected":""); ?>><?php val($accountGroup["account_group_name"]); ?></option>
 		<?php endforeach; ?>
 		</select>
 		</td>
