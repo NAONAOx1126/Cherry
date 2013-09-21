@@ -109,6 +109,7 @@ function updateAccount(){
 	if(!empty($_POST["update"]) && $_POST["account_id"]){
 		$connection = new Connection();
 		$sqlval = array();
+		$sqlval["account_group_id"] = $_POST["account_group_id"];
 		$sqlval["post_interval"] = $_POST["post_interval"];
 		$sqlval["post_flactuation"] = $_POST["post_flactuation"];
 		$sqlval["retweet_interval"] = $_POST["retweet_interval"];

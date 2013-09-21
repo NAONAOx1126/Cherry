@@ -20,6 +20,9 @@ checkLoginAdministrator();
 // アカウントを更新
 updateAccount();
 
+// アカウントグループを取得
+$accountGroups = getAccountGroups();
+
 // アカウントを取得
 $account = getAccount($_POST["account_id"]);
 ?>
@@ -59,6 +62,16 @@ h3{
 	<form action="account_details.php" method="POST">
 	<input type="hidden" name="account_id" value="<?php val($account["account_id"]); ?>" />
 	<table class="table table-bordered table-striped" summary="一覧">
+	<tr>
+		<th class="blue header">アカウントグループ</th>
+		<td>
+		<select name="account_group_id">
+		<?php foreach($accountGroups as $accountGroup): ?>
+		<option value="<?php val($accountGroup["account_group_id"]); ?>"><?php val($accountGroup["account_group_name"]); ?></option>
+		<?php endforeach; ?>
+		</select>
+		</td>
+	</tr>
 	<tr>
 		<th class="blue header">TwitterユーザーID</th>
 		<td><?php val($account["user_id"]); ?></td>
