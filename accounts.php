@@ -91,9 +91,17 @@ h3{
 	<form action="accounts.php" method="POST">
 	<input type="hidden" name="account_id" value="<?php val($account["account_id"]); ?>" />
 	<tr>
-		<td><a href="account_details.php?account_id=<?php val($account["account_id"]); ?>">
+		<td><a href="account_groups.php?account_group_id=<?php val($account["account_group_id"]); ?>">
 			<?php val($account["screen_name"]); ?>
 		</a></td>
+		<td>
+		<?php foreach($accountGroups as $accountGroup): ?>
+		<?php if($accountGroup["account_group_id"] == $account["account_group_id"]): ?>
+			<?php val($accountGroup["account_group_name"]); ?>
+		</a>
+		<?php endif; ?>
+		<?php endforeach; ?>
+		</td>
 		<td>
 			ツイート：<?php if($account["post_interval"] > 0): ?><?php number_format(val($account["post_interval"] - $account["post_flactuation"])) ?>分〜
 			<?php number_format(val($account["post_interval"] + $account["post_flactuation"])) ?>分毎に１回<?php else: ?>投稿しない<?php endif; ?><br>
