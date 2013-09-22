@@ -31,10 +31,9 @@ if(is_array($accounts)){
 		$twitter = getTwitter($account["account_id"]);
 		// ルートユーザーからフォローターゲットを取得する。
 		if(!empty($account["root_user_id"])){
-			$rootUser = $twitter->users_show(array("screen_name" => $account["root_user_id"]));
 			$cursor = -1;
 			while($cursor != 0){
-				$followerIds = $twitter->followers_ids(array("user_id" => $rootUser->id, "cursor" => $cursor));
+				$followerIds = $twitter->followers_ids(array("user_id" => $account["root_user_id"], "cursor" => $cursor));
 				foreach($followerIds->ids as $id){
 					$connection->query("INSERT IGNORE INTO follower_caches(user_id, follower_user_id, depth) VALUES ('".$rootUser->id."', '".$id."', '1')");
 				}
