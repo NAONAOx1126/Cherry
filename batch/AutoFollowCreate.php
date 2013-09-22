@@ -36,7 +36,7 @@ if(is_array($accounts)){
 			while($cursor != 0){
 				$followerIds = $twitter->followers_ids(array("user_id" => $rootUser->id, "cursor" => $cursor));
 				foreach($followerIds->ids as $id){
-					$connection->query("INSERT IGNORE INTO follower_caches(user_id, follower_user_id, depth) VALUES ('".$account["user_id"]."', '".$id."', '1')");
+					$connection->query("INSERT IGNORE INTO follower_caches(user_id, follower_user_id, depth) VALUES ('".$rootUser->id."', '".$id."', '1')");
 				}
 				$cursor = $followerIds->next_cursor;
 			}
@@ -51,7 +51,7 @@ if(is_array($accounts)){
 				while($cursor != 0){
 					$followerIds = $twitter->followers_ids(array("user_id" => $rootUser->id, "cursor" => $cursor));
 					foreach($followerIds->ids as $id){
-						$connection->query("INSERT IGNORE INTO follower_caches(user_id, follower_user_id, depth) VALUES ('".$account["user_id"]."', '".$id."', '1')");
+						$connection->query("INSERT IGNORE INTO follower_caches(user_id, follower_user_id, depth) VALUES ('".$rootUser->id."', '".$id."', '1')");
 					}
 					$cursor = $followerIds->next_cursor;
 				}
