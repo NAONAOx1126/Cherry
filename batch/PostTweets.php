@@ -82,28 +82,30 @@ if(is_array($accounts)){
 				$params = array("status" => $tweets[0]["tweet_text"]);
 				$tweeted = $twitter->statuses_update($params);
 			}
-			if(isset($tweets[0]["tweet_id"])){
-				print_r($tweets[0]);
-				print_r($tweeted);
-				$sqlval = array();
-				$sqlval["post_id"] = $tweeted->id;
-				$sqlval["post_status"] = "2";
-				$sqlval["post_time"] = date("Y-m-d H:i:s");
-				foreach($sqlval as $key => $value){
-					$sqlval[$key] = $key." = '".$connection->escape($value)."'";
+			if(!isset($tweeted->errors)){
+				if(isset($tweets[0]["tweet_id"])){
+					print_r($tweets[0]);
+					print_r($tweeted);
+					$sqlval = array();
+					$sqlval["post_id"] = $tweeted->id;
+					$sqlval["post_status"] = "2";
+					$sqlval["post_time"] = date("Y-m-d H:i:s");
+					foreach($sqlval as $key => $value){
+						$sqlval[$key] = $key." = '".$connection->escape($value)."'";
+					}
+					$sql = "UPDATE tweets SET ".implode(", ", $sqlval);
+					$sql .= " WHERE tweet_id = '".$connection->escape($tweets[0]["tweet_id"])."'";
+					$result = $connection->query($sql);
+					$account["affiliate_token_count"] += 1;
+				}else{
+					$account["affiliate_token_count"] = 0;
 				}
-				$sql = "UPDATE tweets SET ".implode(", ", $sqlval);
-				$sql .= " WHERE tweet_id = '".$connection->escape($tweets[0]["tweet_id"])."'";
+				$sql = "UPDATE accounts SET affiliate_token_count = '".$connection->escape($account["affiliate_token_count"])."'";
+				$sql .= ", last_posted = '".$connection->escape(date("Y-m-d H:i:s"))."'";
+				$sql .= ", next_post = '".$connection->escape(date("Y-m-d H:i:s", strtotime("+".mt_rand($account["post_interval"] - $account["post_flactuation"], $account["post_interval"] + $account["post_flactuation"])." minutes")))."'";
+				$sql .= " WHERE account_id = '".$connection->escape($account["account_id"])."'";
 				$result = $connection->query($sql);
-				$account["affiliate_token_count"] += 1;
-			}else{
-				$account["affiliate_token_count"] = 0;
 			}
-			$sql = "UPDATE accounts SET affiliate_token_count = '".$connection->escape($account["affiliate_token_count"])."'";
-			$sql .= ", last_posted = '".$connection->escape(date("Y-m-d H:i:s"))."'";
-			$sql .= ", next_post = '".$connection->escape(date("Y-m-d H:i:s", strtotime("+".mt_rand($account["post_interval"] - $account["post_flactuation"], $account["post_interval"] + $account["post_flactuation"])." minutes")))."'";
-			$sql .= " WHERE account_id = '".$connection->escape($account["account_id"])."'";
-			$result = $connection->query($sql);
 		}
 	}
 }
