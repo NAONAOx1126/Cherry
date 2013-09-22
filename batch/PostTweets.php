@@ -83,7 +83,7 @@ if(is_array($accounts)){
 				$tweeted = $twitter->statuses_update($params);
 			}
 			if(!isset($tweeted->errors)){
-				if(isset($tweets[0]["tweet_id"])){
+				if(isset($params)){
 					print_r($tweets[0]);
 					print_r($tweeted);
 					$sqlval = array();
