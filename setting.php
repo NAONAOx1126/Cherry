@@ -78,14 +78,6 @@ h3{
 	<td><input type="text" name="daily_unfollows_over_<?php val($follower); ?>" class="input-small" value="<?php val($_SESSION["ADMINISTRATOR"]["daily_unfollows_over_".$follower]); ?>" />人</td>
 	</tr>
 	<tr>
-	<th class="blue header">フォロー基点のユーザー名</th>
-	<td colspan="3"><input type="text" name="root_screen_name" class="input-medium" value="<?php val($_SESSION["ADMINISTRATOR"]["root_screen_name"]); ?>" /></td>
-	</tr>
-	<tr>
-	<th class="blue header">フォロー基点のキーワード</th>
-	<td colspan="3"><input type="text" name="root_keyword" class="input-xxlarge" value="<?php val($_SESSION["ADMINISTRATOR"]["root_keyword"]); ?>" /></td>
-	</tr>
-	<tr>
 	<th class="blue header">フォロワー追跡の深度</th>
 	<td colspan="3"><select name="tree_depth">
 	<?php for($i = 0; $i < 5; $i ++): ?>

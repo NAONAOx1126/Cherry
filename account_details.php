@@ -130,6 +130,14 @@ h3{
 		</td>
 	</tr>
 	<tr>
+	<th class="blue header">フォロー基点のユーザー名</th>
+	<td colspan="3"><input type="text" name="root_screen_name" class="input-medium" value="<?php val($account["root_screen_name"]); ?>" /></td>
+	</tr>
+	<tr>
+	<th class="blue header">フォロー基点のキーワード</th>
+	<td colspan="3"><input type="text" name="root_keyword" class="input-xxlarge" value="<?php val($account["root_keyword"]); ?>" /></td>
+	</tr>
+	<tr>
 		<td><div class="btn-group">
 			<input type="submit" class="btn" name="update" value="アカウントの設定を更新" />
 			<a href="accounts.php" class="btn">アカウント一覧に戻る</a>
