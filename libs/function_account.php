@@ -119,6 +119,9 @@ function updateAccount(){
 		$sqlval["tweet_suspend_start"] = $_POST["tweet_suspend_start"];
 		$sqlval["tweet_suspend_end"] = $_POST["tweet_suspend_end"];
 		$sqlval["root_screen_name"] = $_POST["root_screen_name"];
+		$twitter = getTwitter($account["account_id"]);
+		$rootUser = $twitter->users_show(array("screen_name" => $account["root_screen_name"]));
+		$sqlval["root_user_id"] = $rootUser->id_str;
 		$sqlval["root_keyword"] = $_POST["root_keyword"];
 		foreach($sqlval as $key => $value){
 			$sqlval[$key] = $key." = '".$connection->escape($value)."'";
