@@ -75,6 +75,9 @@ if(is_array($accounts)){
 			if(file_exists(APP_ROOT.$imageFilename)){
 				$params = array("status" => $tweets[0]["tweet_text"]);
 				for($i = 1; file_exists(APP_ROOT."/images/".$tweets[0]["source_post_id"]."-".$i); $i ++){
+					echo APP_ROOT."\r\n";
+					echo APP_SUBDIR."\r\n";
+					echo APP_ROOT_URL."\r\n";
 					$params["media[".($i - 1)."]"] = APP_ROOT_URL."/images/".$tweets[0]["source_post_id"]."-".$i;
 				}
 				$tweeted = $twitter->statuses_updateWithMedia($params);
