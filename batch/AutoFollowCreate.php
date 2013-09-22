@@ -31,13 +31,9 @@ if(is_array($accounts)){
 		$twitter = getTwitter($account["account_id"]);
 		// ルートユーザーからフォローターゲットを取得する。
 		if(!empty($account["root_user_id"])){
-			$cursor = -1;
-			while($cursor != 0){
-				$followerIds = $twitter->followers_ids(array("user_id" => $account["root_user_id"], "cursor" => $cursor));
-				foreach($followerIds->ids as $id){
-					$connection->query("INSERT IGNORE INTO follower_caches(user_id, follower_user_id, depth) VALUES ('".$rootUser->id."', '".$id."', '1')");
-				}
-				$cursor = $followerIds->next_cursor;
+			$followerIds = $twitter->followers_ids(array("user_id" => $account["root_user_id"], "cursor" => $cursor));
+			foreach($followerIds->ids as $id){
+				$connection->query("INSERT IGNORE INTO follower_caches(user_id, follower_user_id, depth) VALUES ('".$rootUser->id."', '".$id."', '1')");
 			}
 		}
 		// キーワードからフォローターゲットを取得する。
@@ -46,13 +42,9 @@ if(is_array($accounts)){
 			foreach($rootUsers as $rootUser){
 				$connection->query("INSERT IGNORE INTO keyword_users(keyword, user_id) VALUES ('".$account["root_keyword"]."', '".$rootUser->id_str."')");
 				// ルートユーザーからフォローターゲットを取得する。
-				$cursor = -1;
-				while($cursor != 0){
-					$followerIds = $twitter->followers_ids(array("user_id" => $rootUser->id, "cursor" => $cursor));
-					foreach($followerIds->ids as $id){
-						$connection->query("INSERT IGNORE INTO follower_caches(user_id, follower_user_id, depth) VALUES ('".$rootUser->id."', '".$id."', '1')");
-					}
-					$cursor = $followerIds->next_cursor;
+				$followerIds = $twitter->followers_ids(array("user_id" => $rootUser->id, "cursor" => $cursor));
+				foreach($followerIds->ids as $id){
+					$connection->query("INSERT IGNORE INTO follower_caches(user_id, follower_user_id, depth) VALUES ('".$rootUser->id."', '".$id."', '1')");
 				}
 			}
 		}
