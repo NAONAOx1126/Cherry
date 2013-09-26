@@ -136,7 +136,7 @@ if(is_array($keywords)){
 				$registeredTweets = $result->fetchAll();
 				$result->close();
 				if(is_array($registeredTweets) && count($registeredTweets) > 0){
-					if($registeredTweets[0]["post_status"] == "1"){
+					if($registeredTweets[0]["tweet_text"] == $sqlval["tweet_text"] && $registeredTweets[0]["retweet_count"] < $sqlval["retweet_count"]){
 						foreach($sqlval as $key => $value){
 							$sqlval[$key] = $key." = '".$connection->escape($value)."'";
 						}
