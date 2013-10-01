@@ -91,6 +91,24 @@ h3{
 			<input type="radio" name="post_interval" value="240"<?php if($account["post_interval"] == 240) val(" checked"); ?> />4時間毎&nbsp;
 			<input type="radio" name="post_interval" value="300"<?php if($account["post_interval"] == 300) val(" checked"); ?> />5時間毎&nbsp;
 			<input type="radio" name="post_interval" value="360"<?php if($account["post_interval"] == 360) val(" checked"); ?> />6時間毎<br />
+			<input type="radio" name="post_interval" value="420"<?php if($account["post_interval"] == 420) val(" checked"); ?> />7時間毎&nbsp;
+			<input type="radio" name="post_interval" value="480"<?php if($account["post_interval"] == 480) val(" checked"); ?> />8時間毎&nbsp;
+			<input type="radio" name="post_interval" value="540"<?php if($account["post_interval"] == 540) val(" checked"); ?> />9時間毎&nbsp;
+			<input type="radio" name="post_interval" value="600"<?php if($account["post_interval"] == 600) val(" checked"); ?> />10時間毎<br />
+			<input type="radio" name="post_interval" value="660"<?php if($account["post_interval"] == 660) val(" checked"); ?> />11時間毎&nbsp;
+			<input type="radio" name="post_interval" value="720"<?php if($account["post_interval"] == 720) val(" checked"); ?> />12時間毎&nbsp;
+			<input type="radio" name="post_interval" value="780"<?php if($account["post_interval"] == 780) val(" checked"); ?> />13時間毎&nbsp;
+			<input type="radio" name="post_interval" value="840"<?php if($account["post_interval"] == 840) val(" checked"); ?> />14時間毎<br />
+			<input type="radio" name="post_interval" value="900"<?php if($account["post_interval"] == 900) val(" checked"); ?> />15時間毎&nbsp;
+			<input type="radio" name="post_interval" value="960"<?php if($account["post_interval"] == 960) val(" checked"); ?> />16時間毎&nbsp;
+			<input type="radio" name="post_interval" value="1020"<?php if($account["post_interval"] == 1020) val(" checked"); ?> />17時間毎&nbsp;
+			<input type="radio" name="post_interval" value="1080"<?php if($account["post_interval"] == 1080) val(" checked"); ?> />18時間毎<br />
+			<input type="radio" name="post_interval" value="1140"<?php if($account["post_interval"] == 1140) val(" checked"); ?> />19時間毎&nbsp;
+			<input type="radio" name="post_interval" value="1200"<?php if($account["post_interval"] == 1200) val(" checked"); ?> />20時間毎&nbsp;
+			<input type="radio" name="post_interval" value="1260"<?php if($account["post_interval"] == 1260) val(" checked"); ?> />21時間毎&nbsp;
+			<input type="radio" name="post_interval" value="1320"<?php if($account["post_interval"] == 1320) val(" checked"); ?> />22時間毎<br />
+			<input type="radio" name="post_interval" value="1380"<?php if($account["post_interval"] == 1380) val(" checked"); ?> />23時間毎&nbsp;
+			<input type="radio" name="post_interval" value="1440"<?php if($account["post_interval"] == 1440) val(" checked"); ?> />24時間毎&nbsp;
 			前後<input type="text" class="input-mini" name="post_flactuation" value="<?php val($account["post_flactuation"]); ?>" />分の揺らぎを持たせる。
 		</td>
 	</tr>
@@ -112,6 +130,24 @@ h3{
 			<input type="radio" name="retweet_interval" value="240"<?php if($account["retweet_interval"] == 240) val(" checked"); ?> />4時間毎&nbsp;
 			<input type="radio" name="retweet_interval" value="300"<?php if($account["retweet_interval"] == 300) val(" checked"); ?> />5時間毎&nbsp;
 			<input type="radio" name="retweet_interval" value="360"<?php if($account["retweet_interval"] == 360) val(" checked"); ?> />6時間毎<br />
+			<input type="radio" name="retweet_interval" value="420"<?php if($account["post_interval"] == 420) val(" checked"); ?> />7時間毎&nbsp;
+			<input type="radio" name="retweet_interval" value="480"<?php if($account["post_interval"] == 480) val(" checked"); ?> />8時間毎&nbsp;
+			<input type="radio" name="retweet_interval" value="540"<?php if($account["post_interval"] == 540) val(" checked"); ?> />9時間毎&nbsp;
+			<input type="radio" name="retweet_interval" value="600"<?php if($account["post_interval"] == 600) val(" checked"); ?> />10時間毎<br />
+			<input type="radio" name="retweet_interval" value="660"<?php if($account["post_interval"] == 660) val(" checked"); ?> />11時間毎&nbsp;
+			<input type="radio" name="retweet_interval" value="720"<?php if($account["post_interval"] == 720) val(" checked"); ?> />12時間毎&nbsp;
+			<input type="radio" name="retweet_interval" value="780"<?php if($account["post_interval"] == 780) val(" checked"); ?> />13時間毎&nbsp;
+			<input type="radio" name="retweet_interval" value="840"<?php if($account["post_interval"] == 840) val(" checked"); ?> />14時間毎<br />
+			<input type="radio" name="retweet_interval" value="900"<?php if($account["post_interval"] == 900) val(" checked"); ?> />15時間毎&nbsp;
+			<input type="radio" name="retweet_interval" value="960"<?php if($account["post_interval"] == 960) val(" checked"); ?> />16時間毎&nbsp;
+			<input type="radio" name="retweet_interval" value="1020"<?php if($account["post_interval"] == 1020) val(" checked"); ?> />17時間毎&nbsp;
+			<input type="radio" name="retweet_interval" value="1080"<?php if($account["post_interval"] == 1080) val(" checked"); ?> />18時間毎<br />
+			<input type="radio" name="retweet_interval" value="1140"<?php if($account["post_interval"] == 1140) val(" checked"); ?> />19時間毎&nbsp;
+			<input type="radio" name="retweet_interval" value="1200"<?php if($account["post_interval"] == 1200) val(" checked"); ?> />20時間毎&nbsp;
+			<input type="radio" name="retweet_interval" value="1260"<?php if($account["post_interval"] == 1260) val(" checked"); ?> />21時間毎&nbsp;
+			<input type="radio" name="retweet_interval" value="1320"<?php if($account["post_interval"] == 1320) val(" checked"); ?> />22時間毎<br />
+			<input type="radio" name="retweet_interval" value="1380"<?php if($account["post_interval"] == 1380) val(" checked"); ?> />23時間毎&nbsp;
+			<input type="radio" name="retweet_interval" value="1440"<?php if($account["post_interval"] == 1440) val(" checked"); ?> />24時間毎&nbsp;
 			前後<input type="text" class="input-mini" name="retweet_flactuation" value="<?php val($account["retweet_flactuation"]); ?>" />分の揺らぎを持たせる。
 		</td>
 	</tr>

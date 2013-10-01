@@ -12,7 +12,7 @@
 // アカウントグループを取得
 function getKeywords(){
 	$connection = new Connection();
-	$result = $connection->query("SELECT * FROM keywords WHERE administrator_id = '".$_SESSION["ADMINISTRATOR"]["administrator_id"]."'");
+	$result = $connection->query("SELECT * FROM keywords WHERE administrator_id = '".$_SESSION["ADMINISTRATOR"]["administrator_id"]."' AND delete_flg = 0");
 	return $result->fetchAll();
 }
 

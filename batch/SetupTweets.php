@@ -59,7 +59,7 @@ if(is_array($accounts)){
 			$sqlval["source_post_id"] = $cached_tweet["post_id"];
 			$sqlval["source_favorite_count"] = $cached_tweet["favorite_count"];
 			$sqlval["source_retweet_count"] = $cached_tweet["retweet_count"];
-			$sql = "SELECT * FROM tweets WHERE account_id = '".$connection->escape($sqlval["account_id"])."' AND  source_post_id = '".$connection->escape($sqlval["source_post_id"])."'";
+			$sql = "SELECT * FROM tweets WHERE account_id = '".$connection->escape($sqlval["account_id"])."' AND (source_post_id = '".$connection->escape($sqlval["source_post_id"])."' OR tweet_text = '".$connection->escape($sqlval["tweet_text"])."')";
 			$result = $connection->query($sql);
 			$registeredTweets = $result->fetchAll();
 			$result->close();
