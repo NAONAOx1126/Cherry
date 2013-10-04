@@ -44,7 +44,7 @@ if(is_array($keywords)){
 		
 		$k = explode(" ", $keyword["keyword"]);
 		$keyword["keyword"] = $k[0];
-		$rootUsers = $twitter->users_search(array("q" => $keyword["keyword"], "page" => "1", "count" => "20"));
+		$rootUsers = (array) $twitter->users_search(array("q" => $keyword["keyword"], "page" => "1", "count" => "20"));
 		unset($rootUser["httpstatus"]);
 		
 		// 検索したユーザーからランダムで3人をルートとして登録
