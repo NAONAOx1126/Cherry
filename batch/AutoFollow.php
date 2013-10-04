@@ -126,9 +126,9 @@ if(is_array($accounts)){
 	                $account["next_follow_time"] = date("Y-m-d H:i:s", time() + floor(mt_rand(0, $scheduledTime + $interval - time())));
 	                $account["next_unfollow_time"] = $account["scheduled_unfollow_time"] = date("Y-m-d H:i:s", $scheduledTime + 24 * 3600);
                     $sql = "UPDATE accounts SET scheduled_follow_time = '".$account["scheduled_follow_time"]."'";
-                    $sql = ", next_follow_time = '".$account["next_follow_time"]."'";
-                    $sql = ", scheduled_unfollow_time = '".$account["scheduled_unfollow_time"]."'";
-                    $sql = ", next_unfollow_time = '".$account["next_unfollow_time"]."'";
+                    $sql .= ", next_follow_time = '".$account["next_follow_time"]."'";
+                    $sql .= ", scheduled_unfollow_time = '".$account["scheduled_unfollow_time"]."'";
+                    $sql .= ", next_unfollow_time = '".$account["next_unfollow_time"]."'";
                     $sql .= " WHERE account_id = '".$account["account_id"]."'";
                     $result = $connection->query($sql);
 	            }
@@ -148,9 +148,9 @@ if(is_array($accounts)){
 	                $account["next_unfollow_time"] = date("Y-m-d H:i:s", time() + floor(mt_rand(0, $scheduledTime + $interval - time())));
 	                $account["next_follow_time"] = $account["scheduled_follow_time"] = date("Y-m-d H:i:s", $scheduledTime + 24 * 3600);
                     $sql = "UPDATE accounts SET scheduled_follow_time = '".$account["scheduled_follow_time"]."'";
-                    $sql = ", next_follow_time = '".$account["next_follow_time"]."'";
-                    $sql = ", scheduled_unfollow_time = '".$account["scheduled_unfollow_time"]."'";
-                    $sql = ", next_unfollow_time = '".$account["next_unfollow_time"]."'";
+                    $sql .= ", next_follow_time = '".$account["next_follow_time"]."'";
+                    $sql .= ", scheduled_unfollow_time = '".$account["scheduled_unfollow_time"]."'";
+                    $sql .= ", next_unfollow_time = '".$account["next_unfollow_time"]."'";
                     $sql .= " WHERE account_id = '".$account["account_id"]."'";
                     $result = $connection->query($sql);
 	            }
