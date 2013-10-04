@@ -28,6 +28,11 @@ $result->close();
 
 if(is_array($accounts)){
 	foreach($accounts as $account){
+        $sql = "SELECT * FROM administrators WHERE administrator_id = '".$account["administrator_id"]."'";
+        $result = $connection->query($sql);
+        $administrator = $result->fetch();
+        $result->close();
+	    
 		$twitter = getTwitter($account["account_id"]);
 	    
         // 自分の情報を取得する。
@@ -42,42 +47,47 @@ if(is_array($accounts)){
 	    if(!empty($follow)){
 
 	        if($me->followers_count < 50){
-	            $max_follows = floor($follow["max_follows_50"] * $me->followers_count / 100);
-	            $daily_follows = $follow["daily_follows_50"];
-	            $daily_unfollows = $follow["daily_unfollows_50"];
+	            $max_follows = floor($_SESSION["ADMINISTRATOR"]["max_follows_50"] * $me->followers_count / 100);
+	            $daily_follows = $_SESSION["ADMINISTRATOR"]["daily_follows_50"];
+	            $daily_unfollows = $_SESSION["ADMINISTRATOR"]["daily_unfollows_50"];
 	        }elseif($me->followers_count < 100){
-	            $max_follows = floor($follow["max_follows_100"] * $me->followers_count / 100);
-	            $daily_follows = $follow["daily_follows_100"];
-	            $daily_unfollows = $follow["daily_unfollows_100"];
+	            $max_follows = floor($_SESSION["ADMINISTRATOR"]["max_follows_100"] * $me->followers_count / 100);
+	            $daily_follows = $_SESSION["ADMINISTRATOR"]["daily_follows_100"];
+	            $daily_unfollows = $_SESSION["ADMINISTRATOR"]["daily_unfollows_100"];
 	        }elseif($me->followers_count < 200){
-	            $max_follows = floor($follow["max_follows_200"] * $me->followers_count / 100);
-	            $daily_follows = $follow["daily_follows_200"];
-	            $daily_unfollows = $follow["daily_unfollows_200"];
+	            $max_follows = floor($_SESSION["ADMINISTRATOR"]["max_follows_200"] * $me->followers_count / 100);
+	            $daily_follows = $_SESSION["ADMINISTRATOR"]["daily_follows_200"];
+	            $daily_unfollows = $_SESSION["ADMINISTRATOR"]["daily_unfollows_200"];
 	        }elseif($me->followers_count < 400){
-	            $max_follows = floor($follow["max_follows_400"] * $me->followers_count / 100);
-	            $daily_follows = $follow["daily_follows_400"];
-	            $daily_unfollows = $follow["daily_unfollows_400"];
+	            $max_follows = floor($_SESSION["ADMINISTRATOR"]["max_follows_400"] * $me->followers_count / 100);
+	            $daily_follows = $_SESSION["ADMINISTRATOR"]["daily_follows_400"];
+	            $daily_unfollows = $_SESSION["ADMINISTRATOR"]["daily_unfollows_400"];
 	        }elseif($me->followers_count < 800){
-	            $max_follows = floor($follow["max_follows_800"] * $me->followers_count / 100);
-	            $daily_follows = $follow["daily_follows_800"];
-	            $daily_unfollows = $follow["daily_unfollows_800"];
+	            $max_follows = floor($_SESSION["ADMINISTRATOR"]["max_follows_800"] * $me->followers_count / 100);
+	            $daily_follows = $_SESSION["ADMINISTRATOR"]["daily_follows_800"];
+	            $daily_unfollows = $_SESSION["ADMINISTRATOR"]["daily_unfollows_800"];
 	        }elseif($me->followers_count < 1200){
-	            $max_follows = floor($follow["max_follows_1200"] * $me->followers_count / 100);
-	            $daily_follows = $follow["daily_follows_1200"];
-	            $daily_unfollows = $follow["daily_unfollows_1200"];
+	            $max_follows = floor($_SESSION["ADMINISTRATOR"]["max_follows_1200"] * $me->followers_count / 100);
+	            $daily_follows = $_SESSION["ADMINISTRATOR"]["daily_follows_1200"];
+	            $daily_unfollows = $_SESSION["ADMINISTRATOR"]["daily_unfollows_1200"];
 	        }elseif($me->followers_count < 1600){
-	            $max_follows = floor($follow["max_follows_1600"] * $me->followers_count / 100);
-	            $daily_follows = $follow["daily_follows_1600"];
-	            $daily_unfollows = $follow["daily_unfollows_1600"];
+	            $max_follows = floor($_SESSION["ADMINISTRATOR"]["max_follows_1600"] * $me->followers_count / 100);
+	            $daily_follows = $_SESSION["ADMINISTRATOR"]["daily_follows_1600"];
+	            $daily_unfollows = $_SESSION["ADMINISTRATOR"]["daily_unfollows_1600"];
 	        }elseif($me->followers_count < 2000){
-	            $max_follows = floor($follow["max_follows_2000"] * $me->followers_count / 100);
-	            $daily_follows = $follow["daily_follows_2000"];
-	            $daily_unfollows = $follow["daily_unfollows_2000"];
+	            $max_follows = floor($_SESSION["ADMINISTRATOR"]["max_follows_2000"] * $me->followers_count / 100);
+	            $daily_follows = $_SESSION["ADMINISTRATOR"]["daily_follows_2000"];
+	            $daily_unfollows = $_SESSION["ADMINISTRATOR"]["daily_unfollows_2000"];
 	        }else{
-	            $max_follows = floor($follow["max_follows_over_2000"] * $me->followers_count / 100);
-	            $daily_follows = $follow["daily_follows_over_2000"];
-	            $daily_unfollows = $follow["daily_unfollows_over_2000"];
+	            $max_follows = floor($administrator["max_follows_over_2000"] * $me->followers_count / 100);
+	            $daily_follows = $administrator["daily_follows_over_2000"];
+	            $daily_unfollows = $administrator["daily_unfollows_over_2000"];
 	        }
+	        print_r($administrator);
+	        echo $max_follows."\r\n";
+	        echo $daily_follows."\r\n";
+	        echo $daily_unfollows."\r\n";
+	        exit;
 	        
 	        if($max_follows < $me->friends_count - 5){
 	            if($daily_follows > 0){
@@ -89,19 +99,19 @@ if(is_array($accounts)){
 	                    if($index < count($followers)){
 	                        $user_id = $followers[$index];
 	                        $user = $twitter->users_show(array("user_id" => $user_id));
-	                        if($_SESSION["ADMINISTRATOR"]["ignore_non_japanese_flg"] == "1" && mb_check_encoding($user->description, "ASCII")){
+	                        if($administrator["ignore_non_japanese_flg"] == "1" && mb_check_encoding($user->description, "ASCII")){
 	                            continue;
 	                        }
-	                        if($_SESSION["ADMINISTRATOR"]["ignore_bot_flg"] == "1" && preg_match("/bot/i", $user->description) > 0){
+	                        if($administrator["ignore_bot_flg"] == "1" && preg_match("/bot/i", $user->description) > 0){
 	                            continue;
 	                        }
-	                        if($_SESSION["ADMINISTRATOR"]["ignore_url_flg"] == "1" && preg_match("/http:\\/\\//i", $user->description) > 0){
+	                        if($administrator["ignore_url_flg"] == "1" && preg_match("/http:\\/\\//i", $user->description) > 0){
 	                            continue;
 	                        }
 	                    	    
 	                        $twitter->friendship_create(array("user_id" => $user_id, "follow" => true));
 	                    	    
-	                        if($follow["depth"] < $_SESSION["ADMINISTRATOR"]["tree_depth"]){
+	                        if($follow["depth"] < $administrator["tree_depth"]){
 	                            $connection->query("INSERT IGNORE INTO follower_caches(account_id, user_id, depth) VALUES ('".$follow["account_id"]."', '".$user_id."', '".($follow["depth"] + 1)."')");
 	                        }
 	                    }
