@@ -105,7 +105,7 @@ if(is_array($accounts)){
 	                            continue;
 	                        }
 	                    	
-	                        $twitter->friendship_create(array("user_id" => $user_id, "follow" => true));
+	                        $twitter->friendships_create(array("user_id" => $user_id, "follow" => true));
 	                        sleep(mt_rand(15, 60));
 	                    	    
 	                        if($follow["depth"] < $administrator["tree_depth"]){
