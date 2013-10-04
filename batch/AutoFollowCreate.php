@@ -32,7 +32,6 @@ $sql .= " OR keywords.keyword_id = account_groups.keyword_id7";
 $sql .= " OR keywords.keyword_id = account_groups.keyword_id8)";
 $sql .= " AND account_groups.account_group_id = accounts.account_group_id";
 $sql .= " AND keywords.delete_flg = 0";
-$sql .= " AND account_id = 1";
 $result = $connection->query($sql);
 $keywords = $result->fetchAll();
 $result->close();
