@@ -85,7 +85,7 @@ if(is_array($accounts)){
 	        }
 	        
 	        if($me->friends_count < $max_follows - 5){
-	            if($daily_follows > 0){
+	            if($daily_follows > 0 && strtotime($account["next_follow_time"]) < time()){
 	                // 取得したフォローのフォロワーを取得する。
 	                $result = (array) $twitter->followers_ids(array("user_id" => $follow["user_id"], "count" => "1000"));
 	                $followers = $result["ids"];
@@ -133,7 +133,7 @@ if(is_array($accounts)){
                     $result = $connection->query($sql);
 	            }
 	        }else{
-	            if($daily_unfollows > 0){
+	            if($daily_follows > 0 && strtotime($account["next_unfollow_time"]) < time()){
 	                print_r($twitter->friendships_incoming());
 	                print_r($twitter->friendships_outgoing());
 	                
