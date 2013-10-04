@@ -86,6 +86,10 @@ if(is_array($accounts)){
 	            $daily_unfollows = $administrator["daily_unfollows_over_2000"];
 	        }
 	        
+	        echo "Max Follows : ".$max_follows."\r\n";
+	        echo "Daily Follows : ".$daily_follows."\r\n";
+	        echo "Daily Unfollows : ".$daily_unfollows."\r\n";
+	         
 	        if($me->friends_count < $max_follows){
 	            echo "Starting follow action\r\n";
 	            if($daily_follows > 0 && strtotime($account["next_follow_time"]) < time()){
