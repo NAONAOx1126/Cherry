@@ -28,6 +28,7 @@ $result->close();
 
 if(is_array($accounts)){
 	foreach($accounts as $account){
+	    echo "Auto following in ".$account["screen_name"]."\r\n";
         $sql = "SELECT * FROM administrators WHERE administrator_id = '".$account["administrator_id"]."'";
         $result = $connection->query($sql);
         $administrator = $result->fetch();
@@ -45,7 +46,8 @@ if(is_array($accounts)){
 	    $result->close();
 	    
 	    if(!empty($follow)){
-
+	        echo "Auto following to followers by ".$follow["user_id"]."\r\n";
+	         
 	        if($me->followers_count < 50){
 	            $max_follows = floor($administrator["max_follows_50"] * $me->followers_count / 100);
 	            $daily_follows = $administrator["daily_follows_50"];
@@ -84,7 +86,7 @@ if(is_array($accounts)){
 	            $daily_unfollows = $administrator["daily_unfollows_over_2000"];
 	        }
 	        
-	        if($me->friends_count < $max_follows - 5){
+	        if($me->friends_count < $max_follows){
 	            if($daily_follows > 0 && strtotime($account["next_follow_time"]) < time()){
 	                // 取得したフォローのフォロワーを取得する。
 	                $result = (array) $twitter->followers_ids(array("user_id" => $follow["user_id"], "count" => "1000"));
