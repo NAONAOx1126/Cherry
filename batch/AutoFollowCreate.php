@@ -45,15 +45,15 @@ if(is_array($keywords)){
 		$k = explode(" ", $keyword["keyword"]);
 		$keyword["keyword"] = $k[0];
 		$rootUsers = (array) $twitter->users_search(array("q" => $keyword["keyword"], "page" => "1", "count" => "20"));
-		unset($rootUser["httpstatus"]);
+		unset($rootUsers["httpstatus"]);
 		
 		// 検索したユーザーからランダムで3人をルートとして登録
-		for($i = 0; $i < 3; $i ++){
-			$targetIndex = floor(mt_rand(0, count($rootUsers)));
-			if($targetIndex < count($rootUsers)){
-				$rootUser = $rootUsers[$targetIndex];
-				$connection->query("INSERT IGNORE INTO follower_caches(user_id, depth) VALUES ('".$rootUser->id."', '1')");
-			}
-		}
-	}
+        for($i = 0; $i < 3; $i ++){
+            $targetIndex = floor(mt_rand(0, count($rootUsers)));
+            if($targetIndex < count($rootUsers)){
+                $rootUser = $rootUsers[$targetIndex];
+                $connection->query("INSERT IGNORE INTO follower_caches(account_id, user_id, depth) VALUES ('".$keyword["account_id"]."', '".$rootUser->id."', '1')");
+            }
+        }
+    }
 }

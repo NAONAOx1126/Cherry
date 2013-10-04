@@ -29,19 +29,25 @@ $result->close();
 
 if(is_array($accounts)){
 	foreach($accounts as $account){
-		// ルートユーザーからフォローターゲットを取得する。
-		if(!empty($account["root_screen_name"])){
-			$twitter = getTwitter($account["account_id"]);
-			$rootUser = $twitter->users_show(array("screen_name" => $account["root_screen_name"]));
-			$cursor = -1;
-			while($cursor != 0){
-				$followerIds = $twitter->followers_ids(array("user_id" => $rootUser->id, "cursor" => $cursor));
-				foreach($followerIds->ids as $id){
-					$connection->query("INSERT IGNORE INTO follower_caches(user_id, follower_user_id, depth) VALUES ('".$account["user_id"]."', '".$id."', '1')");
-				}
-				$cursor = $followerIds->next_cursor;
-			}
-		}
-		// キーワードからフォローターゲットを取得する。
+		$twitter = getTwitter($account["account_id"]);
+	    
+	    // 次のフォローを取得
+	    $sql = "SELECT * FROM follow_caches WHERE account_id = '".$account["account_id"]."'";
+	    $result = $connection->query($sql);
+	    $follow = $result->fetch();
+	    $result->close();
+	    
+	    // 取得したフォローのフォロワーを取得する。
+	    $followers = (array) $twitter->followers_ids(array("user_id" => $follow["user_id"], "count" => "1000"));
+	    unset($followers["httpstatus"]);
+	    print_r($followers);
+	    /*
+	    for($i = 0; $i < 5; $i ++){
+	        $index = mt_rand(0, count($followers));
+	        if($index < count($followers)){
+	            $follower
+	        }
+	    }
+	    */
 	}
 }
