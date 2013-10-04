@@ -41,8 +41,6 @@ if(is_array($keywords)){
 		// アカウントグループのキーワードで検索します。
 		$twitter = getTwitter($keyword["account_id"]);
 		
-		$k = explode(" ", $keyword["keyword"]);
-		$keyword["keyword"] = $k[0];
 		$rootUsers = (array) $twitter->users_search(array("q" => $keyword["keyword"], "page" => "1", "count" => "20"));
 		unset($rootUsers["httpstatus"]);
 		
