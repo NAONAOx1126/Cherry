@@ -87,6 +87,7 @@ if(is_array($accounts)){
 	        }
 	        
 	        if($me->friends_count < $max_follows){
+	            echo "Starting follow action\r\n";
 	            if($daily_follows > 0 && strtotime($account["next_follow_time"]) < time()){
 	                // 取得したフォローのフォロワーを取得する。
 	                $result = (array) $twitter->followers_ids(array("user_id" => $follow["user_id"], "count" => "1000"));
@@ -96,6 +97,7 @@ if(is_array($accounts)){
 	                    if($index < count($followers)){
 	                        $user_id = $followers[$index];
 	                        $user = $twitter->users_show(array("user_id" => $user_id));
+	                        print_r($user);
 	                        if($user->following > 0) continue;
 	                        if($administrator["ignore_non_japanese_flg"] == "1" && mb_check_encoding($user->description, "ASCII")){
 	                            continue;
@@ -135,6 +137,7 @@ if(is_array($accounts)){
                     $result = $connection->query($sql);
 	            }
 	        }else{
+	            echo "Starting unfollow action\r\n";
 	            if($daily_unfollows > 0 && strtotime($account["next_unfollow_time"]) < time()){
 	                print_r($twitter->friendships_incoming());
 	                print_r($twitter->friendships_outgoing());
