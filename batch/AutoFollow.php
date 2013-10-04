@@ -92,6 +92,7 @@ if(is_array($accounts)){
 	                // 取得したフォローのフォロワーを取得する。
 	                $result = (array) $twitter->followers_ids(array("user_id" => $follow["user_id"], "count" => "1000"));
 	                $followers = $result["ids"];
+	                echo "followers = ".count($followers)."\r\n";
 	                for($i = 0; $i < 5; $i ++){
 	                    $index = mt_rand(0, count($followers));
 	                    if($index < count($followers)){
