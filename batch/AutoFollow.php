@@ -133,7 +133,7 @@ if(is_array($accounts)){
                     $result = $connection->query($sql);
 	            }
 	        }else{
-	            if($daily_follows > 0 && strtotime($account["next_unfollow_time"]) < time()){
+	            if($daily_unfollows > 0 && strtotime($account["next_unfollow_time"]) < time()){
 	                print_r($twitter->friendships_incoming());
 	                print_r($twitter->friendships_outgoing());
 	                
