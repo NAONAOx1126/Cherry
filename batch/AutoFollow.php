@@ -106,7 +106,7 @@ if(is_array($accounts)){
 	                        }
 	                    	
 	                        $twitter->friendships_create(array("user_id" => $user_id, "follow" => true));
-	                        sleep(mt_rand(15, 60));
+	                        sleep(mt_rand(10, 20));
 	                    	    
 	                        if($follow["depth"] < $administrator["tree_depth"]){
 	                            $connection->query("INSERT IGNORE INTO follower_caches(account_id, user_id, depth) VALUES ('".$follow["account_id"]."', '".$user_id."', '".($follow["depth"] + 1)."')");
@@ -114,11 +114,45 @@ if(is_array($accounts)){
 	                    }
 	                }
 	                $connection->query("DELETE FROM follower_caches WHERE account_id = '".$follow["account_id"]."' AND user_id = '".$follow["user_id"]."'");
+	                
+	                // 次のスケジュールを組む
+	                if(time() - strtotime($account["scheduled_follow_time"]) > 24 * 3600){
+	                    $scheduledTime = time();
+	                }else{
+	                    $scheduledTime = strtotime($account["scheduled_follow_time"]);
+	                }
+	                $interval = floor(24 * 3600 * 5 / $daily_follows);
+	                $account["scheduled_follow_time"] = date("Y-m-d H:i:s", $scheduledTime + $interval);
+	                $account["next_follow_time"] = date("Y-m-d H:i:s", time() + floor(mt_rand(0, $scheduledTime + $interval - time())));
+	                $account["next_unfollow_time"] = $account["scheduled_unfollow_time"] = date("Y-m-d H:i:s", $scheduledTime + 24 * 3600);
+                    $sql = "UPDATE accounts SET scheduled_follow_time = '".$account["scheduled_follow_time"]."'";
+                    $sql = ", next_follow_time = '".$account["next_follow_time"]."'";
+                    $sql = ", scheduled_unfollow_time = '".$account["scheduled_unfollow_time"]."'";
+                    $sql = ", next_unfollow_time = '".$account["next_unfollow_time"]."'";
+                    $sql .= " WHERE account_id = '".$account["account_id"]."'";
+                    $result = $connection->query($sql);
 	            }
 	        }else{
 	            if($daily_unfollows > 0){
 	                print_r($twitter->friendships_incoming());
 	                print_r($twitter->friendships_outgoing());
+	                
+	                // 次のスケジュールを組む
+	                if(time() - strtotime($account["scheduled_unfollow_time"]) > 24 * 3600){
+	                    $scheduledTime = time();
+	                }else{
+	                    $scheduledTime = strtotime($account["scheduled_unfollow_time"]);
+	                }
+	                $interval = floor(24 * 3600 * 5 / $daily_unfollows);
+	                $account["scheduled_unfollow_time"] = date("Y-m-d H:i:s", $scheduledTime + $interval);
+	                $account["next_unfollow_time"] = date("Y-m-d H:i:s", time() + floor(mt_rand(0, $scheduledTime + $interval - time())));
+	                $account["next_follow_time"] = $account["scheduled_follow_time"] = date("Y-m-d H:i:s", $scheduledTime + 24 * 3600);
+                    $sql = "UPDATE accounts SET scheduled_follow_time = '".$account["scheduled_follow_time"]."'";
+                    $sql = ", next_follow_time = '".$account["next_follow_time"]."'";
+                    $sql = ", scheduled_unfollow_time = '".$account["scheduled_unfollow_time"]."'";
+                    $sql = ", next_unfollow_time = '".$account["next_unfollow_time"]."'";
+                    $sql .= " WHERE account_id = '".$account["account_id"]."'";
+                    $result = $connection->query($sql);
 	            }
 	        }
 	    }
