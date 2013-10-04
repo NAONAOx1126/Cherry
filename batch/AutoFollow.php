@@ -39,7 +39,7 @@ if(is_array($accounts)){
 	    $me = $twitter->users_show(array("user_id" => $account["user_id"]));
 		
 		// 次のフォローを取得
-	    $sql = "SELECT * FROM follower_caches WHERE account_id = '".$account["account_id"]."'";
+	    $sql = "SELECT * FROM follower_caches WHERE account_id = '".$account["account_id"]."' ORDER BY follow_id";
 	    $result = $connection->query($sql);
 	    $follow = $result->fetch();
 	    $result->close();
