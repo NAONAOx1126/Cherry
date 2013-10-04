@@ -47,37 +47,37 @@ if(is_array($accounts)){
 	    if(!empty($follow)){
 
 	        if($me->followers_count < 50){
-	            $max_follows = floor($_SESSION["ADMINISTRATOR"]["max_follows_50"] * $me->followers_count / 100);
-	            $daily_follows = $_SESSION["ADMINISTRATOR"]["daily_follows_50"];
-	            $daily_unfollows = $_SESSION["ADMINISTRATOR"]["daily_unfollows_50"];
+	            $max_follows = floor($administrator["max_follows_50"] * $me->followers_count / 100);
+	            $daily_follows = $administrator["daily_follows_50"];
+	            $daily_unfollows = $administrator["daily_unfollows_50"];
 	        }elseif($me->followers_count < 100){
-	            $max_follows = floor($_SESSION["ADMINISTRATOR"]["max_follows_100"] * $me->followers_count / 100);
-	            $daily_follows = $_SESSION["ADMINISTRATOR"]["daily_follows_100"];
-	            $daily_unfollows = $_SESSION["ADMINISTRATOR"]["daily_unfollows_100"];
+	            $max_follows = floor($administrator["max_follows_100"] * $me->followers_count / 100);
+	            $daily_follows = $administrator["daily_follows_100"];
+	            $daily_unfollows = $administrator["daily_unfollows_100"];
 	        }elseif($me->followers_count < 200){
-	            $max_follows = floor($_SESSION["ADMINISTRATOR"]["max_follows_200"] * $me->followers_count / 100);
-	            $daily_follows = $_SESSION["ADMINISTRATOR"]["daily_follows_200"];
-	            $daily_unfollows = $_SESSION["ADMINISTRATOR"]["daily_unfollows_200"];
+	            $max_follows = floor($administrator["max_follows_200"] * $me->followers_count / 100);
+	            $daily_follows = $administrator["daily_follows_200"];
+	            $daily_unfollows = $administrator["daily_unfollows_200"];
 	        }elseif($me->followers_count < 400){
-	            $max_follows = floor($_SESSION["ADMINISTRATOR"]["max_follows_400"] * $me->followers_count / 100);
-	            $daily_follows = $_SESSION["ADMINISTRATOR"]["daily_follows_400"];
-	            $daily_unfollows = $_SESSION["ADMINISTRATOR"]["daily_unfollows_400"];
+	            $max_follows = floor($administrator["max_follows_400"] * $me->followers_count / 100);
+	            $daily_follows = $administrator["daily_follows_400"];
+	            $daily_unfollows = $administrator["daily_unfollows_400"];
 	        }elseif($me->followers_count < 800){
-	            $max_follows = floor($_SESSION["ADMINISTRATOR"]["max_follows_800"] * $me->followers_count / 100);
-	            $daily_follows = $_SESSION["ADMINISTRATOR"]["daily_follows_800"];
-	            $daily_unfollows = $_SESSION["ADMINISTRATOR"]["daily_unfollows_800"];
+	            $max_follows = floor($administrator["max_follows_800"] * $me->followers_count / 100);
+	            $daily_follows = $administrator["daily_follows_800"];
+	            $daily_unfollows = $administrator["daily_unfollows_800"];
 	        }elseif($me->followers_count < 1200){
-	            $max_follows = floor($_SESSION["ADMINISTRATOR"]["max_follows_1200"] * $me->followers_count / 100);
-	            $daily_follows = $_SESSION["ADMINISTRATOR"]["daily_follows_1200"];
-	            $daily_unfollows = $_SESSION["ADMINISTRATOR"]["daily_unfollows_1200"];
+	            $max_follows = floor($administrator["max_follows_1200"] * $me->followers_count / 100);
+	            $daily_follows = $administrator["daily_follows_1200"];
+	            $daily_unfollows = $administrator["daily_unfollows_1200"];
 	        }elseif($me->followers_count < 1600){
-	            $max_follows = floor($_SESSION["ADMINISTRATOR"]["max_follows_1600"] * $me->followers_count / 100);
-	            $daily_follows = $_SESSION["ADMINISTRATOR"]["daily_follows_1600"];
-	            $daily_unfollows = $_SESSION["ADMINISTRATOR"]["daily_unfollows_1600"];
+	            $max_follows = floor($administrator["max_follows_1600"] * $me->followers_count / 100);
+	            $daily_follows = $administrator["daily_follows_1600"];
+	            $daily_unfollows = $administrator["daily_unfollows_1600"];
 	        }elseif($me->followers_count < 2000){
-	            $max_follows = floor($_SESSION["ADMINISTRATOR"]["max_follows_2000"] * $me->followers_count / 100);
-	            $daily_follows = $_SESSION["ADMINISTRATOR"]["daily_follows_2000"];
-	            $daily_unfollows = $_SESSION["ADMINISTRATOR"]["daily_unfollows_2000"];
+	            $max_follows = floor($administrator["max_follows_2000"] * $me->followers_count / 100);
+	            $daily_follows = $administrator["daily_follows_2000"];
+	            $daily_unfollows = $administrator["daily_unfollows_2000"];
 	        }else{
 	            $max_follows = floor($administrator["max_follows_over_2000"] * $me->followers_count / 100);
 	            $daily_follows = $administrator["daily_follows_over_2000"];
