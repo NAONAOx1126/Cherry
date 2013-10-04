@@ -18,35 +18,38 @@ $_SERVER["REQUEST_URI"] = "/batch/AutoFollow.php";
 
 require_once(dirname(__FILE__)."/../require.php");
 
+// キーワードのリストを取得する
 $connection = new Connection();
-
-// フォロー実行対象アカウントを取得
-$sql = "SELECT accounts.* FROM accounts";
-$sql .= " WHERE UNIX_TIMESTAMP(next_follow_time) < UNIX_TIMESTAMP()";
+$sql = "SELECT keywords.*, accounts.account_id";
+$sql .= " FROM keywords, account_groups, accounts";
+$sql .= " WHERE (keywords.keyword_id = account_groups.keyword_id1";
+$sql .= " OR keywords.keyword_id = account_groups.keyword_id2";
+$sql .= " OR keywords.keyword_id = account_groups.keyword_id3";
+$sql .= " OR keywords.keyword_id = account_groups.keyword_id4";
+$sql .= " OR keywords.keyword_id = account_groups.keyword_id5";
+$sql .= " OR keywords.keyword_id = account_groups.keyword_id6";
+$sql .= " OR keywords.keyword_id = account_groups.keyword_id7";
+$sql .= " OR keywords.keyword_id = account_groups.keyword_id8)";
+$sql .= " AND account_groups.account_group_id = accounts.account_group_id";
+$sql .= " AND keywords.delete_flg = 0";
+$sql .= " AND account_id = 1";
 $result = $connection->query($sql);
-$accounts = $result->fetchAll();
+$keywords = $result->fetchAll();
 $result->close();
 
-if(is_array($accounts)){
-	foreach($accounts as $account){
-		$twitter = getTwitter($account["account_id"]);
-		// ルートユーザーからフォローターゲットを取得する。
-		if(!empty($account["root_user_id"])){
-			$followerIds = $twitter->followers_ids(array("user_id" => $account["root_user_id"], "cursor" => $cursor));
-			foreach($followerIds->ids as $id){
-				$connection->query("INSERT IGNORE INTO follower_caches(user_id, follower_user_id, depth) VALUES ('".$rootUser->id."', '".$id."', '1')");
-			}
-		}
-		// キーワードからフォローターゲットを取得する。
-		if(!empty($account["root_keyword"])){
-			$rootUsers = $twitter->users_search(array("q" => $account["root_keyword"], "count" => "5"));
-			foreach($rootUsers as $rootUser){
-				$connection->query("INSERT IGNORE INTO keyword_users(keyword, user_id) VALUES ('".$account["root_keyword"]."', '".$rootUser->id_str."')");
-				// ルートユーザーからフォローターゲットを取得する。
-				$followerIds = $twitter->followers_ids(array("user_id" => $rootUser->id, "cursor" => $cursor));
-				foreach($followerIds->ids as $id){
-					$connection->query("INSERT IGNORE INTO follower_caches(user_id, follower_user_id, depth) VALUES ('".$rootUser->id."', '".$id."', '1')");
-				}
+if(is_array($keywords)){
+	foreach($keywords as $keyword){
+		// アカウントグループのキーワードで検索します。
+		$twitter = getTwitter($keyword["account_id"]);
+		
+		$rootUsers = $twitter->users_search(array("q" => $account["root_keyword"], "count" => "20"));
+		
+		// 検索したユーザーからランダムで3人をルートとして登録
+		for($i = 0; $i < 3; $i ++){
+			$targetIndex = floor(mt_rand(0, count($rootUsers)));
+			if($targetIndex < count($rootUsers)){
+				$rootUser = $rootUsers[$targetIndex];
+				$connection->query("INSERT IGNORE INTO follower_caches(user_id, depth) VALUES ('".$rootUser->id."', '1')");
 			}
 		}
 	}
