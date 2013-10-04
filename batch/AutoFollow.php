@@ -91,7 +91,7 @@ if(is_array($accounts)){
 	        echo "Daily Unfollows : ".$daily_unfollows."\r\n";
 	         
 	        if($me->friends_count < $max_follows){
-	            echo "Starting follow action\r\n";
+	            echo "Starting follow action if after ".$account["next_follow_time"]."\r\n";
 	            if($daily_follows > 0 && strtotime($account["next_follow_time"]) < time()){
 	                // 取得したフォローのフォロワーを取得する。
 	                $result = (array) $twitter->followers_ids(array("user_id" => $follow["user_id"], "count" => "1000"));
@@ -142,7 +142,7 @@ if(is_array($accounts)){
                     $result = $connection->query($sql);
 	            }
 	        }else{
-	            echo "Starting unfollow action\r\n";
+	            echo "Starting unfollow action if after ".$account["next_unfollow_time"]."\r\n";
 	            if($daily_unfollows > 0 && strtotime($account["next_unfollow_time"]) < time()){
 	                print_r($twitter->friendships_incoming());
 	                print_r($twitter->friendships_outgoing());
