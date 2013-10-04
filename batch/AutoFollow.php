@@ -83,13 +83,8 @@ if(is_array($accounts)){
 	            $daily_follows = $administrator["daily_follows_over_2000"];
 	            $daily_unfollows = $administrator["daily_unfollows_over_2000"];
 	        }
-	        print_r($administrator);
-	        echo $max_follows."\r\n";
-	        echo $daily_follows."\r\n";
-	        echo $daily_unfollows."\r\n";
-	        exit;
 	        
-	        if($max_follows < $me->friends_count - 5){
+	        if($me->friends_count < $max_follows - 5){
 	            if($daily_follows > 0){
 	                // 取得したフォローのフォロワーを取得する。
 	                $result = (array) $twitter->followers_ids(array("user_id" => $follow["user_id"], "count" => "1000"));
@@ -99,6 +94,7 @@ if(is_array($accounts)){
 	                    if($index < count($followers)){
 	                        $user_id = $followers[$index];
 	                        $user = $twitter->users_show(array("user_id" => $user_id));
+	                        if($user->following > 0) continue;
 	                        if($administrator["ignore_non_japanese_flg"] == "1" && mb_check_encoding($user->description, "ASCII")){
 	                            continue;
 	                        }
@@ -108,8 +104,9 @@ if(is_array($accounts)){
 	                        if($administrator["ignore_url_flg"] == "1" && preg_match("/http:\\/\\//i", $user->description) > 0){
 	                            continue;
 	                        }
-	                    	    
+	                    	
 	                        $twitter->friendship_create(array("user_id" => $user_id, "follow" => true));
+	                        sleep(mt_rand(15, 60));
 	                    	    
 	                        if($follow["depth"] < $administrator["tree_depth"]){
 	                            $connection->query("INSERT IGNORE INTO follower_caches(account_id, user_id, depth) VALUES ('".$follow["account_id"]."', '".$user_id."', '".($follow["depth"] + 1)."')");
