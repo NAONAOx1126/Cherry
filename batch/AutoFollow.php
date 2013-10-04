@@ -102,20 +102,20 @@ if(is_array($accounts)){
 	                    if($index < count($followers)){
 	                        $user_id = $followers[$index];
 	                        $user = $twitter->users_show(array("user_id" => $user_id));
-	                        print_r($user);
-	                        if($user->following > 0) continue;
-	                        if($administrator["ignore_non_japanese_flg"] == "1" && mb_check_encoding($user->description, "ASCII")){
-	                            continue;
+	                        if(!($user->following > 0)){
+    	                        if($administrator["ignore_non_japanese_flg"] == "1" && mb_check_encoding($user->description, "ASCII")){
+    	                            continue;
+    	                        }
+    	                        if($administrator["ignore_bot_flg"] == "1" && preg_match("/bot/i", $user->description) > 0){
+    	                            continue;
+    	                        }
+    	                        if($administrator["ignore_url_flg"] == "1" && preg_match("/http:\\/\\//i", $user->description) > 0){
+    	                            continue;
+    	                        }
+    	                    	
+    	                        $twitter->friendships_create(array("user_id" => $user_id, "follow" => true));
+    	                        sleep(mt_rand(10, 20));
 	                        }
-	                        if($administrator["ignore_bot_flg"] == "1" && preg_match("/bot/i", $user->description) > 0){
-	                            continue;
-	                        }
-	                        if($administrator["ignore_url_flg"] == "1" && preg_match("/http:\\/\\//i", $user->description) > 0){
-	                            continue;
-	                        }
-	                    	
-	                        $twitter->friendships_create(array("user_id" => $user_id, "follow" => true));
-	                        sleep(mt_rand(10, 20));
 	                    	    
 	                        if($follow["depth"] < $administrator["tree_depth"]){
 	                            $connection->query("INSERT IGNORE INTO follower_caches(account_id, user_id, depth) VALUES ('".$follow["account_id"]."', '".$user_id."', '".($follow["depth"] + 1)."')");
