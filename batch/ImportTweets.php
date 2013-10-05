@@ -81,7 +81,10 @@ if(is_array($keywords)){
 			
 			// URLを含むものは対象外
 			if(!empty($tweet->entities->urls)) continue;
-				
+			
+			// 日本語を含まないツイートは除外
+			if(!checkJapaneseText($tweet->text)) continue;
+							
 			// 画像がある場合は元画像をダウンロードする。
 			if(isset($tweet->entities->media) && is_array($tweet->entities->media)){
 				foreach($tweet->entities->media as $index => $media){

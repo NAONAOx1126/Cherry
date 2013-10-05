@@ -116,3 +116,15 @@ function reload($params = ""){
 	exit;
 }
 
+function checkJapaneseText($text){
+    mb_regex_encoding("UTF-8");
+    $text = mb_convert_kana($text, "KVa");
+    if (preg_match("/[ぁ-ん]+/u", $string)) {
+        return true;
+    }
+    if (preg_match("/[ァ-ヶー]+/u", $string)) {
+        return true;
+    }
+    return false;
+    //UTF-8 の文字コードの正規表現では u オプションをつけます。
+}
