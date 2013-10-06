@@ -20,7 +20,7 @@ require_once(dirname(__FILE__)."/../require.php");
 
 // キーワードのリストを取得する
 $connection = new Connection();
-$sql = "SELECT keywords.*, accounts.account_id";
+$sql = "SELECT keywords.*, accounts.account_id, account.keyword AS ngword";
 $sql .= " FROM keywords, account_groups, accounts";
 $sql .= " WHERE (keywords.keyword_id = account_groups.keyword_id1";
 $sql .= " OR keywords.keyword_id = account_groups.keyword_id2";
@@ -41,7 +41,14 @@ if(is_array($keywords)){
 		// アカウントグループのキーワードで検索します。
 		$twitter = getTwitter($keyword["account_id"]);
 		
-		$rootUsers = (array) $twitter->users_search(array("q" => $keyword["keyword"], "page" => "1", "count" => "20"));
+		$ngwords = explode(" ", str_replace("　", " ", $keyword["ngword"]));
+		$keyw = str_replace("　", " ", $keyword["keyword"]);
+		if(is_array($ngwords)){
+		    foreach($ngwords as $ng){
+		        $keyw .= " -".$ng;
+		    }
+		}
+		$rootUsers = (array) $twitter->users_search(array("q" => $keyw, "page" => "1", "count" => "20"));
 		unset($rootUsers["httpstatus"]);
 		
 		// 検索したユーザーからランダムで3人をルートとして登録

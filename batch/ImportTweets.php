@@ -19,7 +19,7 @@ $_SERVER["REQUEST_URI"] = "/batch/ImportTweets.php";
 require_once(dirname(__FILE__)."/../require.php");
 
 $connection = new Connection();
-$sql = "SELECT keywords.*, accounts.account_id";
+$sql = "SELECT keywords.*, accounts.account_id, accounts.keyword AS ngword";
 $sql .= " FROM keywords, account_groups, accounts";
 $sql .= " WHERE (keywords.keyword_id = account_groups.keyword_id1";
 $sql .= " OR keywords.keyword_id = account_groups.keyword_id2";
@@ -51,11 +51,19 @@ if(is_array($keywords)){
 		// アカウントグループのキーワードで検索します。
 		$tweets = array();
 		$twitter = getTwitter($keyword["account_id"]);
-		$condition = array("q" => str_replace("　", " ", $keyword["keyword"]), "lang" => "ja", "result_type" => "recent", "count" => 100);
+		$ngwords = explode(" ", str_replace("　", " ", $keyword["ngword"]));
+		$keyw = str_replace("　", " ", $keyword["keyword"]);
+		if(is_array($ngwords)){
+		    foreach($ngwords as $ng){
+		        $keyw .= " -".$ng;
+		    }
+		}
+		$condition = array("q" => $keyw, "lang" => "ja", "result_type" => "recent", "count" => 100);
 		if(!empty($max_id)) $condition["max_id"] = $max_id;
 		$result = $twitter->search_tweets($condition);
 		echo "tweets is ".count($result->statuses)."\r\n";
 		foreach($result->statuses as $tweet){
+	        if(is_array($ngwords) && count($ngwords) > 0 && preg_match("/(".implode("|", $ngwords).")/u", $tweet->text) > 0) continue;
 			if(isset($tweet->retweeted_status) && !empty($tweet->retweeted_status)) $tweet = $tweet->retweeted_status;
 			if($tweet->retweet_count > 0 && empty($tweet->entities->urls)){
 				$tweets[$tweet->id] = $tweet;
