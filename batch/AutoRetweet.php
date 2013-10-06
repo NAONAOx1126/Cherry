@@ -25,7 +25,7 @@ $sql = "SELECT accounts.*, retweet_groups.*";
 $sql .= " FROM retweet_groups, retweet_group_accounts, accounts";
 $sql .= " WHERE retweet_groups.retweet_group_id = retweet_group_accounts.retweet_group_id";
 $sql .= " AND retweet_group_accounts.screen_name = accounts.screen_name";
-$sql .= " AND UNIX_TIMESTAMP(accounts.next_retweet) < UNIX_TIMESTAMP()";
+$sql .= " AND accounts.retweet_interval > 0 AND UUNIX_TIMESTAMP(accounts.next_retweet) < UNIX_TIMESTAMP()";
 $result = $connection->query($sql);
 $accounts = $result->fetchAll();
 $result->close();
