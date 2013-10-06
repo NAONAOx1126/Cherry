@@ -73,11 +73,7 @@ if(is_array($keywords)){
 		echo "next result : ".$result->search_metadata->next_results."\r\n";
 		if(isset($result->search_metadata->next_results)){
 			if(preg_match("/max_id=([0-9]+)/", $result->search_metadata->next_results, $params) > 0){
-				if(!empty($max_id)){
-					$sql = "UPDATE tweet_search_cache SET max_id = '".$connection->escape($params[1])."' WHERE keyword_id = '".$connection->escape($keyword["keyword_id"])."'";
-    			}else{
-    				$sql = "INSERT INTO tweet_search_cache (keyword_id, max_id) VALUES ('".$connection->escape($keyword["keyword_id"])."', '".$connection->escape($params[1])."')";
-				}
+				$sql = "REPLACE INTO tweet_search_cache (keyword_id, max_id) VALUES ('".$connection->escape($keyword["keyword_id"])."', '".$connection->escape($params[1])."')";
         		echo $sql."\r\n";
         		$result = $connection->query($sql);
 			}
