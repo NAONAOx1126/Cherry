@@ -59,7 +59,7 @@ if(is_array($accounts)){
 			$sqlval["source_post_id"] = $cached_tweet["post_id"];
 			$sqlval["source_favorite_count"] = $cached_tweet["favorite_count"];
 			$sqlval["source_retweet_count"] = $cached_tweet["retweet_count"];
-			$sql = "SELECT * FROM tweets WHERE account_id = '".$connection->escape($sqlval["account_id"])."' AND (source_post_id = '".$connection->escape($sqlval["source_post_id"])."' OR tweet_text = '".$connection->escape($sqlval["tweet_text"])."')";
+			$sql = "SELECT * FROM tweets WHERE account_id = '".$connection->escape($sqlval["account_id"])."' AND source_post_id = '".$connection->escape($sqlval["source_post_id"])."'";
 			$result = $connection->query($sql);
 			$registeredTweets = $result->fetchAll();
 			$result->close();
@@ -77,13 +77,19 @@ if(is_array($accounts)){
 				$sqlval["tweet_text"] = $cached_tweet["tweet_text"];
 				$sqlval["post_status"] = "1";
 				$sqlval["rank"] = mt_rand(1, 100000);
-				foreach($sqlval as $key => $value){
-					$sqlval[$key] = $connection->escape($value);
-				}
-				$sql = "INSERT INTO tweets";
-				$sql .= "(".implode(", ", array_keys($sqlval)).") VALUES ('".implode("', '", $sqlval)."')";
-				echo $sql."\r\n";
-				$result = $connection->query($sql);
+			    $sql = "SELECT * FROM tweets WHERE account_id = '".$connection->escape($sqlval["account_id"])."' AND (source_post_id = '".$connection->escape($sqlval["source_post_id"])."' OR tweet_text = '".$connection->escape($sqlval["tweet_text"])."')";
+    			$result = $connection->query($sql);
+    			$registeredTweets = $result->fetchAll();
+    			$result->close();
+    			if(is_array($registeredTweets) && count($registeredTweets) > 0){
+    			    foreach($sqlval as $key => $value){
+    					$sqlval[$key] = $connection->escape($value);
+    				}
+    				$sql = "INSERT INTO tweets";
+    				$sql .= "(".implode(", ", array_keys($sqlval)).") VALUES ('".implode("', '", $sqlval)."')";
+    				echo $sql."\r\n";
+    				$result = $connection->query($sql);
+    			}
 			}
 		}
 	}
