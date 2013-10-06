@@ -103,7 +103,7 @@ if(is_array($accounts)){
 	                        $user_id = $followers[$index];
 	                        $user = $twitter->users_show(array("user_id" => $user_id));
 	                        if(!($user->following > 0)){
-	                            if($administrator["ignore_non_japanese_flg"] == "1" && !checkJapaneseText($tweet->text)){
+	                            if($administrator["ignore_non_japanese_flg"] == "1" && !checkJapaneseText($user->description)){
     	                            continue;
     	                        }
     	                        if($administrator["ignore_bot_flg"] == "1" && preg_match("/bot/i", $user->description) > 0){
