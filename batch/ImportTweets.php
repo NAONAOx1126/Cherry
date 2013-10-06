@@ -39,11 +39,13 @@ if(is_array($keywords)){
 		// そのアカウントのmax_idを取得します。
 		$sql = "SELECT * FROM tweet_search_cache WHERE account_id = '".$connection->escape($keyword["keyword_id"])."'";
 		$result = $connection->query($sql);
-		$search_caches = $result->fetchAll();
-		$result->close();
-		$max_id = "";
-		if(is_array($search_caches) && count($search_caches) > 0){
-			$max_id = $search_caches[0]["max_id"];
+    	$max_id = "";
+		if(!empty($result)){
+    		$search_caches = $result->fetchAll();
+    		$result->close();
+    		if(is_array($search_caches) && count($search_caches) > 0){
+    			$max_id = $search_caches[0]["max_id"];
+    		}
 		}
 		
 		// アカウントグループのキーワードで検索します。
