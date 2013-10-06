@@ -37,7 +37,7 @@ $result->close();
 if(is_array($keywords)){
 	foreach($keywords as $keyword){
 		// そのアカウントのmax_idを取得します。
-		$sql = "SELECT * FROM tweet_search_cache WHERE account_id = '".$connection->escape($keyword["account_id"])."'";
+		$sql = "SELECT * FROM tweet_search_cache WHERE account_id = '".$connection->escape($keyword["keyword_id"])."'";
 		$result = $connection->query($sql);
 		$search_caches = $result->fetchAll();
 		$result->close();
@@ -52,6 +52,7 @@ if(is_array($keywords)){
 		$condition = array("q" => str_replace("　", " ", $keyword["keyword"]), "lang" => "ja", "result_type" => "recent", "count" => 100);
 		if(!empty($max_id)) $condition["max_id"] = $max_id;
 		$result = $twitter->search_tweets($condition);
+		echo "tweets is ".count($result->statuses)."\r\n";
 		foreach($result->statuses as $tweet){
 			if(isset($tweet->retweeted_status) && !empty($tweet->retweeted_status)) $tweet = $tweet->retweeted_status;
 			if($tweet->retweet_count > 0 && empty($tweet->entities->urls)){
@@ -59,17 +60,19 @@ if(is_array($keywords)){
 			}
 		}
 		
+		echo "next result : ".$result->search_metadata->next_results."\r\n";
 		if(isset($result->search_metadata->next_results)){
 			if(preg_match("/max_id=([0-9]+)/", $result->search_metadata->next_results, $params) > 0){
 				if(!empty($max_id)){
-					$sql = "UPDATE tweet_search_cache SET max_id = '".$connection->escape($params[1])."' WHERE account_id = '".$connection->escape($keyword["account_id"])."'";
+					$sql = "UPDATE tweet_search_cache SET max_id = '".$connection->escape($params[1])."' WHERE keyword_id = '".$connection->escape($keyword["keyword_id"])."'";
 				}
 			}else{
-				$sql = "INSERT INTO tweet_search_cache (account_id, max_id) VALUES ('".$connection->escape($keyword["account_id"])."', '".$connection->escape($params[1])."')";
+				$sql = "INSERT INTO tweet_search_cache (keyword_id, max_id) VALUES ('".$connection->escape($keyword["keyword_id"])."', '".$connection->escape($params[1])."')";
 			}
 		}else{
-			$sql = "DELETE FROM tweet_search_cache WHERE account_id = '".$connection->escape($keyword["account_id"])."'";
+			$sql = "DELETE FROM tweet_search_cache WHERE keyword_id = '".$connection->escape($keyword["keyword_id"])."'";
 		}
+		echo $sql."\r\n";
 		$result = $connection->query($sql);
 		
 		foreach($tweets as $tweet){

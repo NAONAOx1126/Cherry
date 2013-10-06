@@ -119,10 +119,10 @@ function reload($params = ""){
 function checkJapaneseText($text){
     mb_regex_encoding("UTF-8");
     $text = mb_convert_kana($text, "KVa");
-    if (preg_match("/[ぁ-ん]+/u", $string)) {
+    if (preg_match("/[ぁ-ん]+/u", $text)) {
         return true;
     }
-    if (preg_match("/[ァ-ヶー]+/u", $string)) {
+    if (preg_match("/[ァ-ヶー]+/u", $text)) {
         return true;
     }
     return false;
