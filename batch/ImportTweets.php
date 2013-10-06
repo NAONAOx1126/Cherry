@@ -19,7 +19,7 @@ $_SERVER["REQUEST_URI"] = "/batch/ImportTweets.php";
 require_once(dirname(__FILE__)."/../require.php");
 
 $connection = new Connection();
-$sql = "SELECT keywords.*, accounts.account_id, accounts.keyword AS ngword";
+$sql = "SELECT keywords.*, accounts.account_id, account_groups.keyword AS ngword";
 $sql .= " FROM keywords, account_groups, accounts";
 $sql .= " WHERE (keywords.keyword_id = account_groups.keyword_id1";
 $sql .= " OR keywords.keyword_id = account_groups.keyword_id2";

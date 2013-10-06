@@ -20,7 +20,7 @@ require_once(dirname(__FILE__)."/../require.php");
 
 // キーワードのリストを取得する
 $connection = new Connection();
-$sql = "SELECT keywords.*, accounts.account_id, account.keyword AS ngword";
+$sql = "SELECT keywords.*, accounts.account_id, account_groups.keyword AS ngword";
 $sql .= " FROM keywords, account_groups, accounts";
 $sql .= " WHERE (keywords.keyword_id = account_groups.keyword_id1";
 $sql .= " OR keywords.keyword_id = account_groups.keyword_id2";
