@@ -64,9 +64,9 @@ h3{
 <div class="span12">
 	<table class="table table-bordered table-striped" summary="一覧">
 	<tr>
-		<th class="blue header">グループ名</th>
+		<th class="blue header">グループ名／RT数／件数制限</th>
 		<th class="blue header">キーワード</th>
-		<th class="blue header">RT数／件数制限</th>
+		<th class="blue header">NGワード(スペース区切り)</th>
 		<th class="blue header">自動取得</th>
 		<th class="blue header">更新／削除</th>
 	</tr>
@@ -75,7 +75,11 @@ h3{
 	<input type="hidden" name="account_group_id" value="<?php val($accountGroup["account_group_id"]); ?>" />
 	<input type="hidden" name="post_interval" value="0" />
 	<tr>
-		<td><input type="text" class="input-medium" name="account_group_name" value="<?php val($accountGroup["account_group_name"]); ?>" /></td>
+		<td>
+		    <input type="text" class="input-medium" name="account_group_name" value="<?php val($accountGroup["account_group_name"]); ?>" /><br />
+			<input type="text" class="input-mini" name="pickup_limit" value="<?php val($accountGroup["pickup_limit"]); ?>" />RT<br />
+			<input type="text" class="input-mini" name="pickup_count" value="<?php val($accountGroup["pickup_count"]); ?>" />件
+		  </td>
 		<td>
 			<?php for($i = 1; $i < 9; $i ++): ?>
 			<select name="keyword_id<?php val($i); ?>">
@@ -86,8 +90,7 @@ h3{
 			</select><?php if($i % 2 == 0) val("<br />"); ?>
 			<?php endfor; ?>
 		<td>
-			<input type="text" class="input-mini" name="pickup_limit" value="<?php val($accountGroup["pickup_limit"]); ?>" />RT<br />
-			<input type="text" class="input-mini" name="pickup_count" value="<?php val($accountGroup["pickup_count"]); ?>" />件
+		  <textarea name="keyword" cols="40" rows="5"><?php echo $accountGroup["keyword"]; ?></textarea>
 		</td>
 		<td>
 			<input type="radio" name="import_flg" value="1"<?php if($accountGroup["import_flg"] == "1") val(" checked"); ?> />する<br />

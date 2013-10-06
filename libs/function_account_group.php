@@ -42,6 +42,7 @@ function registerAccountGroup(){
 		$sqlval = array();
 		$sqlval["administrator_id"] = $_SESSION["ADMINISTRATOR"]["administrator_id"];
 		$sqlval["account_group_name"] = $_POST["account_group_name"];
+		$sqlval["keyword"] = $_POST["keyword"];
 		$sqlval["keyword_id1"] = $_POST["keyword_id1"];
 		$sqlval["keyword_id2"] = $_POST["keyword_id2"];
 		$sqlval["keyword_id3"] = $_POST["keyword_id3"];
