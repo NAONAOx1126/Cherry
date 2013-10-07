@@ -81,7 +81,7 @@ if(is_array($accounts)){
     			$result = $connection->query($sql);
     			$registeredTweets = $result->fetchAll();
     			$result->close();
-    			if(is_array($registeredTweets) && count($registeredTweets) > 0){
+    			if(!is_array($registeredTweets) || count($registeredTweets) == 0){
     			    foreach($sqlval as $key => $value){
     					$sqlval[$key] = $connection->escape($value);
     				}
