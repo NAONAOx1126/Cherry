@@ -43,7 +43,13 @@ if(is_array($accounts)){
 		$cached_tweets = $result->fetchAll();
 		$result->close();
 		
+		// NGワードのリストを取得
+		$ngwords = explode(" ", str_replace("　", " ", $keyword["ngword"]));
+		
 		foreach($cached_tweets as $cached_tweet){
+		    
+		    if(is_array($ngwords) && count($ngwords) > 0 && preg_match("/(".implode("|", $ngwords).")/u", $cached_tweet["tweet_text"]) > 0) continue;
+		    
 			// そのアカウントの予約済みツイート数を取得します。
 			$sql = "SELECT * FROM tweets WHERE account_id = '".$connection->escape($account["account_id"])."' AND post_status = 1 AND delete_flg = 0";
 			$result = $connection->query($sql);
