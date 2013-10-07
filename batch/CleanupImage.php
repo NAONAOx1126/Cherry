@@ -11,8 +11,8 @@ $connection = new Connection();
 if ($handle = opendir(dirname(__FILE__)."/../images/")) {
     /* ディレクトリをループする際の正しい方法です */
     while (false !== ($file = readdir($handle))) {
-        echo "$file\n";
-        if(preg_math("/^([0-9]+)-([0-9]+)$/", $file, $params) > 0){
+        echo $file."\n";
+        if(preg_match("/^([0-9]+)-([0-9]+)$/", $file, $params) > 0){
             print_r($params);
         }
     }
