@@ -44,7 +44,7 @@ if(is_array($accounts)){
 		$result->close();
 		
 		// NGワードのリストを取得
-		$ngwords = explode(" ", str_replace("　", " ", $keyword["ngword"]));
+		$ngwords = explode(" ", str_replace("　", " ", $account["ngword"]));
 		
 		foreach($cached_tweets as $cached_tweet){
 		    
