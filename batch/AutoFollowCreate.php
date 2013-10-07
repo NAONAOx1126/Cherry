@@ -51,13 +51,11 @@ if(is_array($keywords)){
 		$rootUsers = (array) $twitter->users_search(array("q" => $keyw, "page" => "1", "count" => "20"));
 		unset($rootUsers["httpstatus"]);
 		
-		// 検索したユーザーからランダムで3人をルートとして登録
-        for($i = 0; $i < 3; $i ++){
-            $targetIndex = floor(mt_rand(0, count($rootUsers)));
-            if($targetIndex < count($rootUsers)){
-                $rootUser = $rootUsers[$targetIndex];
-                $connection->query("INSERT IGNORE INTO follower_caches(account_id, user_id, depth) VALUES ('".$keyword["account_id"]."', '".$rootUser->id."', '1')");
-            }
+		// 検索したユーザーからランダムで1人をルートとして登録
+        $targetIndex = floor(mt_rand(0, count($rootUsers)));
+        if($targetIndex < count($rootUsers)){
+            $rootUser = $rootUsers[$targetIndex];
+            $connection->query("INSERT IGNORE INTO follower_caches(account_id, user_id, depth) VALUES ('".$keyword["account_id"]."', '".$rootUser->id."', '1')");
         }
     }
 }
