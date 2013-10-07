@@ -97,6 +97,7 @@ if(is_array($accounts)){
 	                $result = (array) $twitter->followers_ids(array("user_id" => $follow["user_id"], "count" => "1000"));
 	                $followers = $result["ids"];
 	                echo "followers = ".count($followers)."\r\n";
+	                $follow_count = 0;
 	                for($i = 0; $i < 5; $i ++){
 	                    $index = mt_rand(0, count($followers));
 	                    if($index < count($followers)){
@@ -114,6 +115,8 @@ if(is_array($accounts)){
     	                        }
     	                    	
     	                        $twitter->friendships_create(array("user_id" => $user_id, "follow" => true));
+    	                        echo "follow to ".$user_id."\r\n";
+    	                        $follow_count ++;
     	                        sleep(mt_rand(10, 20));
 	                        }
 	                    	    
@@ -130,7 +133,7 @@ if(is_array($accounts)){
 	                }else{
 	                    $scheduledTime = strtotime($account["scheduled_follow_time"]);
 	                }
-	                $interval = floor(24 * 3600 * 5 / $daily_follows);
+	                $interval = floor(24 * 3600 * $follow_count / $daily_follows);
 	                $account["scheduled_follow_time"] = date("Y-m-d H:i:s", $scheduledTime + $interval);
 	                $account["next_follow_time"] = date("Y-m-d H:i:s", time() + floor(mt_rand(0, $scheduledTime + $interval - time())));
 	                $account["next_unfollow_time"] = $account["scheduled_unfollow_time"] = date("Y-m-d H:i:s", $scheduledTime + 24 * 3600);
