@@ -20,8 +20,8 @@ require_once(dirname(__FILE__)."/../require.php");
 
 $connection = new Connection();
 $sql = "SELECT accounts.*, account_groups.keyword_id1, account_groups.keyword_id2, account_groups.keyword_id3, ";
-$sql .= "account_groups.keyword_id4, account_groups.keyword_id5, account_groups.keyword_id6, ";
-$sql .= "account_groups.keyword_id7, account_groups.keyword_id8, account_groups.pickup_limit, account_groups.pickup_count";
+$sql .= "account_groups.keyword_id4, account_groups.keyword_id5, account_groups.keyword_id6, account_groups.keyword_id7, ";
+$sql .= "account_groups.keyword_id8, account_groups.keyword AS ngword, account_groups.pickup_limit, account_groups.pickup_count";
 $sql .= " FROM accounts, account_groups";
 $sql .= " WHERE account_groups.account_group_id = accounts.account_group_id";
 $sql .= " AND account_groups.import_flg = 1";
