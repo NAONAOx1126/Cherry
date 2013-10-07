@@ -11,9 +11,14 @@ $connection = new Connection();
 if ($handle = opendir(dirname(__FILE__)."/../images/")) {
     /* ディレクトリをループする際の正しい方法です */
     while (false !== ($file = readdir($handle))) {
-        echo $file."\n";
         if(preg_match("/^([0-9]+)-([0-9]+)$/", $file, $params) > 0){
-            print_r($params);
+            $result = $connection->query("SELECT COUNT(*) AS count FROM tweets WHERE source_post_id = '".$params[1]."'");
+            $data = $result->fetch();
+            if($data["count"] > 0) continue;
+            $result = $connection->query("SELECT COUNT(*) AS count FROM tweet_caches WHERE post_id = '".$params[1]."'");
+            $data = $result->fetch();
+            if($data["count"] > 0) continue;
+            echo "DELETE : ".$file."\r\n";
         }
     }
 
