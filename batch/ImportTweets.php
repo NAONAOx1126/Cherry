@@ -65,7 +65,7 @@ if(is_array($keywords)){
 		foreach($result->statuses as $tweet){
 	        if(is_array($ngwords) && count($ngwords) > 0 && preg_match("/(".implode("|", $ngwords).")/u", $tweet->text) > 0) continue;
 			if(isset($tweet->retweeted_status) && !empty($tweet->retweeted_status)) $tweet = $tweet->retweeted_status;
-			if($tweet->retweet_count > 0 && empty($tweet->entities->urls)){
+			if($tweet->retweet_count > 20 && empty($tweet->entities->urls)){
 				$tweets[$tweet->id] = $tweet;
 			}
 		}
