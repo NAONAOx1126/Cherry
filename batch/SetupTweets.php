@@ -44,8 +44,15 @@ if(is_array($accounts)){
 		$result->close();
 		
 		// NGワードのリストを取得
-		$ngwords = explode(" ", str_replace("　", " ", $account["ngword"]));
-		
+	    $ngwordsTemp = explode(" ", str_replace("?~@~@", " ", $account["ngword"]));
+
+        $ngwords = array();
+        foreach($ngwordsTemp as $ng){
+                if(!empty($ng)){
+                        $ngwords[] = $ng;
+                }
+        }
+				
 		foreach($cached_tweets as $cached_tweet){
 		    
 		    if(is_array($ngwords) && count($ngwords) > 0 && preg_match("/(".implode("|", $ngwords).")/u", $cached_tweet["tweet_text"]) > 0) continue;
