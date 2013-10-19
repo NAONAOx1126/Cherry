@@ -51,6 +51,7 @@ if(is_array($accounts)){
 		$tweets = array();
 		if(is_array($targets)){
 			foreach($targets as $target){
+			    if($target["user_id"] == $account["last_retweet_to"]) continue;
 				$condition = array("user_id" => $target["user_id"], "count" => 200, "trim_user" => false, "exclude_replies" => true, "include_rts" => false);
 				$statuses = (array) $twitter->statuses_userTimeline($condition);
 				if(is_array($statuses)){
