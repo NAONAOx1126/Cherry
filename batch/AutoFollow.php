@@ -147,10 +147,15 @@ if(is_array($accounts)){
 	        }else{
 	            echo "Starting unfollow action if after ".$account["next_unfollow_time"]."\r\n";
 	            if($daily_unfollows > 0 && strtotime($account["next_unfollow_time"]) < time()){
-	                print_r($twitter->friendships_incoming());
-	                print_r($twitter->friendships_outgoing());
+	                if(!empty($account["next_unfollow_cursor"])){
+
+	                }else{
+	                    $friends = $twitter->friends_list(array("user_id" => $account["user_id"], "count" => 200));
+	                }
+	                print_r($friends);
 
 	                // 次のスケジュールを組む
+	                /*
 	                if(time() - strtotime($account["scheduled_unfollow_time"]) > 24 * 3600){
 	                    $scheduledTime = time();
 	                }else{
@@ -166,6 +171,7 @@ if(is_array($accounts)){
                     $sql .= ", next_unfollow_time = '".$account["next_unfollow_time"]."'";
                     $sql .= " WHERE account_id = '".$account["account_id"]."'";
                     $result = $connection->query($sql);
+                    */
 	            }
 	        }
 	    }
