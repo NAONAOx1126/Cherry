@@ -154,11 +154,12 @@ if(is_array($accounts)){
 	                }
                     $sql = "UPDATE accounts SET ";
 	                if($twitter->next_cursor > 0){
-                        $sql .= "next_unfollow_cursor = '".$account["next_unfollow_cursor"]."'";
+                        $sql .= "next_unfollow_cursor = '".$twitter->next_cursor."'";
 	                }else{
                         $sql .= "next_unfollow_cursor = ''";
 	                }
                     $sql .= " WHERE account_id = '".$account["account_id"]."'";
+                    echo "Next Cursor : ".$twitter->next_cursor."\r\n";
                     $result = $connection->query($sql);
 
                     if(is_array($friends->users)){
@@ -172,7 +173,7 @@ if(is_array($accounts)){
                                 foreach($relations as $index => $relation){
                                     if(is_numeric($index)){
                                         if(!array_search("followed_by", $relation->connections)){
-                                            $twitter->friendship_destroy(array("user_id" => $relation->id));
+                                            $twitter->friendships_destroy(array("user_id" => $relation->id));
                                             echo "Friend destroy : ".$relation->screen_name."\r\n";
                                         }
                                     }
