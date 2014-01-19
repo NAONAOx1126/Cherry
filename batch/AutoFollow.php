@@ -183,7 +183,6 @@ if(is_array($accounts)){
                     }
 
 	                // 次のスケジュールを組む
-	                /*
 	                if(time() - strtotime($account["scheduled_unfollow_time"]) > 24 * 3600){
 	                    $scheduledTime = time();
 	                }else{
@@ -199,7 +198,6 @@ if(is_array($accounts)){
                     $sql .= ", next_unfollow_time = '".$account["next_unfollow_time"]."'";
                     $sql .= " WHERE account_id = '".$account["account_id"]."'";
                     $result = $connection->query($sql);
-                    */
 	            }
 	        }
 	    }
