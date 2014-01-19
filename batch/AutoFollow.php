@@ -148,10 +148,9 @@ if(is_array($accounts)){
 	            echo "Starting unfollow action if after ".$account["next_unfollow_time"]."\r\n";
 	            if($daily_unfollows > 0 && strtotime($account["next_unfollow_time"]) < time()){
 	                if(!empty($account["next_unfollow_cursor"])){
-
+	                    $friends = $twitter->friends_list(array("user_id" => $account["user_id"], "count" => 100, "cursor" => $account["next_unfollow_cursor"]));
 	                }else{
 	                    $friends = $twitter->friends_list(array("user_id" => $account["user_id"], "count" => 100));
-
 	                }
                     $sql = "UPDATE accounts SET ";
 	                if($twitter->next_cursor > 0){
@@ -168,10 +167,15 @@ if(is_array($accounts)){
                             $user_ids[] = $user->id;
                         }
                         if(count($user_ids) > 0){
-                            $relations = $twitter->friendships_lookup(array("user_id" => implode(",", $user_ids)));
+                            $relations = (array) $twitter->friendships_lookup(array("user_id" => implode(",", $user_ids)));
                             if(is_array($relations)){
-                                foreach($relations as $relation){
-                                    print_r($relation);
+                                foreach($relations as $index => $relation){
+                                    if(is_numeric($index)){
+                                        if(!array_search("followed_by", $relation->connections)){
+                                            $twitter->friendship_destroy(array("user_id" => $relation->id));
+                                            echo "Friend destroy : ".$relation->screen_name."\r\n";
+                                        }
+                                    }
                                 }
                             }
                         }
