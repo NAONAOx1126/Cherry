@@ -150,9 +150,32 @@ if(is_array($accounts)){
 	                if(!empty($account["next_unfollow_cursor"])){
 
 	                }else{
-	                    $friends = $twitter->friends_list(array("user_id" => $account["user_id"], "count" => 200));
+	                    $friends = $twitter->friends_list(array("user_id" => $account["user_id"], "count" => 100));
+
 	                }
-	                print_r($friends);
+                    $sql = "UPDATE accounts SET ";
+	                if($twitter->next_cursor > 0){
+                        $sql .= "next_unfollow_cursor = '".$account["next_unfollow_cursor"]."'";
+	                }else{
+                        $sql .= "next_unfollow_cursor = ''";
+	                }
+                    $sql .= " WHERE account_id = '".$account["account_id"]."'";
+                    $result = $connection->query($sql);
+
+                    if(is_array($friends->users)){
+                        $user_ids = array();
+                        foreach($friends->users as $user){
+                            $user_ids[] = $user->id;
+                        }
+                        if(count($user_ids) > 0){
+                            $relations = $twitter->friendships_lookup(array("user_id" => implode(",", $user_ids)));
+                            if(is_array($relations)){
+                                foreach($relations as $relation){
+                                    print_r($relation);
+                                }
+                            }
+                        }
+                    }
 
 	                // 次のスケジュールを組む
 	                /*
