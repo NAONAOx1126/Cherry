@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * This file is part of Twitter auto post application.
  *
@@ -33,21 +33,21 @@ if(is_array($accounts)){
         $result = $connection->query($sql);
         $administrator = $result->fetch();
         $result->close();
-	    
+
 		$twitter = getTwitter($account["account_id"]);
-	    
+
         // 自分の情報を取得する。
 	    $me = $twitter->users_show(array("user_id" => $account["user_id"]));
-		
+
 		// 次のフォローを取得
 	    $sql = "SELECT * FROM follower_caches WHERE account_id = '".$account["account_id"]."' ORDER BY follow_id";
 	    $result = $connection->query($sql);
 	    $follow = $result->fetch();
 	    $result->close();
-	    
+
 	    if(!empty($follow)){
 	        echo "Auto following to followers by ".$follow["user_id"]."\r\n";
-	         
+
 	        if($me->followers_count < 50){
 	            $max_follows = floor($administrator["max_follows_50"] * $me->followers_count / 100);
 	            $daily_follows = $administrator["daily_follows_50"];
@@ -85,12 +85,12 @@ if(is_array($accounts)){
 	            $daily_follows = $administrator["daily_follows_over_2000"];
 	            $daily_unfollows = $administrator["daily_unfollows_over_2000"];
 	        }
-	        
+
 	        echo "Max Follows : ".$max_follows."\r\n";
 	        echo "Daily Follows : ".$daily_follows."\r\n";
 	        echo "Daily Unfollows : ".$daily_unfollows."\r\n";
-	         
-	        if($me->friends_count < $max_follows){
+
+	        if($me->friends_count < floor($max_follows * 0.9) || ($me->friends_count < $max_follows * 0.9 && strtotime($account["next_follow_time"]) < strtotime($account["next_unfollow_time"]))){
 	            echo "Starting follow action if after ".$account["next_follow_time"]."\r\n";
 	            if($daily_follows > 0 && strtotime($account["next_follow_time"]) < time()){
 	                // 取得したフォローのフォロワーを取得する。
@@ -113,20 +113,20 @@ if(is_array($accounts)){
     	                        if($administrator["ignore_url_flg"] == "1" && preg_match("/http:\\/\\//i", $user->description) > 0){
     	                            continue;
     	                        }
-    	                    	
+
     	                        $twitter->friendships_create(array("user_id" => $user_id, "follow" => true));
     	                        echo "follow to ".$user_id."\r\n";
     	                        $follow_count ++;
     	                        sleep(mt_rand(10, 20));
 	                        }
-	                    	    
+
 	                        if($follow["depth"] < $administrator["tree_depth"]){
 	                            $connection->query("INSERT IGNORE INTO follower_caches(account_id, user_id, depth) VALUES ('".$follow["account_id"]."', '".$user_id."', '".($follow["depth"] + 1)."')");
 	                        }
 	                    }
 	                }
 	                $connection->query("DELETE FROM follower_caches WHERE account_id = '".$follow["account_id"]."' AND user_id = '".$follow["user_id"]."'");
-	                
+
 	                // 次のスケジュールを組む
 	                if(time() - strtotime($account["scheduled_follow_time"]) > 24 * 3600){
 	                    $scheduledTime = time();
@@ -149,7 +149,7 @@ if(is_array($accounts)){
 	            if($daily_unfollows > 0 && strtotime($account["next_unfollow_time"]) < time()){
 	                print_r($twitter->friendships_incoming());
 	                print_r($twitter->friendships_outgoing());
-	                
+
 	                // 次のスケジュールを組む
 	                if(time() - strtotime($account["scheduled_unfollow_time"]) > 24 * 3600){
 	                    $scheduledTime = time();
